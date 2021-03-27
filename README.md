@@ -10,4 +10,4 @@ Thành Viên:
     Lù Xuân Thái   19522186
 
 
-Giới thiệu: trò chơi xe tăng bắn máy bay.
+Giới thiệu: trò chơi xe tăng bắn máy bay
