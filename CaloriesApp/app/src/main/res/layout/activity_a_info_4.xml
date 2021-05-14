@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity_Weight">
+    tools:context=".A_info_4">
     <TextView
         android:id="@+id/tieude"
         android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/weigth" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bntkg"
         android:layout_width="65dp"
         android:layout_height="55dp"
@@ -71,7 +71,7 @@
         app:layout_constraintStart_toEndOf="@+id/txtweight"
         app:layout_constraintTop_toBottomOf="@+id/huongdan" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bntlb"
         android:layout_width="65dp"
         android:layout_height="55dp"
@@ -83,17 +83,18 @@
         app:layout_constraintStart_toEndOf="@+id/bntkg"
         app:layout_constraintTop_toBottomOf="@+id/huongdan" />
 
-    <Button
-        android:id="@+id/bntnext"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/next4"
         android:layout_width="130dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="32dp"
+        android:background="@drawable/custom_button_normal"
         android:text="NEXT"
         android:textSize="20sp"
-        android:background="@drawable/custom_button_normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.784" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

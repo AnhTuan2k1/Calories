@@ -20,7 +20,7 @@
         android:background="@drawable/custom_button_normal"
         android:text="Lose Weight"
         android:textAllCaps="false"
-        android:textColor="#FFFFFF"
+
         android:textSize="20dp"
         />
 
@@ -36,7 +36,7 @@
 
         android:background="@drawable/custom_button_normal"
         android:textAllCaps="false"
-        android:textColor="#FFFFFF"
+
         android:textSize="20dp"/>
     <androidx.appcompat.widget.AppCompatButton
 
@@ -53,7 +53,7 @@
         android:background="@drawable/custom_button_normal"
         android:text="Maintain Weight"
         android:textAllCaps="false"
-        android:textColor="#FFFFFF"
+
         android:textSize="20dp"/>
 
 

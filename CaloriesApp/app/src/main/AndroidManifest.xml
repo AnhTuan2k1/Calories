@@ -9,13 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CaloriesApp">
-        <activity android:name=".Activity_Weight2"></activity>
+        <activity android:name=".A_info_3"></activity>
         <activity android:name=".Activity_Height" />
-        <activity android:name=".Activity_Weight" />
+        <activity android:name=".A_info_4" />
         <activity android:name=".A_info_2" />
+        <activity android:name=".activities.MainActivity" />
         <activity android:name=".A_info_1" />
-        <activity android:name=".A_mucdich" />
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".A_mucdich">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

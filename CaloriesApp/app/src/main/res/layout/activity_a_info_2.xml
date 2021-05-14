@@ -16,22 +16,23 @@
         android:text="What is your date of birth?"
         android:textAlignment="center"
         android:textSize="25dp" />
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:id="@+id/pick"
         android:text="Pick your date"
         android:textAllCaps="false"
+        android:background="@drawable/custom_button_normal"
         android:textSize="25dp"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/next2"
         android:layout_width="110dp"
         android:layout_height="50dp"
         android:layout_marginTop="80dp"
 
         android:layout_below="@+id/pick"
-
+        android:background="@drawable/custom_button_normal"
         android:text="Next" />
 
 </LinearLayout>
