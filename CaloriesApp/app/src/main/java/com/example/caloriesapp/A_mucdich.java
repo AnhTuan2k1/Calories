@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 public class A_mucdich extends AppCompatActivity {
@@ -13,13 +15,14 @@ public class A_mucdich extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_a_mucdich);
+        giucan = (Button)findViewById(R.id.giucan);
 
-
-    giucan = (Button)findViewById(R.id.giucan);
-    giucan.setOnClickListener(new View.OnClickListener() {
+        giucan.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-             openA_info_1();
+
+            Animation animation=AnimationUtils.loadAnimation(A_mucdich.this,R.anim.fadein);
+            giucan.startAnimation(animation);openA_info_1();
         }
     });
     }

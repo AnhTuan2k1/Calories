@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.caloriesapp.A_mucdich;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.fragment.FragmentAccount;
 import com.example.caloriesapp.fragment.FragmentHome;
@@ -28,6 +31,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addFragment(new FragmentHome());
+
+        //============
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean firstStart = prefs.getBoolean("firstStart",true);
+
+        if (firstStart) {
+            // Nếu ứng dụng chưa chạy
+            FirstRun();
+        }
+
+        //============
 
         navigationView = findViewById(R.id.bottom_nav);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -93,7 +108,14 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.frame_mainActivity,fragment);
         fragmentTransaction.commit();
     }
-
+    private void FirstRun(){
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("firstStart",false);
+        editor.apply();
+        Intent intent = new Intent(MainActivity.this, A_mucdich.class);
+        startActivity(intent);
+    }
 
 
 
