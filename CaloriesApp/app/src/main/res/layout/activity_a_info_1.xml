@@ -24,7 +24,7 @@
          android:text="What is your gender?"
          android:layout_above="@id/male"
          android:layout_centerHorizontal="true"
-         android:id="@+id/text1"
+         android:id="@+id/textwhatisyourgender"
 
 
          />
@@ -93,10 +93,11 @@
     <Button
         android:layout_width="110dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/text1"
+        android:layout_below="@+id/textwhatisyourgender"
         android:layout_centerInParent="true"
         android:layout_marginTop="300dp"
         android:text="Next"
+        android:id="@+id/next"
 
         ></Button>
 
