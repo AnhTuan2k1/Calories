@@ -1,4 +1,4 @@
-package com.example.caloriesapp;
+package com.example.calories;
 
 import org.junit.Test;
 

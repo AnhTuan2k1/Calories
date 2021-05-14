@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">CaloriesApp</string>
+    <string name="app_name">Calories</string>
+    <string name="action_home">Home</string>
+    <string name="action_statistic">Statistic</string>
+    <string name="action_account">Account</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="account_fragment">account fragcment</string>
+    <string name="statistic_fragment">statistic fragment</string>
+    <string name="home_fragmnet">home fragment</string>
 </resources>
