@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -27,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addFragment(new FragmentHome());
 
         navigationView = findViewById(R.id.bottom_nav);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -53,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*if(true)
+        {
+            Intent intent = new Intent(this, InitializeActivity.class);
+            startActivity(intent);
+        }
+        else addFragment(new FragmentHome());*/
 
     }
 
@@ -93,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.frame_mainActivity,fragment);
         fragmentTransaction.commit();
     }
-
-
 
 
 }
