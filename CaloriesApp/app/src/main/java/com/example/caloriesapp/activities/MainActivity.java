@@ -3,11 +3,15 @@ package com.example.caloriesapp.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.fragment.FragmentAccount;
@@ -15,7 +19,7 @@ import com.example.caloriesapp.fragment.FragmentHome;
 import com.example.caloriesapp.fragment.FragmentStatistic;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentHome.OnFragmentHomeListener{
 
     private static final int FRAGMENT_HOME = 1;
     private static final int FRAGMENT_STATISTIC = 2;
@@ -24,10 +28,21 @@ public class MainActivity extends AppCompatActivity {
     //private User user;
     private int current_Fragment = FRAGMENT_HOME;
     private BottomNavigationView navigationView;
+    private Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        addFragment(new FragmentHome());
+
+        button = (Button)findViewById(R.id.btnStartActivity);
+        /*button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(this, InitializeActivity.class);
+                startActivity(intent);
+            }
+        });*/
 
         navigationView = findViewById(R.id.bottom_nav);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -53,14 +68,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*if(true)
-        {
-            Intent intent = new Intent(this, InitializeActivity.class);
-            startActivity(intent);
-        }
-        else addFragment(new FragmentHome());*/
-
     }
+
 
     private void openHomeFragment()
     {
@@ -101,4 +110,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBtnStartActivityListener(String content) {
+        Toast toast=Toast. makeText(getApplicationContext(),"Hello Javatpoint",Toast. LENGTH_SHORT);
+       /* Intent intent = new Intent(this, InitializeActivity.class);
+        startActivity(intent);*/
+    }
 }

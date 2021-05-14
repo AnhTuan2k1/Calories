@@ -15,7 +15,7 @@ public class InitializeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initialize);
-        addFragment(new FragmentInitializeUser1());
+       // addFragment(new FragmentInitializeUser1());
     }
 
     private void replaceFragment(Fragment fragment)
