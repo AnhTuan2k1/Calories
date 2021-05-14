@@ -23,9 +23,12 @@ public class MainActivity extends AppCompatActivity {
                 OpenAc1();
             }
         });
+
     }
     public void OpenAc1(){
         Intent intent = new Intent(this, Activity1.class);
         startActivity(intent);
     }
+
+
 }
