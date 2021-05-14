@@ -40,13 +40,15 @@
 
 
         <ImageView
+            android:id="@+id/imagemale"
             android:layout_width="170px"
             android:layout_height="170px"
-            android:layout_marginBottom="20dp"
             android:layout_centerInParent="true"
+            android:layout_marginBottom="20dp"
+
             android:background="@drawable/ic_male"
-            android:id="@+id/imagemale"
-            />
+            android:backgroundTint="@color/gray_heavy"
+            android:clickable="true" />
 
         <TextView
             android:id="@+id/textviewmale"
@@ -71,13 +73,15 @@
 
 
         <ImageView
+            android:id="@+id/imagefemale"
             android:layout_width="170px"
             android:layout_height="170px"
-            android:layout_marginBottom="20dp"
             android:layout_centerInParent="true"
-            android:background="@drawable/ic_male"
-            android:id="@+id/imagefemale"
-            />
+            android:layout_marginBottom="20dp"
+
+            android:background="@drawable/ic_female"
+            android:backgroundTint="@color/gray_heavy"
+            android:clickable="true" />
         <TextView
             android:id="@+id/textviewfemale"
             android:layout_width="match_parent"
@@ -85,21 +89,23 @@
             android:layout_below="@+id/imagefemale"
             android:layout_alignParentBottom="true"
             android:textAlignment="center"
-            android:text="Male"
+            android:text="Female"
+
             android:textSize="18sp"></TextView>
 
     </RelativeLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_width="110dp"
         android:layout_height="50dp"
         android:layout_below="@+id/textwhatisyourgender"
         android:layout_centerInParent="true"
         android:layout_marginTop="300dp"
         android:text="Next"
+        android:background="@drawable/custom_button_normal"
         android:id="@+id/next"
 
-        ></Button>
+        />
 
 
 

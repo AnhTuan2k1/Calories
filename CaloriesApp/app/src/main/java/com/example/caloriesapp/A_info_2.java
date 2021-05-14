@@ -79,7 +79,7 @@ public class A_info_2 extends AppCompatActivity {
 
     }
     private void OpenA_info_3() {
-        Intent intent = new Intent(this,A_info_2.class);
+        Intent intent = new Intent(this,A_info_3.class);
         startActivity(intent);
     }
 }
