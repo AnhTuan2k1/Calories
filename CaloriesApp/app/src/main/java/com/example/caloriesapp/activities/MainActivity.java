@@ -7,12 +7,16 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.caloriesapp.A_mucdich;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.fragment.FragmentAccount;
 import com.example.caloriesapp.fragment.FragmentHome;
@@ -35,6 +39,15 @@ public class MainActivity extends AppCompatActivity implements FragmentHome.OnFr
         setContentView(R.layout.activity_main);
         addFragment(new FragmentHome());
 
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean firstStart = prefs.getBoolean("firstStart",true);
+
+        if (firstStart) {
+            // Nếu ứng dụng chưa chạy
+            FirstRun();
+        }
+
         button = (Button)findViewById(R.id.btnStartActivity);
         /*button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements FragmentHome.OnFr
                 startActivity(intent);
             }
         });*/
+
 
         navigationView = findViewById(R.id.bottom_nav);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -108,7 +122,14 @@ public class MainActivity extends AppCompatActivity implements FragmentHome.OnFr
         fragmentTransaction.add(R.id.frame_mainActivity,fragment);
         fragmentTransaction.commit();
     }
-
+    private void FirstRun(){
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("firstStart",false);
+        editor.apply();
+        Intent intent = new Intent(MainActivity.this, A_mucdich.class);
+        startActivity(intent);
+    }
 
     @Override
     public void onBtnStartActivityListener(String content) {

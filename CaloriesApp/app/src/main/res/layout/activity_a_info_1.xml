@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".A_info_1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:id="@+id/centerhorizontalline" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/centerverticalline"/>
+     <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:textSize="25dp"
+         android:text="What is your gender?"
+         android:layout_above="@id/male"
+         android:layout_centerHorizontal="true"
+         android:id="@+id/textwhatisyourgender"
+
+
+         />
+
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_toStartOf="@id/centerverticalline"
+        android:layout_above="@id/centerhorizontalline"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/male">
+
+
+        <ImageView
+            android:id="@+id/imagemale"
+            android:layout_width="170px"
+            android:layout_height="170px"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="20dp"
+
+            android:background="@drawable/ic_male"
+            android:backgroundTint="@color/gray_heavy"
+            android:clickable="true" />
+
+        <TextView
+            android:id="@+id/textviewmale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imagemale"
+            android:layout_alignParentBottom="true"
+            android:textAlignment="center"
+            android:text="Male"
+            android:textSize="18sp"></TextView>
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_toEndOf="@id/centerverticalline"
+        android:layout_above="@id/centerhorizontalline"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/female">
+
+
+        <ImageView
+            android:id="@+id/imagefemale"
+            android:layout_width="170px"
+            android:layout_height="170px"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="20dp"
+
+            android:background="@drawable/ic_female"
+            android:backgroundTint="@color/gray_heavy"
+            android:clickable="true" />
+        <TextView
+            android:id="@+id/textviewfemale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imagefemale"
+            android:layout_alignParentBottom="true"
+            android:textAlignment="center"
+            android:text="Female"
+
+            android:textSize="18sp"></TextView>
+
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/textwhatisyourgender"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="300dp"
+        android:text="Next"
+        android:background="@drawable/custom_button_normal"
+        android:id="@+id/next"
+
+        />
+
+
+
+</RelativeLayout>
