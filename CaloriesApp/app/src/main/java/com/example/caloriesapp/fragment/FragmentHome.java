@@ -1,5 +1,7 @@
 package com.example.caloriesapp.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,8 +11,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.caloriesapp.R;
+import com.example.caloriesapp.activities.InitializeActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,6 +22,8 @@ import com.example.caloriesapp.R;
  * create an instance of this fragment.
  */
 public class FragmentHome extends Fragment {
+    private OnFragmentHomeListener mListener;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,7 +71,44 @@ public class FragmentHome extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        Button button = view.findViewById(R.id.btnStartActivity);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BtnClicked(v);
+            }
+        });
+
+
         return view;
     }
+
+    private void BtnClicked(View view) {
+        mListener.onBtnStartActivityListener("hic");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentHomeListener) {
+            mListener = (OnFragmentHomeListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnFragmentHomeListener {
+        void onBtnStartActivityListener(String content);
+    }
+
+
+
 
 }

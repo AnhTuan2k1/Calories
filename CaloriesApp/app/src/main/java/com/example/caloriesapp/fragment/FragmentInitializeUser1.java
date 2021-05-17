@@ -14,10 +14,10 @@ import com.example.caloriesapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentAccount#newInstance} factory method to
+ * Use the {@link FragmentInitializeUser1#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentAccount extends Fragment {
+public class FragmentInitializeUser1 extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,7 +28,7 @@ public class FragmentAccount extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentAccount() {
+    public FragmentInitializeUser1() {
         // Required empty public constructor
     }
 
@@ -38,11 +38,11 @@ public class FragmentAccount extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentAccount.
+     * @return A new instance of fragment FragmentInitializeUser1.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentAccount newInstance(String param1, String param2) {
-        FragmentAccount fragment = new FragmentAccount();
+    public static FragmentInitializeUser1 newInstance(String param1, String param2) {
+        FragmentInitializeUser1 fragment = new FragmentInitializeUser1();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,9 +62,9 @@ public class FragmentAccount extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_account, container, false);
+         super.onCreateView(inflater, container, savedInstanceState);
+         View view = inflater.inflate(R.layout.fragment_initialize_user1, container, false);
 
-        return view;
+         return view;
     }
 }
