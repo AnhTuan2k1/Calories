@@ -50,8 +50,8 @@
         android:layout_height="63dp"
         android:layout_marginTop="12dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="70"
+        android:inputType="number"
+        android:hint=". . ."
         android:textColor="@color/black"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,28 +59,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/weigth" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <TextView
         android:id="@+id/bntkg"
         android:layout_width="65dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="84dp"
-        android:background="@drawable/custom_button_normal"
+        android:gravity="center"
+        android:textAlignment="center"
         android:text="kg"
-        android:textSize="20sp"
+        android:textSize="35dp"
         app:layout_constraintStart_toEndOf="@+id/txtweight"
-        app:layout_constraintTop_toBottomOf="@+id/huongdan" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/bntlb"
-        android:layout_width="65dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="84dp"
-        android:background="@drawable/custom_button_normal"
-        android:text="lb"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/bntkg"
         app:layout_constraintTop_toBottomOf="@+id/huongdan" />
 
     <androidx.appcompat.widget.AppCompatButton

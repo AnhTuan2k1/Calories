@@ -13,25 +13,28 @@
         android:layout_width="wrap_content"
         android:layout_height="91dp"
         android:gravity="center"
-        android:text="What is your date of birth?"
+        android:text="How old are you?"
         android:textAlignment="center"
         android:textSize="25dp" />
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="50dp"
         android:id="@+id/pick"
-        android:text="Pick your date"
+        android:hint="Age"
+        android:inputType="number"
         android:textAllCaps="false"
-        android:background="@drawable/custom_button_normal"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+
         android:textSize="25dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/next2"
         android:layout_width="110dp"
         android:layout_height="50dp"
-        android:layout_marginTop="80dp"
-
         android:layout_below="@+id/pick"
+
+        android:layout_marginTop="80dp"
         android:background="@drawable/custom_button_normal"
         android:text="Next" />
 
