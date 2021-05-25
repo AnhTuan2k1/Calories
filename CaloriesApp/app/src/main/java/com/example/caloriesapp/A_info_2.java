@@ -12,74 +12,61 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Calendar;
 
 public class A_info_2 extends AppCompatActivity {
-    private TextView textwhatisyourdateofbirth;
-    private Button pick,next;
-    DatePickerDialog.OnDateSetListener setListener;
+    private EditText Age;
+    private Button buttonnext;
+    public String mucdich_2;
+    public String gioitinh_2;
+    public Double tuoi;
+
+    public static final String EXTRA_TEXTMUCDICH = "com.example.application.example.EXTRA_TEXTMUCDICH";
+    public static final String EXTRA_TEXTGIOITINH = "com.example.application.example.EXTRA_TEXTGIOITINH";
+    public static final String EXTRA_TEXTTUOI = "com.example.application.example.EXTRA_TEXTTUOI";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_a_info_2);
-        pick =(Button)findViewById(R.id.pick);
-        textwhatisyourdateofbirth = findViewById(R.id.textwhatisyourdateofbirth);
-        next=(Button)findViewById(R.id.next2);
-        Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(calendar.YEAR);
-        final int month = calendar.get(calendar.MONTH);
-        final int day = calendar.get(calendar.DAY_OF_MONTH);
-
-
-        pick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        A_info_2.this,android.R.style.Theme_Holo_Dialog_MinWidth,
-                        setListener,year,month,day);
-                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                datePickerDialog.show();
-            }
-        });
-        setListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month +=1;
-                String date = day + "/" + month + "/" + year;
-                textwhatisyourdateofbirth.setText(date);
-            }
-        };
-        textwhatisyourdateofbirth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        A_info_2.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int day) {
-                        month += 1;
-                        String date = day + "/" + month + "/"+ year;
-                        textwhatisyourdateofbirth.setText(date);
-                    }
-                },year,month,day);
-                datePickerDialog.show();
-
-            }
-        });
-        next.setOnClickListener(new View.OnClickListener() {
+        Age = (EditText)findViewById(R.id.pick);
+        buttonnext = (Button)findViewById(R.id.next2);
+        buttonnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Animation animation= AnimationUtils.loadAnimation(A_info_2.this,R.anim.fadein);
-                next.startAnimation(animation);
+                buttonnext.startAnimation(animation);
+                tuoi = Double.parseDouble(Age.getText().toString());
+
                 OpenA_info_3();
             }
         });
 
+        Intent intent = getIntent();
+        gioitinh_2 = intent.getStringExtra(A_info_1.EXTRA_TEXT1);
+        mucdich_2 = intent.getStringExtra(A_info_1.EXTRA_TEXT);
+
+
+//        Toast.makeText(A_info_2.this,gioitinh_2,Toast.LENGTH_LONG).show();
+
+
+
 
     }
-    private void OpenA_info_3() {
+    public void OpenA_info_3() {
         Intent intent = new Intent(this,A_info_3.class);
+        intent.putExtra(EXTRA_TEXTMUCDICH,mucdich_2);
+        intent.putExtra(EXTRA_TEXTGIOITINH,gioitinh_2);
+        intent.putExtra(EXTRA_TEXTTUOI,tuoi);
         startActivity(intent);
     }
 }

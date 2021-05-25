@@ -11,4 +11,5 @@
     <color name="selected_reditem_nav">#E91E63</color>
     <color name="gray_item_nav">#3E000000</color>
     <color name="gray_heavy">#82976B</color>
+    <color name="light_purple">#B19CD9</color>
 </resources>
