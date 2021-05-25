@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
+import com.example.caloriesapp.A_info_5;
 import com.example.caloriesapp.A_mucdich;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.fragment.FragmentAccount;
@@ -23,6 +26,21 @@ public class MainActivity extends AppCompatActivity {
     private static final int FRAGMENT_STATISTIC = 2;
     private static final int FRAGMENT_ACCOUNT = 3;
 
+   private Button bt1;
+
+    private Double cm,kg,age;
+    private Double heso;
+
+    //-------------
+    public String mucdichmain;
+    public String gioitinhmain;
+    public Double tuoimain;
+    public Double chieucaomain;
+    public Double cannangmain;
+    public Double AMmain;
+    Button btn;
+    //-------------
+
     //private User user;
     private int current_Fragment = FRAGMENT_HOME;
     private BottomNavigationView navigationView;
@@ -32,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         addFragment(new FragmentHome());
 
-        //============
+        //-------------
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstStart = prefs.getBoolean("firstStart",true);
@@ -43,6 +61,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //============
+
+        //-------------
+
+        Intent intent = getIntent();
+        chieucaomain = intent.getDoubleExtra(A_info_5.EXTRA_TEXTCHIEUCAO,0);
+        cannangmain = intent.getDoubleExtra(A_info_5.EXTRA_TEXTCANNANG,0);
+        tuoimain = intent.getDoubleExtra(A_info_5.EXTRA_TEXTTUOI,0);
+        cm = chieucaomain;
+        kg = cannangmain;
+        age = tuoimain;
+
+        
+
+
+
+        //============
+
+
 
         navigationView = findViewById(R.id.bottom_nav);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -77,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         {
             replaceFragment(new FragmentHome());
             current_Fragment = FRAGMENT_HOME;
+
         }
     }
     private void openStatisticFragment()
