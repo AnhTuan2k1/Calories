@@ -15,6 +15,8 @@ import android.widget.Button;
 import com.example.caloriesapp.A_info_5;
 import com.example.caloriesapp.A_mucdich;
 import com.example.caloriesapp.R;
+import com.example.caloriesapp.database.FoodDatabase;
+import com.example.caloriesapp.database.FoodStatic;
 import com.example.caloriesapp.fragment.FragmentAccount;
 import com.example.caloriesapp.fragment.FragmentHome;
 import com.example.caloriesapp.fragment.FragmentStatistic;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SearchFoodActivity.createFoodDatabase(this);
         addFragment(new FragmentHome());
 
         //-------------
