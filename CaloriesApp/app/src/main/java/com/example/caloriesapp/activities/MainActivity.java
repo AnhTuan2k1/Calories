@@ -34,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
     private Double heso;
 
     //-------------
-    public String mucdichmain;
-    public String gioitinhmain;
-    public Double tuoimain;
-    public Double chieucaomain;
-    public Double cannangmain;
-    public Double AMmain;
-    Button btn;
+//    public String mucdichmain;
+//    public String gioitinhmain;
+//    public Double tuoimain;
+//    public Double chieucaomain;
+//    public Double cannangmain;
+//    public Double AMmain;
+//    Button btn;
     //-------------
 
     //private User user;
@@ -67,13 +67,13 @@ public class MainActivity extends AppCompatActivity {
 
         //-------------
 
-        Intent intent = getIntent();
-        chieucaomain = intent.getDoubleExtra(A_info_5.EXTRA_TEXTCHIEUCAO,0);
-        cannangmain = intent.getDoubleExtra(A_info_5.EXTRA_TEXTCANNANG,0);
-        tuoimain = intent.getDoubleExtra(A_info_5.EXTRA_TEXTTUOI,0);
-        cm = chieucaomain;
-        kg = cannangmain;
-        age = tuoimain;
+//        Intent intent = getIntent();
+//        chieucaomain = intent.getDoubleExtra(A_info_5.EXTRA_TEXTCHIEUCAO,0);
+//        cannangmain = intent.getDoubleExtra(A_info_5.EXTRA_TEXTCANNANG,0);
+//        tuoimain = intent.getDoubleExtra(A_info_5.EXTRA_TEXTTUOI,0);
+//        cm = chieucaomain;
+//        kg = cannangmain;
+//        age = tuoimain;
 
         
 

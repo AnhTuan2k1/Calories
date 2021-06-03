@@ -1,4 +1,4 @@
-package com.example.caloriesapp;
+    package com.example.caloriesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -99,12 +99,12 @@ public class A_info_5 extends AppCompatActivity {
     }
     public void OpenA_Main(){
         Intent intent = new Intent(A_info_5.this, MainActivity.class);
-        intent.putExtra(EXTRA_TEXTMUCDICH,mucdich_5);
-        intent.putExtra(EXTRA_TEXTGIOITINH,gioitinh_5);
-        intent.putExtra(EXTRA_TEXTTUOI,tuoi_5);
-        intent.putExtra(EXTRA_TEXTCHIEUCAO,chieucao_5);
-        intent.putExtra(EXTRA_TEXTCANNANG,cannang_5);
-        intent.putExtra(EXTRA_TEXTAM,AM);
+//        intent.putExtra(EXTRA_TEXTMUCDICH,mucdich_5);
+//        intent.putExtra(EXTRA_TEXTGIOITINH,gioitinh_5);
+//        intent.putExtra(EXTRA_TEXTTUOI,tuoi_5);
+//        intent.putExtra(EXTRA_TEXTCHIEUCAO,chieucao_5);
+//        intent.putExtra(EXTRA_TEXTCANNANG,cannang_5);
+//        intent.putExtra(EXTRA_TEXTAM,AM);
         startActivity(intent);
 
     }

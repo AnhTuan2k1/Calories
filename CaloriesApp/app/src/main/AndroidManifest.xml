@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CaloriesApp">
-        <activity android:name=".activities.SearchFoodActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +33,7 @@
             android:name=".A_info_2"
             android:parentActivityName=".A_info_1" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.SearchFoodActivity"
             android:parentActivityName=".A_info_5" />
         <activity
             android:name=".A_info_5"
