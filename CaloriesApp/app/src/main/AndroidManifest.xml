@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CaloriesApp">
-        <activity android:name=".activities.MainActivity"/>
+        <activity android:name=".activities.MainActivity">
+        </activity>
+
         <activity android:name=".activities.RegisterActivity"></activity>
         <activity android:name=".activities.LoginActivity" >
             <intent-filter>
@@ -19,7 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SearchFoodActivity">
-
         </activity>
 
         <activity
@@ -38,9 +39,7 @@
         <activity
             android:name=".A_info_2"
             android:parentActivityName=".A_info_1" />
-        <activity
-            android:name=".activities.SearchFoodActivity"
-            android:parentActivityName=".A_info_5" />
+
         <activity
             android:name=".A_info_5"
             android:parentActivityName=".A_info_4" />
