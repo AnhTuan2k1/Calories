@@ -9,13 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CaloriesApp">
-        <activity android:name=".activities.SearchFoodActivity">
+        <activity android:name=".activities.RegisterActivity"></activity>
+        <activity android:name=".activities.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.SearchFoodActivity">
+
+        </activity>
+
         <activity
             android:name=".A_mucdich"
             android:label="Intro" />
@@ -38,9 +43,7 @@
         <activity
             android:name=".A_info_5"
             android:parentActivityName=".A_info_4" />
-        <activity android:name=".Intro_activity">
-
-        </activity>
+        <activity android:name=".Intro_activity" />
     </application>
 
 </manifest>

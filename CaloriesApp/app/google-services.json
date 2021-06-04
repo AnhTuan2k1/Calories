@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "537845624236",
+    "project_id": "caloriesapp-39c66",
+    "storage_bucket": "caloriesapp-39c66.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537845624236:android:91c46d072ae0707f1f9e09",
+        "android_client_info": {
+          "package_name": "com.example.caloriesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "537845624236-e99f45h1vc97va2cm0rshq72tuppjg0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG5g9R66ZszPlKpIJ38g7ZSEP_FXg1M3w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "537845624236-e99f45h1vc97va2cm0rshq72tuppjg0m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
