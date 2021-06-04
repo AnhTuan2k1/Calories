@@ -118,6 +118,9 @@ public class SearchFoodActivity extends AppCompatActivity {
         FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Apple", (float)95/182, 182));
         FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Orange", (float)86/184, 184));
         FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Guava", (float)37/55, 55));
+
+
+
     }
 
 

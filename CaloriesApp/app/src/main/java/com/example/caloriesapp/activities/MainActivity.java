@@ -21,6 +21,14 @@ import com.example.caloriesapp.fragment.FragmentAccount;
 import com.example.caloriesapp.fragment.FragmentHome;
 import com.example.caloriesapp.fragment.FragmentStatistic;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,12 +54,19 @@ public class MainActivity extends AppCompatActivity {
     //private User user;
     private int current_Fragment = FRAGMENT_HOME;
     private BottomNavigationView navigationView;
+    FirebaseAuth firebaseAuth;
+    DatabaseReference myDatabase;
+    FirebaseUser firebaseUser;
+    float calories = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SearchFoodActivity.createFoodDatabase(this);
+        anhxa();
         addFragment(new FragmentHome());
+
+
 
         //-------------
 
@@ -110,6 +125,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void anhxa() {
+
+        myDatabase = FirebaseDatabase.getInstance().getReference();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    }
+
     private void openHomeFragment()
     {
         if(current_Fragment != FRAGMENT_HOME)
@@ -157,6 +178,29 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void checkInfoUser()
+    {
+        myDatabase.child("users").child(firebaseUser.getUid()).child("userinfo")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                        calories = snapshot.child("dailyCaloriesTarget").getValue(float.class);
+
+                        if(calories == 0f)
+                        {
+
+                            startActivity(new Intent(getApplicationContext(), A_mucdich.class));
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+
+                });
+    }
 
 }
