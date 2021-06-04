@@ -112,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onSuccess(AuthResult authResult) {
                 Toasty.success(RegisterActivity.this, "Register Successfully", Toasty.LENGTH_SHORT).show();
                 myDatabase.child("users").child(FirebaseAuth.getInstance().getUid())
-                        .child("userinfo").setValue(new User("1","2",3,4,5,6,7,8));
+                        .child("userinfo").setValue(new User("9","8","7",6,5,4,3,2,0));
 
 
                 Intent intent = new Intent(RegisterActivity.this, A_mucdich.class);
