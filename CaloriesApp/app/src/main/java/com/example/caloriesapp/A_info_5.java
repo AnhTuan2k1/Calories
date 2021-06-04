@@ -23,6 +23,10 @@ public class A_info_5 extends AppCompatActivity {
     public Double tuoi_5,chieucao_5,cannang_5;
     public Double AM;
 
+    private Double BMR;
+    private Double TDEE;
+    private Double Calo;
+
     public static final String EXTRA_TEXTMUCDICH = "com.example.application.example.EXTRA_TEXTMUCDICH";
     public static final String EXTRA_TEXTGIOITINH = "com.example.application.example.EXTRA_TEXTGIOITINH";
     public static final String EXTRA_TEXTTUOI = "com.example.application.example.EXTRA_TEXTTUOI";
@@ -107,5 +111,32 @@ public class A_info_5 extends AppCompatActivity {
 //        intent.putExtra(EXTRA_TEXTAM,AM);
         startActivity(intent);
 
+    }
+
+
+    public void TinhCalo_BMR(String gioitinh){
+        if(gioitinh=="Male"){
+            BMR = (chieucao_5*6.25) + (cannang_5*10) - (tuoi_5*5) + 5;
+        }
+        else{
+            BMR = (chieucao_5*6.25) + (cannang_5*10) - (tuoi_5*5) - 161;
+        }
+    }
+
+    public void TinhCalo_TDEE(Double chisoBMR, Double chisoAM){
+        TDEE = chisoBMR*chisoAM;
+    }
+
+    public void TinhCalo_Mucdich(){
+        switch (mucdich_5){
+            case "Lose Weight":
+                Calo = TDEE * 0.75;
+                break;
+            case "Gain Weight":
+                Calo = TDEE * 1.25;
+                break;
+            case "Maintain Weight":
+                Calo = TDEE;
+        }
     }
 }
