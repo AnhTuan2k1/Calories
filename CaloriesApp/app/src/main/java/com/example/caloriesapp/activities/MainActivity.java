@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SearchFoodActivity.createFoodDatabase(this);
         anhxa();
+        checkInfoUser();
         addFragment(new FragmentHome());
 
 
@@ -73,10 +75,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstStart = prefs.getBoolean("firstStart",true);
 
-        if (firstStart) {
-            // Nếu ứng dụng chưa chạy
-            FirstRun();
-        }
 
         //============
 
@@ -189,9 +187,15 @@ public class MainActivity extends AppCompatActivity {
 
                         if(calories == 0f)
                         {
-
-                            startActivity(new Intent(getApplicationContext(), A_mucdich.class));
-                            finish();
+                            MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(MainActivity.this);
+                            materialAlertDialogBuilder.setMessage("to use this app you must update your profile").setCancelable(false)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            startActivity(new Intent(getApplicationContext(), A_mucdich.class));
+                                            finish();
+                                        }
+                                    }).show();
                         }
                     }
 
@@ -199,7 +203,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
-
                 });
     }
 

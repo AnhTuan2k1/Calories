@@ -5,19 +5,22 @@ public class User {
     String userName;
     String purposeWeight;    //lose maintain gain
     String gender;
+    String timetogetGoalweight;
     float goalWeight;
     float currentWeight;
     int age;
     float height;
-    int ExerciseIntensity; // 1 2 3 4
+    float ExerciseIntensity;
     float dailyCaloriesTarget;
+
 
     public User(){}
 
-    public User(String purposeWeight, String gender, float goalWeight,
-                float currentWeight, int age, float height, int exerciseIntensity, float dailyCaloriesTarget) {
+    public User(String purposeWeight, String gender, String timetogetGoalweight, float goalWeight,
+                float currentWeight, int age, float height, float exerciseIntensity, float dailyCaloriesTarget) {
         this.purposeWeight = purposeWeight;
         this.gender = gender;
+        this.timetogetGoalweight = timetogetGoalweight;
         this.goalWeight = goalWeight;
         this.currentWeight = currentWeight;
         this.age = age;
@@ -49,6 +52,14 @@ public class User {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getTimetogetGoalweight() {
+        return timetogetGoalweight;
+    }
+
+    public void setTimetogetGoalweight(String timetogetGoalweight) {
+        this.timetogetGoalweight = timetogetGoalweight;
     }
 
     public float getGoalWeight() {
@@ -83,11 +94,11 @@ public class User {
         this.height = height;
     }
 
-    public int getExerciseIntensity() {
+    public float getExerciseIntensity() {
         return ExerciseIntensity;
     }
 
-    public void setExerciseIntensity(int exerciseIntensity) {
+    public void setExerciseIntensity(float exerciseIntensity) {
         ExerciseIntensity = exerciseIntensity;
     }
 
@@ -98,5 +109,4 @@ public class User {
     public void setDailyCaloriesTarget(float dailyCaloriesTarget) {
         this.dailyCaloriesTarget = dailyCaloriesTarget;
     }
-
 }

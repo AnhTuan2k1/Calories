@@ -68,7 +68,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     @Override
@@ -79,8 +78,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-       // if(firebaseUser == null) return;
+        if(firebaseUser == null) return;
 
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
     }
 
 

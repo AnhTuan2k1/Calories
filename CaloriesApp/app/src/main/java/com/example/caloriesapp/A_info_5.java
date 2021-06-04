@@ -12,8 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caloriesapp.activities.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
-public class A_info_5 extends AppCompatActivity {
+    public class A_info_5 extends AppCompatActivity {
 
 
     Button R1,R2,R3,R4;
@@ -109,6 +111,12 @@ public class A_info_5 extends AppCompatActivity {
 //        intent.putExtra(EXTRA_TEXTCHIEUCAO,chieucao_5);
 //        intent.putExtra(EXTRA_TEXTCANNANG,cannang_5);
 //        intent.putExtra(EXTRA_TEXTAM,AM);
+
+        User user = new User("1","2","",4,5,6,7,8,9);
+        FirebaseDatabase.getInstance().getReference()
+                .child("users").child(FirebaseAuth.getInstance().getUid())
+                .child("userinfo").setValue(user);
+
         startActivity(intent);
 
     }
