@@ -6,29 +6,44 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caloriesapp.FoodAdapter;
+import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.database.FoodDAO;
 import com.example.caloriesapp.database.FoodDatabase;
 import com.example.caloriesapp.database.FoodStatic;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
-public class SearchFoodActivity extends AppCompatActivity {
+public class SearchFoodActivity extends AppCompatActivity  {
 
     private EditText editTextSearch;
     private RecyclerView listFood;
@@ -60,7 +75,14 @@ public class SearchFoodActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+        foodAdapter.OnRecycleViewClickListener(new FoodAdapter.OnRecycleViewClickListener() {
+            @Override
+            public void OnItemClick(int position, String nameFood, String gram, String Calories) {
+                openDialog(Gravity.CENTER, nameFood, Float.parseFloat(Calories),
+                        Float.parseFloat(gram), "sessionofday", "date");
+  //              Toasty.success(SearchFoodActivity.this, nameFood, Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
@@ -110,6 +132,97 @@ public class SearchFoodActivity extends AppCompatActivity {
         }
     }
 
+    private void openDialog(int gravity, final String nameFood, final float calories, final float gram, String sessionofday, String date) {
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_addfood);
+
+        Window window = dialog.getWindow();
+        if(window == null) return;
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+
+        EditText editText_gram = dialog.findViewById(R.id.editText_gram_dialogAddfood);
+        TextView textView_calories = dialog.findViewById(R.id.textView_calories_dialogAddfood);
+        TextView textView_namefood = dialog.findViewById(R.id.textView_namefood_dialogAddfood);
+        Button button_add = dialog.findViewById(R.id.button_Add_dialogAddfood);
+        Button button_cancel = dialog.findViewById(R.id.button_cancel_dialogAddfood);
+        /////////////////////////////////////////////
+        float cal = calories/gram;
+        textView_calories.setText(String.valueOf(calories));
+        textView_namefood.setText(nameFood);
+        editText_gram.setText(String.valueOf((int)gram));
+
+        editText_gram.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(editText_gram.getText().toString().isEmpty())
+                {
+                    textView_calories.setText("0");
+                }
+                else
+                {
+                    textView_calories.setText(String.valueOf((int)(Float.parseFloat(editText_gram.getText().toString())*cal)));
+                }
+                return false;
+            }
+        });
+
+        button_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String grams = editText_gram.getText().toString();
+                if(!grams.equals("")  && Integer.parseInt(grams)!= 0)
+                {
+                    Foodate foodate = new Foodate(nameFood, cal, Integer.parseInt(grams), sessionofday, date);
+
+                    FirebaseDatabase.getInstance().getReference().child("users")
+                            .child(FirebaseAuth.getInstance().getUid())
+                            .child("userdiary")
+                            .child(date)
+                            .child(foodate.getId())
+                            .setValue(foodate)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toasty.success(SearchFoodActivity.this, "Add Food Successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toasty.error(SearchFoodActivity.this, "something was fail", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    // add food locally here
+                    dialog.dismiss();
+                }
+                else
+                {
+                    Toasty.error(SearchFoodActivity.this, "gram has errors", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        ///////////////////////////////////
+
+        //dialog.setCancelable(false);
+        dialog.show();
+    }
+
 
     public static void createFoodDatabase(@NonNull Context context)
     {
@@ -122,18 +235,6 @@ public class SearchFoodActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -24,23 +24,48 @@
             android:id="@+id/textView_infoFood_itemFoodLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
             android:text="inforFood"
-            app:layout_constraintStart_toStartOf="@+id/textView_nameFood_itemFoodLayout"
-            app:layout_constraintTop_toBottomOf="@+id/textView_nameFood_itemFoodLayout" />
+            app:layout_constraintBottom_toBottomOf="@+id/textView6"
+            app:layout_constraintStart_toEndOf="@+id/textView6" />
 
         <TextView
             android:id="@+id/textView_Cal_itemFoodLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Cal"
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView_nameFood_itemFoodLayout">
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView10"
+            app:layout_constraintEnd_toStartOf="@+id/textView10">
 
         </TextView>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Regular: "
+            app:layout_constraintStart_toStartOf="@+id/textView_nameFood_itemFoodLayout"
+            app:layout_constraintTop_toBottomOf="@+id/textView_nameFood_itemFoodLayout" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  g"
+            app:layout_constraintBottom_toBottomOf="@+id/textView_infoFood_itemFoodLayout"
+            app:layout_constraintStart_toEndOf="@+id/textView_infoFood_itemFoodLayout" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="10dp"
+            android:text="Cal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView_nameFood_itemFoodLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
