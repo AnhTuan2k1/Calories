@@ -138,44 +138,60 @@
             android:layout_height="140dp"
             android:background="@drawable/layout_water_panel"></ImageView>
 
-        <LinearLayout
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+            <TableRow>
+                <ImageView
+                    android:id="@+id/bottle1"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/icon_bottle_filled"
+                    android:layout_weight="1"
+                    android:padding="10dp"/>
 
-            <ImageView
-                android:id="@+id/bottle1"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/icon_bottle_filled" />
+                <ImageView
+                    android:id="@+id/bottle2"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/icon_bottle_filled"
+                    android:layout_weight="1"
+                    android:padding="10dp"/>
 
-            <ImageView
-                android:id="@+id/bottle2"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/icon_bottle_filled" />
+                <ImageView
+                    android:id="@+id/bottle3"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/icon_bottle_filled"
+                    android:layout_weight="1"
+                    android:padding="10dp"/>
 
-            <ImageView
-                android:id="@+id/bottle3"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/icon_bottle_filled" />
+                <ImageView
+                    android:id="@+id/bottle4"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/icon_bottle_unfilled"
+                    android:layout_weight="1"
+                    android:padding="10dp"/>
 
-            <ImageView
-                android:id="@+id/bottle4"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/icon_bottle_unfilled" />
+            </TableRow>
 
-        </LinearLayout>
+
+
+
+
+        </TableLayout>
 
 
     </RelativeLayout>

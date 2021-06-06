@@ -18,8 +18,8 @@ public class A_info_3 extends AppCompatActivity {
     private EditText heighttxt;
     public String mucdich_3;
     public String gioitinh_3;
-    public Double tuoi_3;
-    public Double chieucao;
+    public Float tuoi_3;
+    public Float chieucao;
 
     public static final String EXTRA_TEXTMUCDICH = "com.example.application.example.EXTRA_TEXTMUCDICH";
     public static final String EXTRA_TEXTGIOITINH = "com.example.application.example.EXTRA_TEXTGIOITINH";
@@ -34,7 +34,7 @@ public class A_info_3 extends AppCompatActivity {
         Intent intent = getIntent();
         mucdich_3 = intent.getStringExtra(A_info_2.EXTRA_TEXTMUCDICH);
         gioitinh_3 = intent.getStringExtra(A_info_2.EXTRA_TEXTGIOITINH);
-        tuoi_3 = intent.getDoubleExtra(A_info_2.EXTRA_TEXTTUOI, 0);
+        tuoi_3 = intent.getFloatExtra(A_info_2.EXTRA_TEXTTUOI, 0);
 
 
         heighttxt = findViewById(R.id.txtheight);
@@ -46,7 +46,7 @@ public class A_info_3 extends AppCompatActivity {
             public void onClick(View v) {
                 Animation animation= AnimationUtils.loadAnimation(A_info_3.this,R.anim.fadein);
                 btnnext.startAnimation(animation);
-                chieucao = Double.parseDouble(heighttxt.getText().toString());
+                chieucao = Float.parseFloat(heighttxt.getText().toString());
                 Toast.makeText(A_info_3.this,chieucao.toString(),Toast.LENGTH_LONG).show();
                 OpenA_info_4();
             }
