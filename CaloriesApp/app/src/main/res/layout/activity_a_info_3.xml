@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="How tall are you?"
         android:textColor="@color/black"
-        android:textSize="45sp"
+        android:textSize="35dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -22,19 +22,21 @@ import com.google.firebase.database.FirebaseDatabase;
 
     public String mucdich_5;
     public String gioitinh_5;
-    public Double tuoi_5,chieucao_5,cannang_5;
-    public Double AM;
+    public Float tuoi_5,chieucao_5,cannang_5,cannanggoal_5;
+    public Float AM;
 
-    private Double BMR;
-    private Double TDEE;
-    private Double Calo;
+    private Float BMR;
+    private Float TDEE;
+    private Float Calo;
+    private Float gap;
+    private Float time;
 
-    public static final String EXTRA_TEXTMUCDICH = "com.example.application.example.EXTRA_TEXTMUCDICH";
-    public static final String EXTRA_TEXTGIOITINH = "com.example.application.example.EXTRA_TEXTGIOITINH";
-    public static final String EXTRA_TEXTTUOI = "com.example.application.example.EXTRA_TEXTTUOI";
-    public static final String EXTRA_TEXTCHIEUCAO = "com.example.application.example.EXTRA_TEXTCHIEUCAO";
-    public static final String EXTRA_TEXTCANNANG = "com.example.application.example.EXTRA_TEXTCANNANG";
-    public static final String EXTRA_TEXTAM= "com.example.application.example.EXTRA_TEXTAM";
+//    public static final String EXTRA_TEXTMUCDICH = "com.example.application.example.EXTRA_TEXTMUCDICH";
+//    public static final String EXTRA_TEXTGIOITINH = "com.example.application.example.EXTRA_TEXTGIOITINH";
+//    public static final String EXTRA_TEXTTUOI = "com.example.application.example.EXTRA_TEXTTUOI";
+//    public static final String EXTRA_TEXTCHIEUCAO = "com.example.application.example.EXTRA_TEXTCHIEUCAO";
+//    public static final String EXTRA_TEXTCANNANG = "com.example.application.example.EXTRA_TEXTCANNANG";
+//    public static final String EXTRA_TEXTAM= "com.example.application.example.EXTRA_TEXTAM";
 
 
 
@@ -50,9 +52,10 @@ import com.google.firebase.database.FirebaseDatabase;
         Intent intent = getIntent();
         mucdich_5 = intent.getStringExtra(A_info_4.EXTRA_TEXTMUCDICH);
         gioitinh_5 = intent.getStringExtra(A_info_4.EXTRA_TEXTGIOITINH);
-        tuoi_5 = intent.getDoubleExtra(A_info_4.EXTRA_TEXTTUOI, 0);
-        chieucao_5 = intent.getDoubleExtra(A_info_4.EXTRA_TEXTCHIEUCAO,0);
-        cannang_5 = intent.getDoubleExtra(A_info_4.EXTRA_TEXTCANNANG,0);
+        tuoi_5 = intent.getFloatExtra(A_info_4.EXTRA_TEXTTUOI, 0);
+        chieucao_5 = intent.getFloatExtra(A_info_4.EXTRA_TEXTCHIEUCAO,0);
+        cannang_5 = intent.getFloatExtra(A_info_4.EXTRA_TEXTCANNANG,0);
+        cannanggoal_5 = intent.getFloatExtra(A_info_4.EXTRA_TEXTCANNANGGOAL,0);
 
 
         TextView txt = findViewById(R.id.txt111);
@@ -70,8 +73,12 @@ import com.google.firebase.database.FirebaseDatabase;
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(A_info_5.this,R.anim.fadein);
                 R1.startAnimation(animation);
-                AM = 1.2;
-                Toast.makeText(A_info_5.this,AM.toString(), Toast.LENGTH_LONG).show();
+                AM = 1.2f;
+//                Toast.makeText(A_info_5.this,AM.toString(), Toast.LENGTH_LONG).show();
+                TinhCalo_BMR(gioitinh_5);
+                TinhCalo_TDEE(BMR,AM);
+                TinhCalo_Mucdich(mucdich_5);
+
                 OpenA_Main();
             }
         });
@@ -80,7 +87,11 @@ import com.google.firebase.database.FirebaseDatabase;
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(A_info_5.this,R.anim.fadein);
                 R2.startAnimation(animation);
-                AM = 1.375;
+                AM = 1.375f;
+                TinhCalo_BMR(gioitinh_5);
+                TinhCalo_TDEE(BMR,AM);
+                TinhCalo_Mucdich(mucdich_5);
+
                 OpenA_Main();
             }
         });
@@ -89,7 +100,11 @@ import com.google.firebase.database.FirebaseDatabase;
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(A_info_5.this,R.anim.fadein);
                 R3.startAnimation(animation);
-                AM = 1.55;
+                AM = 1.55f;
+                TinhCalo_BMR(gioitinh_5);
+                TinhCalo_TDEE(BMR,AM);
+                TinhCalo_Mucdich(mucdich_5);
+
                 OpenA_Main();
             }
         });
@@ -98,7 +113,11 @@ import com.google.firebase.database.FirebaseDatabase;
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(A_info_5.this,R.anim.fadein);
                 R4.startAnimation(animation);
-                AM = 1.725;
+                AM = 1.725f;
+                TinhCalo_BMR(gioitinh_5);
+                TinhCalo_TDEE(BMR,AM);
+                TinhCalo_Mucdich(mucdich_5);
+
                 OpenA_Main();
             }
         });
@@ -112,7 +131,7 @@ import com.google.firebase.database.FirebaseDatabase;
 //        intent.putExtra(EXTRA_TEXTCANNANG,cannang_5);
 //        intent.putExtra(EXTRA_TEXTAM,AM);
 
-        User user = new User("1","2","",4,5,6,7,8,9);
+        User user = new User(mucdich_5,gioitinh_5,time.toString(),cannanggoal_5,cannang_5,Math.round(tuoi_5),chieucao_5,AM,Calo);
         FirebaseDatabase.getInstance().getReference()
                 .child("users").child(FirebaseAuth.getInstance().getUid())
                 .child("userinfo").setValue(user);
@@ -124,27 +143,32 @@ import com.google.firebase.database.FirebaseDatabase;
 
     public void TinhCalo_BMR(String gioitinh){
         if(gioitinh=="Male"){
-            BMR = (chieucao_5*6.25) + (cannang_5*10) - (tuoi_5*5) + 5;
+            BMR = (chieucao_5*6.25f) + (cannang_5*10) - (tuoi_5*5) + 5;
         }
         else{
-            BMR = (chieucao_5*6.25) + (cannang_5*10) - (tuoi_5*5) - 161;
+            BMR = (chieucao_5*6.25f) + (cannang_5*10) - (tuoi_5*5) - 161;
         }
     }
 
-    public void TinhCalo_TDEE(Double chisoBMR, Double chisoAM){
+    public void TinhCalo_TDEE(Float chisoBMR, Float chisoAM){
         TDEE = chisoBMR*chisoAM;
     }
 
-    public void TinhCalo_Mucdich(){
-        switch (mucdich_5){
+    public void TinhCalo_Mucdich(String mucdich){
+        switch (mucdich){
             case "Lose Weight":
-                Calo = TDEE * 0.75;
+                Calo = TDEE - 500;
+                gap = cannang_5 - cannanggoal_5;
+                time = gap / 10;
                 break;
             case "Gain Weight":
-                Calo = TDEE * 1.25;
+                Calo = TDEE + 500;
+                gap = cannanggoal_5 - cannang_5;
+                time = gap / 10;
                 break;
             case "Maintain Weight":
                 Calo = TDEE;
         }
     }
+
 }
