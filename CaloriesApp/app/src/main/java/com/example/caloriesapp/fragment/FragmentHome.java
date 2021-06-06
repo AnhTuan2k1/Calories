@@ -1,5 +1,6 @@
 package com.example.caloriesapp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,62 +11,70 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
+import com.example.caloriesapp.activities.LoginActivity;
+import com.example.caloriesapp.activities.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentHome#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+import es.dmoral.toasty.Toasty;
+
+
 public class FragmentHome extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public FragmentHome() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentHome.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentHome newInstance(String param1, String param2) {
-        FragmentHome fragment = new FragmentHome();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private List<Foodate> foodateList;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        syncDataWithFirebase("date"); //  "dd/MM/yyyy"
+        foodateList = new ArrayList<>();
 
         return view;
     }
+
+    private void syncDataWithFirebase(String date) {
+        if(FirebaseAuth.getInstance().getCurrentUser() == null)
+        {
+            return;
+        }
+
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("userdiary").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren())
+                {
+                    Foodate foodate = dataSnapshot.getValue(Foodate.class);
+                    foodateList.add(foodate);
+                    if(getContext() != null && foodate.getNameFood() != null)
+                        Toasty.success(getContext(), foodate.getNameFood(),Toasty.LENGTH_SHORT).show();
+                }
+
+                // update ui here with foodateList
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toasty.success(getContext(), "Please Reload",Toasty.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
 }
