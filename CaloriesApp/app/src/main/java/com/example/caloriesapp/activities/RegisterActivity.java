@@ -75,21 +75,23 @@ public class RegisterActivity extends AppCompatActivity {
         String email = editText_email.getText().toString().trim();
         String password = editText_password.getText().toString().trim();
         String confirmpassword = editText_confirmpassword.getText().toString().trim();
-//        if(TextUtils.isEmpty(email))
-//        {
-//            editText_email.setError("Email is Required");
-//            return;
-//        }
-//        if(TextUtils.isEmpty(password))
-//        {
-//            editText_password.setError("Password is Required");
-//            return;
-//        }
-//        if(TextUtils.isEmpty(confirmpassword))
-//        {
-//            editText_password.setError("Confirm Password is Required");
-//            return;
-//        }
+        textInputLayout2_Reg.setError(null);
+        if(TextUtils.isEmpty(email))
+        {
+            editText_email.setError("Email is Required");
+            return;
+        }
+        if(TextUtils.isEmpty(password))
+        {
+            editText_password.setError("Password is Required");
+            return;
+        }
+        if(TextUtils.isEmpty(confirmpassword))
+        {
+            editText_password.setError("Confirm Password is Required");
+
+            return;
+        }
         if(!password.equals(confirmpassword))
         {
             editText_confirmpassword.setError("Password Do not Match");
@@ -112,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onSuccess(AuthResult authResult) {
                 Toasty.success(RegisterActivity.this, "Register Successfully", Toasty.LENGTH_SHORT).show();
                 myDatabase.child("users").child(FirebaseAuth.getInstance().getUid())
-                        .child("userinfo").setValue(new User("9","8","7",6,5,4,3,2,0));
+                        .child("userinfo").setValue(new User("9","8","7",6,5,4,3,2,0, email));
 
 
                 Intent intent = new Intent(RegisterActivity.this, A_mucdich.class);

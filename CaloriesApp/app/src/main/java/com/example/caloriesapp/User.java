@@ -5,7 +5,7 @@ public class User {
     String userName;
     String purposeWeight;    //lose maintain gain
     String gender;
-    String timetogetGoalweight;
+    String timetogetGoalweight; // "dd/MM/yyyy"
     float goalWeight;
     float currentWeight;
     int age;
@@ -15,6 +15,20 @@ public class User {
 
 
     public User(){}
+
+    public User(String purposeWeight, String gender, String timetogetGoalweight, float goalWeight, float currentWeight,
+                int age, float height, float exerciseIntensity, float dailyCaloriesTarget, String userName) {
+        this.purposeWeight = purposeWeight;
+        this.gender = gender;
+        this.timetogetGoalweight = timetogetGoalweight;
+        this.goalWeight = goalWeight;
+        this.currentWeight = currentWeight;
+        this.age = age;
+        this.height = height;
+        ExerciseIntensity = exerciseIntensity;
+        this.dailyCaloriesTarget = dailyCaloriesTarget;
+        this.userName = userName;
+    }
 
     public User(String purposeWeight, String gender, String timetogetGoalweight, float goalWeight,
                 float currentWeight, int age, float height, float exerciseIntensity, float dailyCaloriesTarget) {
@@ -27,7 +41,7 @@ public class User {
         this.height = height;
         ExerciseIntensity = exerciseIntensity;
         this.dailyCaloriesTarget = dailyCaloriesTarget;
-        userName = "";
+        this.userName = "";
     }
 
     public String getUserName() {

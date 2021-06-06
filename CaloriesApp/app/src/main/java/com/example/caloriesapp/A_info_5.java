@@ -112,7 +112,8 @@ import com.google.firebase.database.FirebaseDatabase;
 //        intent.putExtra(EXTRA_TEXTCANNANG,cannang_5);
 //        intent.putExtra(EXTRA_TEXTAM,AM);
 
-        User user = new User("1","2","",4,5,6,7,8,9);
+        User user = new User("1","2","",4,5, 6,7,
+                8,9, FirebaseAuth.getInstance().getCurrentUser().getEmail());
         FirebaseDatabase.getInstance().getReference()
                 .child("users").child(FirebaseAuth.getInstance().getUid())
                 .child("userinfo").setValue(user);

@@ -15,6 +15,15 @@ import java.util.List;
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
     private List<FoodStatic> mListFood;
 
+    private OnRecycleViewClickListener listener;
+    public interface OnRecycleViewClickListener{
+        void OnItemClick(int position, String nameFood, String gram, String Calories);
+    }
+    public void OnRecycleViewClickListener(OnRecycleViewClickListener listener)
+    {
+        this.listener = listener;
+    }
+
     public void setData(List<FoodStatic> list){
         this.mListFood = list;
         notifyDataSetChanged();
@@ -25,7 +34,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_food_recycleview, parent, false);
 
-        return new FoodViewHolder(view);
+        return new FoodViewHolder(view, listener);
     }
 
     @Override
@@ -34,8 +43,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         if(food == null) return;
 
         holder.foodname.setText(String.valueOf(food.getNameFood()));
-        holder.inforfood.setText("regular: " + String.valueOf(food.getGram() + " g"));
-        holder.cal.setText(String.valueOf( (int)(food.getCalories()*food.getGram())) + " Cal");
+        holder.inforfood.setText(String.valueOf(food.getGram()));
+        holder.cal.setText(String.valueOf( (int)(food.getCalories()*food.getGram()) ));
     }
 
     @Override
@@ -53,12 +62,23 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         private TextView inforfood;
         private TextView cal;
 
-        public FoodViewHolder(@NonNull View itemView) {
+        public FoodViewHolder(@NonNull View itemView, OnRecycleViewClickListener listener) {
             super(itemView);
 
             foodname = itemView.findViewById(R.id.textView_nameFood_itemFoodLayout);
             inforfood = itemView.findViewById(R.id.textView_infoFood_itemFoodLayout);
             cal = itemView.findViewById(R.id.textView_Cal_itemFoodLayout);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null && getAbsoluteAdapterPosition() != RecyclerView.NO_POSITION)
+                    {
+                        listener.OnItemClick(getAbsoluteAdapterPosition(), foodname.getText().toString(),
+                                inforfood.getText().toString(), cal.getText().toString());
+                    }
+                }
+            });
         }
 
 

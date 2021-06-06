@@ -178,6 +178,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkInfoUser()
     {
+        if(firebaseUser == null)
+        {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
         myDatabase.child("users").child(firebaseUser.getUid()).child("userinfo")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -188,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
                         if(calories == 0f)
                         {
                             MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(MainActivity.this);
-                            materialAlertDialogBuilder.setMessage("to use this app you must update your profile").setCancelable(false)
+                            materialAlertDialogBuilder.setMessage("to use this app, please update your profile").setCancelable(false)
                                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
