@@ -41,8 +41,8 @@ public class FragmentHome extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        syncDataWithFirebase("date"); //  "dd/MM/yyyy"
         foodateList = new ArrayList<>();
+        syncDataWithFirebase("date"); // truyen vao ngay can update ui  "dd/MM/yyyy"
 
         return view;
     }
@@ -62,8 +62,6 @@ public class FragmentHome extends Fragment {
                 {
                     Foodate foodate = dataSnapshot.getValue(Foodate.class);
                     foodateList.add(foodate);
-                    if(getContext() != null && foodate.getNameFood() != null)
-                        Toasty.success(getContext(), foodate.getNameFood(),Toasty.LENGTH_SHORT).show();
                 }
 
                 // update ui here with foodateList
@@ -71,7 +69,7 @@ public class FragmentHome extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toasty.success(getContext(), "Please Reload",Toasty.LENGTH_SHORT).show();
+                Toasty.info(getContext(), "Please Reload",Toasty.LENGTH_SHORT).show();
             }
         });
     }

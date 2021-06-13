@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.caloriesapp.A_mucdich;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.User;
@@ -38,6 +39,7 @@ import es.dmoral.toasty.Toasty;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    LottieAnimationView lottieAnimationView;
     TextInputLayout textInputLayout2_Reg;
     TextView textView_signin;
     EditText editText_email;
@@ -69,6 +71,14 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void register() {
@@ -108,25 +118,29 @@ public class RegisterActivity extends AppCompatActivity {
 //            return;
 //        }
 
-        //progessbar start
+        lottieAnimationView.setVisibility(View.VISIBLE);
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
                 Toasty.success(RegisterActivity.this, "Register Successfully", Toasty.LENGTH_SHORT).show();
                 myDatabase.child("users").child(FirebaseAuth.getInstance().getUid())
-                        .child("userinfo").setValue(new User("9","8","7",6,5,4,3,2,0, email));
+                        .child("userinfo").setValue(new User("9","8","7",6,
+                        5,4,3,2,0, email));
 
 
                 Intent intent = new Intent(RegisterActivity.this, A_mucdich.class);
                 startActivity(intent);
+                lottieAnimationView.setVisibility(View.GONE);
                 finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toasty.error(RegisterActivity.this, e.getMessage(), Toasty.LENGTH_LONG).show();
+                lottieAnimationView.setVisibility(View.GONE);
             }
         });
+
 
     }
 
@@ -140,7 +154,7 @@ public class RegisterActivity extends AppCompatActivity {
         editText_password = findViewById(R.id.edittext_password_regActivity);
         editText_confirmpassword = findViewById(R.id.edittext_confirmpassword_RegActivity);
         button_register = findViewById(R.id.btn_register_RegActivity);
-        progressBar = findViewById(R.id.progressBar_Reg);
+        lottieAnimationView = findViewById(R.id.LottieAnimationView_Reg);
 
 
         firebaseAuth = FirebaseAuth.getInstance();

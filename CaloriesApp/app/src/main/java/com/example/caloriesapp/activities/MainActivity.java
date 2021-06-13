@@ -16,6 +16,7 @@ import android.widget.Button;
 import com.example.caloriesapp.A_info_5;
 import com.example.caloriesapp.A_mucdich;
 import com.example.caloriesapp.R;
+import com.example.caloriesapp.User;
 import com.example.caloriesapp.database.FoodDatabase;
 import com.example.caloriesapp.database.FoodStatic;
 import com.example.caloriesapp.fragment.FragmentAccount;
@@ -188,6 +189,16 @@ public class MainActivity extends AppCompatActivity {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        if(snapshot.child("dailyCaloriesTarget").getValue(float.class) == null){
+                            myDatabase.child("users").child(FirebaseAuth.getInstance().getUid())
+                                    .child("userinfo").setValue(new User("9","8","7",6,
+                                    5,4,3,2,0, firebaseUser.getEmail()));
+
+                            startActivity(new Intent(getApplicationContext(), A_mucdich.class));
+                            finish();
+                            return;
+                        }
 
                         calories = snapshot.child("dailyCaloriesTarget").getValue(float.class);
 

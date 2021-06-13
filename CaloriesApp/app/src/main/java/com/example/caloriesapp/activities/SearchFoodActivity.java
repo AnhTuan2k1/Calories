@@ -79,7 +79,7 @@ public class SearchFoodActivity extends AppCompatActivity  {
             @Override
             public void OnItemClick(int position, String nameFood, String gram, String Calories) {
                 openDialog(Gravity.CENTER, nameFood, Float.parseFloat(Calories),
-                        Float.parseFloat(gram), "sessionofday", "date");
+                        Float.parseFloat(gram), "sessionofday", "date"); // "dd/MM/yyyy"
   //              Toasty.success(SearchFoodActivity.this, nameFood, Toast.LENGTH_LONG).show();
             }
         });
@@ -204,7 +204,7 @@ public class SearchFoodActivity extends AppCompatActivity  {
                 }
                 else
                 {
-                    Toasty.error(SearchFoodActivity.this, "gram has errors", Toast.LENGTH_SHORT).show();
+                    Toasty.warning(SearchFoodActivity.this, "gram has errors", Toast.LENGTH_SHORT).show();
                 }
 
 
