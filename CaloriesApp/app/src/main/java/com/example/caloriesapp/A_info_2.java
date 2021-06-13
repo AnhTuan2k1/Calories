@@ -27,7 +27,7 @@ public class A_info_2 extends AppCompatActivity {
     private Button buttonnext;
     public String mucdich_2;
     public String gioitinh_2;
-    public Double tuoi;
+    public Float tuoi;
 
     public static final String EXTRA_TEXTMUCDICH = "com.example.application.example.EXTRA_TEXTMUCDICH";
     public static final String EXTRA_TEXTGIOITINH = "com.example.application.example.EXTRA_TEXTGIOITINH";
@@ -45,7 +45,7 @@ public class A_info_2 extends AppCompatActivity {
             public void onClick(View v) {
                 Animation animation= AnimationUtils.loadAnimation(A_info_2.this,R.anim.fadein);
                 buttonnext.startAnimation(animation);
-                tuoi = Double.parseDouble(Age.getText().toString());
+                tuoi = Float.parseFloat(Age.getText().toString());
 
                 OpenA_info_3();
             }
