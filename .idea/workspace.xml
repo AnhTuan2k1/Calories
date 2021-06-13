@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="eec9194a-73f4-4994-8911-e5ea7a9cb404" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/raw/foodloading.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/LoginActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/RegisterActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/RegisterActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/SearchFoodActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/SearchFoodActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/fragment/FragmentAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/fragment/FragmentAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/fragment/FragmentHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/fragment/FragmentHome.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/layout/activity_login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/layout/activity_register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/layout/activity_register.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1tfFpDEpTUPQMqUgH72ChgPJbBy" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/CaloriesApp" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eec9194a-73f4-4994-8911-e5ea7a9cb404" name="Default Changelist" comment="" />
+      <created>1623152417247</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1623152417247</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="549" y="187" key="FileChooserDialogImpl" timestamp="1623489972693">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="549" y="187" key="FileChooserDialogImpl/0.0.1536.864@0.0.1536.864" timestamp="1623489972693" />
+  </component>
+</project>
