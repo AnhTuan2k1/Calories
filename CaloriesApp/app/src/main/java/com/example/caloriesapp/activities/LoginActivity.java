@@ -4,9 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CancellationSignal;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
@@ -21,6 +28,8 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.caloriesapp.A_mucdich;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.User;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -34,6 +43,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -43,6 +53,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.function.Consumer;
 
 import es.dmoral.toasty.Toasty;
 
@@ -58,7 +70,9 @@ public class LoginActivity extends AppCompatActivity {
     TextView textView_fogotpassword;
     ImageView imageView_google;
     ImageView imageView_facabook;
+    LoginButton loginButton;
 
+    CallbackManager callbackManager;
     FirebaseAuth firebaseAuth;
     DatabaseReference myDatabase;
     FirebaseUser firebaseUser;
@@ -72,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
         anhxa();
         createRequestGoogleSignin();
+        facebookLogin();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,8 +108,12 @@ public class LoginActivity extends AppCompatActivity {
                 signInGoogle();
             }
         });
-
-
+        imageView_facabook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginButton.callOnClick();
+            }
+        });
     }
 
     @Override
@@ -111,7 +130,51 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+    ////////////////////// facebook login ///////////////////////////////
+    private void facebookLogin() {
+        loginButton.setReadPermissions("email", "public_profile");
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                lottieAnimationView.setVisibility(View.VISIBLE);
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
 
+            @Override
+            public void onCancel() {
+                Toasty.info(getApplicationContext(), "facebook:onCancel", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                Toasty.error(getApplicationContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void handleFacebookAccessToken(AccessToken token) {
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            firebaseUser = firebaseAuth.getCurrentUser();
+                            checkInfoUser(firebaseUser);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toasty.error(LoginActivity.this, "Authentication with facebook failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            lottieAnimationView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+    }
+    ////////////////////// facebook login ///////////////////////////////
+
+
+    //////////////////// login with email and password //////////////////
     private void login() {
         String email = editText_email.getText().toString().trim();
         String password = editText_password.getText().toString().trim();
@@ -146,11 +209,11 @@ public class LoginActivity extends AppCompatActivity {
                 lottieAnimationView.setVisibility(View.GONE);
             }
         });
-
-
     }
+    //////////////////// login with email & password //////////////////
 
-    ///////////////////// google sign in ////////////////////////////////
+
+    ///////////////////// google Sign-In ////////////////////////////////
     private void createRequestGoogleSignin() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -169,6 +232,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -197,11 +261,11 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             Toasty.error(LoginActivity.this, "Google sign in failed", Toast.LENGTH_SHORT).show();
                             lottieAnimationView.setVisibility(View.GONE);
-
                         }
                     }
                 });
     }
+    ///////////////////// google Sign-In ////////////////////////////////
 
     private void checkInfoUser(FirebaseUser firebaseUser)
     {
@@ -247,7 +311,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-    ///////////////////// google sign in ////////////////////////////////
 
 
     private void anhxa() {
@@ -263,5 +326,8 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         myDatabase = FirebaseDatabase.getInstance().getReference();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        callbackManager = CallbackManager.Factory.create();
+        loginButton = (LoginButton) findViewById(R.id.login_button_facebook);
     }
 }

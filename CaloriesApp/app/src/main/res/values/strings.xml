@@ -8,4 +8,8 @@
     <string name="account_fragment">account fragcment</string>
     <string name="statistic_fragment">statistic fragment</string>
     <string name="home_fragmnet">home fragment</string>
+
+    <string name="facebook_app_id">844054643130114</string>
+    <string name="fb_login_protocol_scheme">fb844054643130114</string>
+
 </resources>
