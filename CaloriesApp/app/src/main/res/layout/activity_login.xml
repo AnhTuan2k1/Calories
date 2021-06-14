@@ -25,14 +25,13 @@
             app:cardElevation="6dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            >
+            android:background="@drawable/transp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                >
+                android:layout_centerVertical="true">
 
                 <TextView
                     android:id="@+id/textViewLogin"
@@ -207,6 +206,14 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             />
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 </ScrollView>
