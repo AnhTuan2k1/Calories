@@ -54,7 +54,7 @@ public class FragmentAccount extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toasty.info(getContext(), "Please Reload",Toasty.LENGTH_SHORT).show();
+                Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
             }
         });
     }

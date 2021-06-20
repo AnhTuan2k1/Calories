@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="7dp"
+    android:layout_margin="4dp"
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp">
 
@@ -16,11 +17,12 @@
                     android:id="@+id/textView_nameFood_itemFoodLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="6dp"
                     android:text="nameFood"
+                    android:textColor="@color/selected_reditem_nav"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/selected_reditem_nav"
                     app:layout_constraintEnd_toStartOf="@+id/textView_Cal_itemFoodLayout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -50,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:layout_marginBottom="1dp"
+                    android:layout_marginBottom="6dp"
                     android:text="Regular: "
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView_nameFood_itemFoodLayout"

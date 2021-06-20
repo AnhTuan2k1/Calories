@@ -184,7 +184,7 @@ public class SearchFoodActivity extends AppCompatActivity  {
 
                     FirebaseDatabase.getInstance().getReference().child("users")
                             .child(FirebaseAuth.getInstance().getUid())
-                            .child("userdiary")
+                            .child("foodate")
                             .child(date)
                             .child(foodate.getId())
                             .setValue(foodate)

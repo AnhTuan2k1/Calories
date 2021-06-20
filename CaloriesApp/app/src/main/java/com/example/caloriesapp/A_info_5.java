@@ -132,7 +132,7 @@ import com.google.firebase.database.FirebaseDatabase;
 //        intent.putExtra(EXTRA_TEXTAM,AM);
 
         String s = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        if(s == null) FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        if(s == null) s = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         User user = new User(mucdich_5,gioitinh_5,time.toString(),cannanggoal_5,cannang_5,Math.round(tuoi_5),chieucao_5,AM,Calo, s);
         FirebaseDatabase.getInstance().getReference()
                 .child("users").child(FirebaseAuth.getInstance().getUid())

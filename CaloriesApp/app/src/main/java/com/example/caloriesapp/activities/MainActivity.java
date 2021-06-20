@@ -13,8 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.caloriesapp.A_info_5;
 import com.example.caloriesapp.A_mucdich;
+import com.example.caloriesapp.CaloDaily;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.User;
 import com.example.caloriesapp.database.FoodDatabase;
@@ -31,6 +33,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     //private User user;
     private int current_Fragment = FRAGMENT_HOME;
     private BottomNavigationView navigationView;
+    LottieAnimationView lottieAnimationView;
     FirebaseAuth firebaseAuth;
     DatabaseReference myDatabase;
     FirebaseUser firebaseUser;
@@ -64,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SearchFoodActivity.createFoodDatabase(this);
+        //SearchFoodActivity.createFoodDatabase(this);
         anhxa();
         checkInfoUser();
         addFragment(new FragmentHome());
@@ -124,8 +129,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void anhxa() {
 
+    private void anhxa() {
+        lottieAnimationView = findViewById(R.id.LottieAnimationView_Main);
         myDatabase = FirebaseDatabase.getInstance().getReference();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     }
@@ -179,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkInfoUser()
     {
+        lottieAnimationView.setVisibility(View.VISIBLE);
         if(firebaseUser == null)
         {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -214,13 +221,44 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }).show();
                         }
+
+                        saveCaloriesTarget();
+                        lottieAnimationView.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
+                        lottieAnimationView.setVisibility(View.GONE);
 
                     }
                 });
+    }
+
+    private void saveCaloriesTarget() {
+        Calendar calendar = Calendar.getInstance();
+
+        String day = "";
+        int intday = calendar.get(Calendar.DAY_OF_MONTH);
+        if(intday < 10){
+            day = "0" + String.valueOf(intday);
+        }
+        else
+            day = String.valueOf(intday);
+
+        String month = "";
+        int intmonth = calendar.get(Calendar.MONTH);
+        if(intmonth < 10){
+            month = "0" + String.valueOf(intmonth);
+        }
+        else
+            month = String.valueOf(intmonth);
+
+        String year = String.valueOf(calendar.get(Calendar.YEAR));
+        String date = year + month + day;
+
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("calodaily").child(date).setValue(new CaloDaily(date, calories));
     }
 
 }
