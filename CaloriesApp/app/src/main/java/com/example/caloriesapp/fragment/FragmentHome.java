@@ -10,7 +10,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.caloriesapp.CaloDaily;
+import com.example.caloriesapp.Exercise;
 import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.activities.LoginActivity;
@@ -35,27 +38,31 @@ public class FragmentHome extends Fragment {
 
 
     private List<Foodate> foodateList;
-
+    private List<Exercise> exerciseList;
+    private float caloDaily;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         foodateList = new ArrayList<>();
+        exerciseList = new ArrayList<>();
+        caloDaily = 0;
         syncDataWithFirebase("date"); // truyen vao ngay can update ui  "dd/MM/yyyy"
 
         return view;
     }
 
     private void syncDataWithFirebase(String date) {
-        if(FirebaseAuth.getInstance().getCurrentUser() == null)
-        {
-            return;
-        }
+        updateFoodateList(date);
+        updateExercise(date);
+        updateCaloDaily(date);
+    }
 
+    private void updateFoodateList(String date) {
         FirebaseDatabase.getInstance().getReference().child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("userdiary").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+                .child("foodate").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren())
@@ -69,7 +76,50 @@ public class FragmentHome extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toasty.info(getContext(), "Please Reload",Toasty.LENGTH_SHORT).show();
+                Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateExercise(String date) {
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("exercise").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren())
+                {
+                    Exercise exercise = dataSnapshot.getValue(Exercise.class);
+                    exerciseList.add(exercise);
+                }
+
+                // update ui here with exerciseList
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateCaloDaily(String date) {
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("calodaily").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue(CaloDaily.class) != null)
+                {
+                    caloDaily = snapshot.getValue(CaloDaily.class).getCalories();
+
+                    // update ui here with caloDaily
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
             }
         });
     }

@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.caloriesapp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,21 +11,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CaloriesApp">
+        <activity android:name=".activities.SearchExerciseActivity"
+            android:label="Add Exercise"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.Custom"
+            >
+
+        </activity>
         <activity android:name=".activities.MainActivity">
         </activity>
-
-        <activity android:name=".activities.RegisterActivity"></activity>
-        <activity android:name=".activities.LoginActivity" >
+        <activity android:name=".activities.RegisterActivity"/>
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SearchFoodActivity">
-
+        <activity
+            android:name=".activities.SearchFoodActivity"
+            android:label="Add Food"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.Custom"
+            >
         </activity>
-
         <activity
             android:name=".A_mucdich"
             android:label="Intro" />
@@ -41,33 +51,31 @@
         <activity
             android:name=".A_info_2"
             android:parentActivityName=".A_info_1" />
-
         <activity
             android:name=".A_info_5"
             android:parentActivityName=".A_info_4" />
         <activity android:name=".Intro_activity" />
 
-
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id" />
+
         <activity
-        android:name="com.facebook.FacebookActivity"
-        android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-        android:label="@string/app_name" />
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>

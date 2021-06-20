@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    
-    tools:context=".activities.SearchFoodActivity">
+
+    tools:context=".activities.SearchExerciseActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
@@ -14,15 +14,15 @@
         android:layout_height="wrap_content"
 
         android:layout_marginStart="2dp"
-        android:hint="Search foods"
+        android:hint="Search exercise here"
         app:endIconMode="clear_text"
-        app:layout_constraintEnd_toStartOf="@+id/btnOk_searchFood"
+        app:layout_constraintEnd_toStartOf="@+id/btnOk_searchExercise"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:startIconDrawable="@drawable/ic_search">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edittext_searchFood"
+            android:id="@+id/edittext_searchExercise"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:imeOptions="actionSearch"
@@ -31,19 +31,19 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnOk_searchFood"
+        android:id="@+id/btnOk_searchExercise"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="62dp"
         android:layout_height="0dp"
         android:text="OK"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/recycleviewFood"
+        app:layout_constraintBottom_toTopOf="@+id/recycleviewExercise"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </com.google.android.material.button.MaterialButton>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleviewFood"
+        android:id="@+id/recycleviewExercise"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -52,6 +52,20 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/LottieAnimationView_Login"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/foodloading" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
