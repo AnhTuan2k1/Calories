@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".A_info_4">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
   <RelativeLayout
@@ -22,79 +23,77 @@
         android:layout_marginTop="60dp"
         android:text="What is"
         android:textColor="@color/black"
-        android:textSize="35dp"
+        android:textSize="25dp"
         android:layout_centerInParent="true"
 
       />
 </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp">
-        <TextView
-            android:id="@+id/tieude2"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="28dp"
-            android:text="Your goal weight?"
-            android:textColor="@color/black"
-            android:textSize="33dp"
-            android:layout_centerInParent="true"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:id="@+id/tieudegoal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Your goal weight?"
+                android:textColor="@color/black"
+                android:textSize="23dp"
+                android:layout_centerInParent="true"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/goalweightlayout"
+            android:layout_marginTop="20dp">
 
-            />
+            <EditText
+                android:id="@+id/txtweight"
+                android:layout_width="127dp"
+                android:layout_height="63dp"
+                android:ems="10"
+                android:hint=". . . . ."
+                android:inputType="number"
+                android:textColor="@color/black"
+                android:textSize="40sp"
+                android:layout_centerInParent="true"
+                />
+            <TextView
+                android:layout_toRightOf="@id/txtweight"
+                android:layout_width="65dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="12dp"
+                android:gravity="center"
+                android:text="Kg"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:textSize="25dp"
 
-    </RelativeLayout>
-
-
-   <RelativeLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content">
-       <EditText
-           android:id="@+id/txtweight"
-           android:layout_width="127dp"
-           android:layout_height="63dp"
-           android:ems="10"
-           android:hint=". . . . . ."
-           android:inputType="number"
-           android:textColor="@color/black"
-           android:textSize="40sp"
-           android:layout_centerInParent="true"
-           />
-       <TextView
-           android:layout_width="65dp"
-           android:layout_height="55dp"
-           android:gravity="center"
-           android:text="kg"
-           android:textAlignment="center"
-           android:textColor="@color/black"
-           android:textSize="35dp"
-           android:layout_toRightOf="@id/txtweight"
-           />
-
-
-   </RelativeLayout>
+                />
+        </RelativeLayout>
        <RelativeLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_marginTop="40dp">
+           android:layout_marginTop="5dp">
            <TextView
                android:id="@+id/tieude"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:layout_marginTop="25dp"
+               android:layout_marginTop="45dp"
                android:text="Your current weight?"
                android:textColor="@color/black"
-               android:textSize="33dp"
+               android:textSize="23dp"
+
                android:layout_centerInParent="true"
                />
-
-
        </RelativeLayout>
        <RelativeLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:id="@+id/currentweightlayout">
+           android:id="@+id/currentweightlayout"
+           android:layout_marginTop="20dp">
 
            <EditText
                android:id="@+id/txtweight2"
@@ -113,10 +112,10 @@
                android:layout_height="55dp"
                android:layout_marginStart="12dp"
                android:gravity="center"
-               android:text="kg"
+               android:text="Kg"
                android:textColor="@color/black"
                android:textAlignment="center"
-               android:textSize="35dp"
+               android:textSize="25dp"
 
                 />
        </RelativeLayout>
@@ -124,12 +123,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="90dp">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/next4"
             android:layout_width="130dp"
-            android:layout_height="55dp"
+            android:layout_height="50dp"
             android:background="@drawable/custom_button_normal"
             android:text="NEXT"
             android:textSize="20sp"
@@ -138,7 +137,8 @@
         />
 
     </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
 
 
 
