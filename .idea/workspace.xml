@@ -2,15 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eec9194a-73f4-4994-8911-e5ea7a9cb404" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/raw/foodloading.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/drawable/ic_arrow_drop_down_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/drawable/ic_arrow_left_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/drawable/ic_arrow_right_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/drawable/ic_green_check_24.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CaloriesApp/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/LoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/RegisterActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/RegisterActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/SearchFoodActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/SearchFoodActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/fragment/FragmentAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/fragment/FragmentAccount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/fragment/FragmentHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/fragment/FragmentHome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/layout/activity_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/layout/activity_register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/layout/activity_register.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/activities/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/fragment/FragmentStatistic.java" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/java/com/example/caloriesapp/fragment/FragmentStatistic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/layout/fragment_statistic.xml" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/layout/fragment_statistic.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/CaloriesApp/app/src/main/res/values/themes.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,9 +45,9 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="549" y="187" key="FileChooserDialogImpl" timestamp="1623489972693">
+    <state x="549" y="187" key="FileChooserDialogImpl" timestamp="1624678429996">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="549" y="187" key="FileChooserDialogImpl/0.0.1536.864@0.0.1536.864" timestamp="1623489972693" />
+    <state x="549" y="187" key="FileChooserDialogImpl/0.0.1536.864@0.0.1536.864" timestamp="1624678429996" />
   </component>
 </project>

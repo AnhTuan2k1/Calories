@@ -191,7 +191,7 @@ public class SearchFoodActivity extends AppCompatActivity  {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toasty.success(SearchFoodActivity.this, "Add Food Successfully", Toast.LENGTH_SHORT).show();
+                            Toasty.success(SearchFoodActivity.this, "Add " + nameFood + " Successfully", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
