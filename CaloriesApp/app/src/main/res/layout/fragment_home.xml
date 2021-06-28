@@ -10,48 +10,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/layout_head"
         android:layout_width="match_parent"
         android:layout_height="324dp"
         android:background="@drawable/header_background_1"
         android:padding="10dp">
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:indeterminateOnly="false"
-            android:progressDrawable="@drawable/circle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            tools:progress="25" />
-
-        <TextView
-            android:id="@+id/calo_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="25dp"
-
-            app:layout_constraintBottom_toBottomOf="@+id/progress_bar"
-            app:layout_constraintEnd_toEndOf="@+id/progress_bar"
-            app:layout_constraintStart_toStartOf="@+id/progress_bar"
-            app:layout_constraintTop_toTopOf="@+id/progress_bar"
-            tools:text="2205" />
-
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/progress_bar"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="10dp">
 
@@ -67,6 +37,7 @@
                 android:textSize="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
             <ImageView
                 android:id="@+id/day_next"
@@ -92,13 +63,101 @@
                 android:layout_below="@+id/home_date"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="25dp"
-                android:text="Calo Earned"
+                android:text="Calories \n3000"
                 android:textColor="@color/white"
+                android:textAlignment="center"
                 android:textSize="25dp" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout"
+            android:id="@+id/relativeLayout2"
+            android:layout_marginTop="20dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Earned Calo"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:layout_centerInParent="true"
+                        android:textSize="25dp">
+                    </TextView>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="Burned Calo"
+                        android:textSize="25dp"
+                        android:layout_centerInParent="true"
+                        android:textAlignment="center">
+                    </TextView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout2"
+            android:layout_marginTop="20dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/todaycalo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2250"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:layout_centerInParent="true"
+                        android:textStyle="bold"
+                        android:textSize="38dp">
+                    </TextView>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/earnedcalo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="1763"
+                        android:textSize="38dp"
+                        android:textStyle="bold"
+                        android:layout_centerInParent="true"
+                        android:textAlignment="center">
+                    </TextView>
+
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/layout_bot"
@@ -117,12 +176,13 @@
             android:textSize="25dp" />
 
         <TextView
+            android:id="@+id/watercount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/textmanageyourwater"
             android:padding="10dp"
             android:layout_marginStart="5dp"
-            android:text="1.5/2L"
+            android:text="0/2L"
             android:textColor="@color/black"
             android:textSize="25dp" />
     </RelativeLayout>
@@ -151,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/icon_bottle_filled"
+                    android:background="@drawable/icon_bottle_unfilled"
                     android:layout_weight="1"
                     android:padding="10dp"/>
 
@@ -161,7 +221,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/icon_bottle_filled"
+                    android:background="@drawable/icon_bottle_unfilled"
                     android:layout_weight="1"
                     android:padding="10dp"/>
 
@@ -171,7 +231,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/icon_bottle_filled"
+                    android:background="@drawable/icon_bottle_unfilled"
                     android:layout_weight="1"
                     android:padding="10dp"/>
 
@@ -234,6 +294,7 @@
                         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
                     <TextView
+                        android:id="@+id/textView11"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
@@ -246,6 +307,21 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imagebreakfast"
                         app:layout_constraintTop_toTopOf="@+id/imagebreakfast"></TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="370"
+                        android:textColor="@color/white"
+                        android:textSize="27dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView11"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </TextView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
@@ -277,7 +353,9 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
+
                     <TextView
+                        android:id="@+id/textview12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
@@ -287,9 +365,25 @@
                         android:textColor="@color/white"
                         android:textSize="25dp"
                         android:textStyle="bold"
+
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imagelunch"
                         app:layout_constraintTop_toTopOf="@+id/imagelunch"></TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="550"
+                        android:textColor="@color/white"
+                        android:textSize="27dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textview12"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </TextView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
@@ -323,6 +417,7 @@
                         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
                     <TextView
+                        android:id="@+id/textview13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
@@ -335,12 +430,67 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imagedinner"
                         app:layout_constraintTop_toTopOf="@+id/imagedinner"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="680"
+                        android:textColor="@color/white"
+                        android:textSize="27dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textview13"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </TextView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
 
         </LinearLayout>
 
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/excercise_background"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="10dp"
+            android:padding="20dp"
+            android:layout_marginBottom="20dp" >
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iconexcercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/icon_background"
+            android:padding="10dp"
+            app:srcCompat="@drawable/icons_workout">
+
+
+        </ImageView>
+        <TextView
+            android:id="@+id/textexcercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Excercise"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            android:padding="20dp"
+            android:layout_toRightOf="@+id/iconexcercise"
+            android:layout_marginStart="10dp">
+        </TextView>
 
     </RelativeLayout>
 </LinearLayout>

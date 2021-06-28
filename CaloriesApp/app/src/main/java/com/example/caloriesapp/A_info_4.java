@@ -21,8 +21,8 @@ public class A_info_4 extends AppCompatActivity {
     public String gioitinh_4;
     public Float tuoi_4;
     public Float chieucao_4;
-    public Float cannang;
-    public Float cannanggoal;
+    public Float cannang,cannanggoal;
+
 
 
     public static final String EXTRA_TEXTMUCDICH = "com.example.application.example.EXTRA_TEXTMUCDICH";
@@ -31,6 +31,7 @@ public class A_info_4 extends AppCompatActivity {
     public static final String EXTRA_TEXTCHIEUCAO = "com.example.application.example.EXTRA_TEXTCHIEUCAO";
     public static final String EXTRA_TEXTCANNANG = "com.example.application.example.EXTRA_TEXTCANNANG";
     public static final String EXTRA_TEXTCANNANGGOAL = "com.example.application.example.EXTRA_TEXTCANNANGGOAL";
+
 
 
     @Override
@@ -43,23 +44,24 @@ public class A_info_4 extends AppCompatActivity {
         gioitinh_4 = intent.getStringExtra(A_info_3.EXTRA_TEXTGIOITINH);
         tuoi_4 = intent.getFloatExtra(A_info_3.EXTRA_TEXTTUOI, 0);
         chieucao_4 = intent.getFloatExtra(A_info_3.EXTRA_TEXTCHIEUCAO,0);
-
         weighttxt =(EditText) findViewById(R.id.txtweight);
-        weighttxt2 = (EditText)findViewById(R.id.txtweight2);
+        weighttxt2 =(EditText) findViewById(R.id.txtweight2);
+
 
         button = (Button)findViewById(R.id.next4);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(weighttxt.getText().toString().matches("")||weighttxt2.getText().toString().matches(""))
+                if(weighttxt2.getText().toString().matches("")||weighttxt.getText().toString().matches(""))
                 {
 
                 }
                 else{
                     Animation animation = AnimationUtils.loadAnimation(A_info_4.this,R.anim.fadein);
                     button.startAnimation(animation);
-                    cannang = Float.parseFloat(weighttxt.getText().toString());
-                    cannanggoal = Float.parseFloat(weighttxt2.getText().toString());
+                    cannang = Float.parseFloat(weighttxt2.getText().toString());
+                    cannanggoal = Float.parseFloat(weighttxt.getText().toString());
+
 
                     OpenA_info_5();
                 }
