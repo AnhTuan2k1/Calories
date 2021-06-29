@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.caloriesapp.A_info_5;
 import com.example.caloriesapp.A_mucdich;
 import com.example.caloriesapp.CaloDaily;
+import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.User;
 import com.example.caloriesapp.database.FoodDatabase;
@@ -34,7 +36,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
+
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     //-------------
 
     //private User user;
-    private int current_Fragment = FRAGMENT_HOME;
+    private int current_Fragment = 0;
     private BottomNavigationView navigationView;
     LottieAnimationView lottieAnimationView;
     FirebaseAuth firebaseAuth;
@@ -72,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
         //SearchFoodActivity.createFoodDatabase(this);
         anhxa();
         checkInfoUser();
-        addFragment(new FragmentHome());
+        if(current_Fragment == 0)
+            addFragment(new FragmentHome());
 
 
 
@@ -211,15 +220,18 @@ public class MainActivity extends AppCompatActivity {
 
                         if(calories == 0f)
                         {
-                            MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(MainActivity.this);
-                            materialAlertDialogBuilder.setMessage("to use this app, please update your profile").setCancelable(false)
-                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            MaterialDialog mDialog = new MaterialDialog.Builder(MainActivity.this)
+                                    .setTitle("Notify")
+                                    .setMessage("to use this app, please update your profile")
+                                    .setCancelable(false)
+                                    .setPositiveButton("         OK     ", R.drawable.ic_green_check_24, new MaterialDialog.OnClickListener() {
                                         @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                                        public void onClick(dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
                                             startActivity(new Intent(getApplicationContext(), A_mucdich.class));
                                             finish();
                                         }
-                                    }).show();
+                                    }).build();
+                            mDialog.show();
                         }
 
                         saveCaloriesTarget();
@@ -235,30 +247,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveCaloriesTarget() {
+//        Calendar calendar = Calendar.getInstance();
+
+//        String day = "";
+//        int intday = calendar.get(Calendar.DAY_OF_MONTH);
+//        if(intday < 10){
+//            day = "0" + String.valueOf(intday);
+//        }
+//        else
+//            day = String.valueOf(intday);
+//
+//        String month = "";
+//        int intmonth = calendar.get(Calendar.MONTH);
+//        if(intmonth < 10){
+//            month = "0" + String.valueOf(intmonth);
+//        }
+//        else
+//            month = String.valueOf(intmonth);
+//
+//        String year = String.valueOf(calendar.get(Calendar.YEAR));
+//        String date = year + month + day;
+
         Calendar calendar = Calendar.getInstance();
-
-        String day = "";
-        int intday = calendar.get(Calendar.DAY_OF_MONTH);
-        if(intday < 10){
-            day = "0" + String.valueOf(intday);
-        }
-        else
-            day = String.valueOf(intday);
-
-        String month = "";
-        int intmonth = calendar.get(Calendar.MONTH);
-        if(intmonth < 10){
-            month = "0" + String.valueOf(intmonth);
-        }
-        else
-            month = String.valueOf(intmonth);
-
-        String year = String.valueOf(calendar.get(Calendar.YEAR));
-        String date = year + month + day;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String date = sdf.format(calendar.getTime());
 
         FirebaseDatabase.getInstance().getReference().child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("calodaily").child(date).setValue(new CaloDaily(date, calories));
+
+
+//        Calendar calendar = Calendar.getInstance();
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//        String date = simpleDateFormat.format(calendar.getTime());
+//
+//        Calendar calendar1 = Calendar.getInstance();
+//        try {
+//            calendar1.setTime(simpleDateFormat.parse("2021-05-05"));
+//
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        if(calendar.after(calendar1))
+//            Toasty.info(getApplicationContext(), simpleDateFormat.format(calendar1.getTime()), Toasty.LENGTH_LONG).show();
+//        else
+//            Toasty.info(getApplicationContext(), date, Toasty.LENGTH_LONG).show();
     }
 
 }

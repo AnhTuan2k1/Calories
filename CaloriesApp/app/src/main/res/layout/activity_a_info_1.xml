@@ -17,8 +17,8 @@
         android:layout_marginTop="92dp"
         android:text="What is your gender?"
 
-
-        android:textSize="25dp"
+        android:textColor="@color/black"
+        android:textSize="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
         android:layout_marginTop="108dp"
         android:layout_marginEnd="88dp"
         android:background="@drawable/ic_female"
-        android:backgroundTint="@color/gray_heavy"
+        android:backgroundTint="@color/black"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textwhatisyourgender" />
@@ -91,7 +91,7 @@
         android:layout_marginStart="88dp"
         android:layout_marginTop="108dp"
         android:background="@drawable/ic_male"
-        android:backgroundTint="@color/gray_heavy"
+        android:backgroundTint="@color/black"
         android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textwhatisyourgender" />

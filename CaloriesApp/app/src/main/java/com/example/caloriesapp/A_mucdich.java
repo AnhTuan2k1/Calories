@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -15,7 +16,7 @@ import com.example.caloriesapp.activities.MainActivity;
 
 public class A_mucdich extends AppCompatActivity {
     private Button tangcan, giamcan, giucan;
-
+    private AnimationDrawable anim,anim2,anim3;
     public static final String SHARED_PREFS = "SharedPrefs";
     public static final String TEXT = "text";
     private String mucdich;
@@ -29,6 +30,19 @@ public class A_mucdich extends AppCompatActivity {
         giucan = (Button)findViewById(R.id.giucan);
         tangcan = (Button)findViewById(R.id.tangcan);
         giamcan = (Button)findViewById(R.id.giamcan);
+
+        //
+        anim = (AnimationDrawable)tangcan.getBackground();
+        anim.setEnterFadeDuration(2500);
+        anim.setExitFadeDuration(2500);
+        anim2 = (AnimationDrawable)giamcan.getBackground();
+        anim2.setEnterFadeDuration(2500);
+        anim2.setExitFadeDuration(2500);
+        anim3 = (AnimationDrawable)giucan.getBackground();
+        anim3.setEnterFadeDuration(2500);
+        anim3.setExitFadeDuration(2500);
+
+        //
 
         tangcan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,5 +107,31 @@ public class A_mucdich extends AppCompatActivity {
         mucdich = sharedPreferences.getString(TEXT,"");
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(anim!=null && !anim.isRunning()){
+            anim.start();
+        }
+        if(anim2!=null && !anim2.isRunning()){
+            anim2.start();
+        }
+        if(anim3!=null && !anim3.isRunning()){
+            anim3.start();
+        }
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(anim!=null && anim.isRunning()){
+            anim.stop();
+        }
+        if(anim2!=null && anim2.isRunning()){
+            anim2.stop();
+        }
+        if(anim3!=null && anim3.isRunning()){
+            anim3.stop();
+        }
+    }
 }
