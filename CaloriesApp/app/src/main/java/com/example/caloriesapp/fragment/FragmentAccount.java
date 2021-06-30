@@ -11,10 +11,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.User;
+import com.example.caloriesapp.activities.LoginActivity;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +37,10 @@ public class FragmentAccount extends Fragment {
     private CircleImageView profile;
     private FloatingActionButton changeProfile;
     private View view;
+    private TextView userName, male, age, height, currentWeight,goalWeight;
+    ImageButton notification;
+    Button logout;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,6 +59,13 @@ public class FragmentAccount extends Fragment {
                         .start();
             }
         });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToAttract(view);
+            }
+        });
         return view;
     }
 
@@ -66,6 +81,21 @@ public class FragmentAccount extends Fragment {
     {
         profile = view.findViewById(R.id.profile_image);
         changeProfile = view.findViewById(R.id.changeProfile);
+        userName = view.findViewById(R.id.txtUsername);
+        male = view.findViewById(R.id.textsex);
+        age = view.findViewById(R.id.textage);
+        height = view.findViewById(R.id.txtheight);
+        currentWeight = view.findViewById(R.id.textcurrentweight);
+        goalWeight = view.findViewById(R.id.textgoalweight);
+        notification = view.findViewById(R.id.imb_notification);
+        logout = view.findViewById(R.id.btnLogin);
+
+    }
+
+    public void goToAttract(View v)
+    {
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
     }
 
     private void syncUserWithFirebase() {
@@ -80,6 +110,13 @@ public class FragmentAccount extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 user = snapshot.getValue(User.class);
+                userName.setText(user.getUserName());
+                age.setText(user.getAge());
+                male.setText(user.getGender());
+                height.setText((int) user.getHeight());
+                currentWeight.setText(user.getPurposeWeight());
+                goalWeight.setText((int) user.getGoalWeight());
+
 
                 // update ui here with user
             }
