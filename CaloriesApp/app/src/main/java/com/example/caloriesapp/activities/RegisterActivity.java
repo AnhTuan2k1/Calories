@@ -3,12 +3,14 @@ package com.example.caloriesapp.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,8 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.caloriesapp.A_mucdich;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.User;
+import com.example.caloriesapp.viewmodel.MainActivityViewModel;
+import com.example.caloriesapp.viewmodel.RegisterActivityViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -49,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressBar progressBar;
     FirebaseAuth firebaseAuth;
     DatabaseReference myDatabase;
+    RegisterActivityViewModel viewModel;
 
 
     @Override
@@ -70,6 +75,27 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
+//        editText_email.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                viewModel.editText_email = editText_email.getText().toString();
+//                return false;
+//            }
+//        });
+//        editText_password.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                viewModel.editText_password = editText_password.getText().toString();
+//                return false;
+//            }
+//        });
+//        editText_confirmpassword.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                viewModel.editText_confirmpassword = editText_confirmpassword.getText().toString();
+//                return false;
+//            }
+//        });
 
     }
 
@@ -149,6 +175,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void anhxa() {
+        viewModel = new ViewModelProvider(this,
+                new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(RegisterActivityViewModel.class);
+
         textView_signin = findViewById(R.id.textView_signin_regActivity);
         editText_email = findViewById(R.id.editext_email_RegActivity);
         editText_password = findViewById(R.id.edittext_password_regActivity);
@@ -160,6 +189,10 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         myDatabase = FirebaseDatabase.getInstance().getReference();
         textInputLayout2_Reg = findViewById(R.id.textInputLayout2_Reg);
+
+        editText_email.setText(viewModel.editText_email);
+        editText_confirmpassword.setText(viewModel.editText_confirmpassword);
+        editText_password.setText(viewModel.editText_password);
     }
 
 

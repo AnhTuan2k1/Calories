@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,19 +15,15 @@ import android.view.View;
 import android.widget.Button;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.caloriesapp.A_info_5;
 import com.example.caloriesapp.A_mucdich;
 import com.example.caloriesapp.CaloDaily;
-import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.User;
-import com.example.caloriesapp.database.FoodDatabase;
-import com.example.caloriesapp.database.FoodStatic;
 import com.example.caloriesapp.fragment.FragmentAccount;
 import com.example.caloriesapp.fragment.FragmentHome;
 import com.example.caloriesapp.fragment.FragmentStatistic;
+import com.example.caloriesapp.viewmodel.MainActivityViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,13 +32,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
-import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,13 +60,17 @@ public class MainActivity extends AppCompatActivity {
     //-------------
 
     //private User user;
-    private int current_Fragment = 0;
+    private int current_Fragment;
+    private MainActivityViewModel viewmodel;
     private BottomNavigationView navigationView;
     LottieAnimationView lottieAnimationView;
     FirebaseAuth firebaseAuth;
     DatabaseReference myDatabase;
     FirebaseUser firebaseUser;
     float calories = 0;
+
+    Fragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,8 +78,9 @@ public class MainActivity extends AppCompatActivity {
         //SearchFoodActivity.createFoodDatabase(this);
         anhxa();
         checkInfoUser();
+
         if(current_Fragment == 0)
-            addFragment(new FragmentHome());
+            openHomeFragment();
 
 
 
@@ -143,14 +142,20 @@ public class MainActivity extends AppCompatActivity {
         lottieAnimationView = findViewById(R.id.LottieAnimationView_Main);
         myDatabase = FirebaseDatabase.getInstance().getReference();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        viewmodel = new ViewModelProvider(this,
+                new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(MainActivityViewModel.class);
+        current_Fragment = viewmodel.currentFragment;
     }
 
     private void openHomeFragment()
     {
         if(current_Fragment != FRAGMENT_HOME)
         {
-            replaceFragment(new FragmentHome());
-            current_Fragment = FRAGMENT_HOME;
+            fragment = new FragmentHome();
+            replaceFragment(fragment);
+            viewmodel.currentFragment = FRAGMENT_HOME;
+            current_Fragment = viewmodel.currentFragment;
 
         }
     }
@@ -158,16 +163,20 @@ public class MainActivity extends AppCompatActivity {
     {
         if(current_Fragment != FRAGMENT_STATISTIC)
         {
-            replaceFragment(new FragmentStatistic());
-            current_Fragment = FRAGMENT_STATISTIC;
+            fragment = new FragmentStatistic();
+            replaceFragment(fragment);
+            viewmodel.currentFragment = FRAGMENT_STATISTIC;
+            current_Fragment = viewmodel.currentFragment;
         }
     }
     private void openAccountFragment()
     {
         if(current_Fragment != FRAGMENT_ACCOUNT)
         {
-            replaceFragment(new FragmentAccount());
-            current_Fragment = FRAGMENT_ACCOUNT;
+            fragment = new FragmentAccount();
+            replaceFragment(fragment);
+            viewmodel.currentFragment = FRAGMENT_ACCOUNT;
+            current_Fragment = viewmodel.currentFragment;
         }
     }
 
