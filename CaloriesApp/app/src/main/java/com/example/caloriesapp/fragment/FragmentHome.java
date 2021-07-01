@@ -10,7 +10,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+<<<<<<< Updated upstream
 import android.widget.Toast;
+=======
+import android.widget.ImageView;
+import android.widget.TextView;
+>>>>>>> Stashed changes
 
 import com.example.caloriesapp.CaloDaily;
 import com.example.caloriesapp.Exercise;
@@ -25,8 +30,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -34,12 +43,20 @@ import java.util.ListIterator;
 import es.dmoral.toasty.Toasty;
 
 
-public class FragmentHome extends Fragment {
-
-
+public class FragmentHome extends Fragment implements View.OnClickListener {
+    boolean isClicked1,isClicked2,isClicked4,isClicked3;
+    private ImageView imbottle1,imbottle2,imbottle3,imbottle4;
     private List<Foodate> foodateList;
+<<<<<<< Updated upstream
     private List<Exercise> exerciseList;
     private float caloDaily;
+=======
+    float water;
+    private TextView watercount;
+
+    private TextView date_home;
+
+>>>>>>> Stashed changes
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,6 +66,37 @@ public class FragmentHome extends Fragment {
         exerciseList = new ArrayList<>();
         caloDaily = 0;
         syncDataWithFirebase("date"); // truyen vao ngay can update ui  "dd/MM/yyyy"
+        imbottle1 = view.findViewById(R.id.bottle1);
+        imbottle2 = view.findViewById(R.id.bottle2);
+        imbottle3 = view.findViewById(R.id.bottle3);
+        imbottle4 = view.findViewById(R.id.bottle4);
+        watercount = view.findViewById(R.id.watercount);
+        date_home = view.findViewById(R.id.home_date);
+
+
+
+
+//        Calendar c = Calendar.getInstance();
+//        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int year  = localDate.getYear();
+        int month = localDate.getMonthValue();
+        int day   = localDate.getDayOfMonth();
+
+        date_home.setText(day + "thg" + month);
+
+        isClicked1 = false;
+        isClicked2 = false;
+        isClicked3 = false;
+        isClicked4 = false;
+        water = 0;
+
+        imbottle1.setOnClickListener(this);
+        imbottle2.setOnClickListener(this);
+        imbottle3.setOnClickListener(this);
+        imbottle4.setOnClickListener(this);
 
         return view;
     }
@@ -124,5 +172,67 @@ public class FragmentHome extends Fragment {
         });
     }
 
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bottle1:
+                if(isClicked1==false){
+                    imbottle1.setImageResource(R.drawable.icon_bottle_filled);
+                    isClicked1 = true;
+                    water +=0.5;
+                    watercount.setText(String.valueOf(water)+ "/2L");
+                }
+                else {
+                    imbottle1.setImageResource(R.drawable.icon_bottle_unfilled);
+                    isClicked1 = false;
+                    water-=0.5;
+                    watercount.setText(String.valueOf(water)+ "/2L");
+                }
+                break;
+            case R.id.bottle2:
+                if(isClicked2==false){
+                    imbottle2.setImageResource(R.drawable.icon_bottle_filled);
+                    isClicked2 = true;
+                    water +=0.5;
+                    watercount.setText(String.valueOf(water)+ "/2L");
+                }
+                else {
+                    imbottle2.setImageResource(R.drawable.icon_bottle_unfilled);
+                    isClicked2 = false;
+                    water-=0.5;
+                    watercount.setText(String.valueOf(water)+ "/2L");
+                }
+                break;
+            case R.id.bottle3:
+                if(isClicked3==false){
+                    imbottle3.setImageResource(R.drawable.icon_bottle_filled);
+                    isClicked3 = true;
+                    water +=0.5;
+                    watercount.setText(String.valueOf(water)+ "/2L");
+                }
+                else {
+                    imbottle3.setImageResource(R.drawable.icon_bottle_unfilled);
+                    isClicked3 = false;
+                    water-=0.5;
+                    watercount.setText(String.valueOf(water)+ "/2L");
+                }
+                break;
+            case R.id.bottle4:
+                if(isClicked4==false){
+                    imbottle4.setImageResource(R.drawable.icon_bottle_filled);
+                    isClicked4 = true;
+                    water +=0.5;
+                    watercount.setText(String.valueOf(water)+ "/2L");
+                }
+                else {
+                    imbottle4.setImageResource(R.drawable.icon_bottle_unfilled);
+                    isClicked4 = false;
+                    water-=0.5;
+                    watercount.setText(String.valueOf(water)+ "/2L");
+                }
+                break;
+        }
+    }
 
 }

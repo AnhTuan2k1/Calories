@@ -58,6 +58,7 @@ import com.google.firebase.database.FirebaseDatabase;
         cannanggoal_5 = intent.getFloatExtra(A_info_4.EXTRA_TEXTCANNANGGOAL,0);
 
 
+
         TextView txt = findViewById(R.id.txt111);
         txt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,12 +75,12 @@ import com.google.firebase.database.FirebaseDatabase;
                 Animation animation = AnimationUtils.loadAnimation(A_info_5.this,R.anim.fadein);
                 R1.startAnimation(animation);
                 AM = 1.2f;
-//                Toast.makeText(A_info_5.this,AM.toString(), Toast.LENGTH_LONG).show();
+
                 TinhCalo_BMR(gioitinh_5);
                 TinhCalo_TDEE(BMR,AM);
                 TinhCalo_Mucdich(mucdich_5);
-
-                OpenA_Main();
+                Toast.makeText(A_info_5.this,"Thanh cong ne thang lon", Toast.LENGTH_LONG).show();
+//                OpenA_Main();
             }
         });
         R2.setOnClickListener(new View.OnClickListener() {
@@ -161,12 +162,12 @@ import com.google.firebase.database.FirebaseDatabase;
             case "Lose Weight":
                 Calo = TDEE - 500;
                 gap = cannang_5 - cannanggoal_5;
-                time = gap / 10;
+                time = gap / 0.5f;
                 break;
             case "Gain Weight":
                 Calo = TDEE + 500;
                 gap = cannanggoal_5 - cannang_5;
-                time = gap / 10;
+                time = gap / 0.5f;
                 break;
             case "Maintain Weight":
                 Calo = TDEE;
