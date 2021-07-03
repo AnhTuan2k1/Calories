@@ -10,12 +10,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-<<<<<<< Updated upstream
 import android.widget.Toast;
-=======
 import android.widget.ImageView;
 import android.widget.TextView;
->>>>>>> Stashed changes
 
 import com.example.caloriesapp.CaloDaily;
 import com.example.caloriesapp.Exercise;
@@ -47,16 +44,13 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     boolean isClicked1,isClicked2,isClicked4,isClicked3;
     private ImageView imbottle1,imbottle2,imbottle3,imbottle4;
     private List<Foodate> foodateList;
-<<<<<<< Updated upstream
     private List<Exercise> exerciseList;
     private float caloDaily;
-=======
     float water;
     private TextView watercount;
 
     private TextView date_home;
 
->>>>>>> Stashed changes
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

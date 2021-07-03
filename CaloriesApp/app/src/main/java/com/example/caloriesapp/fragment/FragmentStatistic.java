@@ -221,21 +221,27 @@ public class FragmentStatistic extends Fragment {
         int size2 = goalValue.size();
         int s2 = (int) (ftotalCalories/size2);
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                goal.setText(String.valueOf(s));
-                averageCalories.setText(String.valueOf(s2));
-                lineChart.forceLayout();
-                if(checkbox_showdetail.isChecked())
-                {
-                    showDetail();
+        try{
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    goal.setText(String.valueOf(s));
+                    averageCalories.setText(String.valueOf(s2));
+                    lineChart.forceLayout();
+                    if(checkbox_showdetail.isChecked())
+                    {
+                        showDetail();
+                    }
+                    else {
+                        hideDetail();
+                    }
                 }
-                else {
-                    hideDetail();
-                }
-            }
-        });
+            });
+        }catch (Exception e)
+        {
+
+        }
+
     }
 
     static class MyAxisValueFormatter extends ValueFormatter {
@@ -492,21 +498,24 @@ public class FragmentStatistic extends Fragment {
 
                 float x = (fcaloBreakfast + fcaloLunch + fcaloDinner + fcaloSnacks)* 0.01f;
 
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        totalCalories.setText(String.valueOf((int)ftotalCalories));
-                        caloBreakfast.setText(String.valueOf((int)fcaloBreakfast));
-                        caloLunch.setText(String.valueOf((int)fcaloLunch));
-                        caloDinner.setText(String.valueOf((int)fcaloDinner));
-                        caloSnacks.setText(String.valueOf((int)fcaloSnacks));
+                try {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            totalCalories.setText(String.valueOf((int)ftotalCalories));
+                            caloBreakfast.setText(String.valueOf((int)fcaloBreakfast));
+                            caloLunch.setText(String.valueOf((int)fcaloLunch));
+                            caloDinner.setText(String.valueOf((int)fcaloDinner));
+                            caloSnacks.setText(String.valueOf((int)fcaloSnacks));
 
-                        percentBreakfast.setText(String.valueOf((int)(fcaloBreakfast*100/x)/100f));
-                        percentLunch.setText(String.valueOf((int)(fcaloLunch*100/x)/100f));
-                        percentDinner.setText(String.valueOf((int)(fcaloDinner*100/x)/100f));
-                        percentSnacks.setText(String.valueOf((int)(fcaloSnacks*100/x)/100f));
-                    }
-                });
+                            percentBreakfast.setText(String.valueOf((int)(fcaloBreakfast*100/x)/100f));
+                            percentLunch.setText(String.valueOf((int)(fcaloLunch*100/x)/100f));
+                            percentDinner.setText(String.valueOf((int)(fcaloDinner*100/x)/100f));
+                            percentSnacks.setText(String.valueOf((int)(fcaloSnacks*100/x)/100f));
+                        }
+                    });
+                }catch (Exception exception){
+                }
             }
         }).start();
     }
