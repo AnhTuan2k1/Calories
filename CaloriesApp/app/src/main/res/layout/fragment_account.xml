@@ -12,7 +12,7 @@
         android:orientation="vertical">
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="414dp"
+        android:layout_width="match_parent"
         android:layout_height="320dp"
         android:src="@drawable/header_background_acc"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.2" />
 
     <TextView
         android:id="@+id/txtUsername"
@@ -57,263 +57,268 @@
         app:layout_constraintBottom_toBottomOf="@+id/profile_image"
         app:layout_constraintEnd_toEndOf="@+id/profile_image" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="210dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/background_while"
-        android:elevation="10dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="20dp"
-            android:orientation="horizontal">
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="240dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/background_while"
+            android:elevation="10dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/txtSex"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Gender"
-                android:textColor="#0090ff"
-                android:textSize="22sp" />
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textsex"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/txtSex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Gender"
+                    android:textColor="#0090ff"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/textsex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nam"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#585858"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:alpha="0.7"
+                android:background="#585858">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nam"
-                android:textAlignment="viewEnd"
-                android:textColor="#585858"
-                android:textSize="20sp" />
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Age"
+                    android:textColor="#0090ff"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/textage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#585858"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView9"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:alpha="0.7"
+                android:background="#585858">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtHeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Height"
+                    android:textColor="#0090ff"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/textheight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="165 cm"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#585858"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:alpha="0.5"
+                android:background="#585858">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Current weight"
+                    android:textColor="#0090ff"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/textcurrentweight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50 kg"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#585858"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:alpha="0.7"
+                android:background="#585858"></androidx.appcompat.widget.AppCompatImageView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtGoalWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Goal weight"
+                    android:textColor="#0090ff"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/textgoalweight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="55 kg"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#585858"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:alpha="0.7"
+                android:background="#585858"></androidx.appcompat.widget.AppCompatImageView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtBMI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Purpose weight"
+                    android:textColor="#0090ff"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/txtpurpose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="... "
+                    android:textAlignment="viewEnd"
+                    android:textColor="#585858"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView10"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:alpha="0.7"
+                android:background="#585858">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Notification"
+                    android:textColor="#0090ff"
+                    android:textSize="22dp" />
+
+                <ImageButton
+                    android:id="@+id/imb_notification"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/ic_baseline_notifications" />
+            </LinearLayout>
         </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView4"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="10dp"
-            android:alpha="0.7"
-            android:background="#585858">
-
-        </androidx.appcompat.widget.AppCompatImageView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtAge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Age"
-                android:textColor="#0090ff"
-                android:textSize="22sp" />
-
-            <TextView
-                android:id="@+id/textage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="20"
-                android:textAlignment="viewEnd"
-                android:textColor="#585858"
-                android:textSize="20sp" />
-
-
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView9"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="10dp"
-            android:alpha="0.7"
-            android:background="#585858">
-
-        </androidx.appcompat.widget.AppCompatImageView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtheight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Height"
-                android:textColor="#0090ff"
-                android:textSize="22sp" />
-
-            <TextView
-                android:id="@+id/textheight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="165 cm"
-                android:textAlignment="viewEnd"
-                android:textColor="#585858"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView3"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="10dp"
-            android:alpha="0.5"
-            android:background="#585858">
-
-        </androidx.appcompat.widget.AppCompatImageView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-
-            android:layout_marginEnd="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtWeight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Current weight"
-                android:textColor="#0090ff"
-                android:textSize="22sp" />
-
-            <TextView
-                android:id="@+id/textcurrentweight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="50 kg"
-                android:textAlignment="viewEnd"
-                android:textColor="#585858"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="10dp"
-            android:alpha="0.7"
-            android:background="#585858">
-        </androidx.appcompat.widget.AppCompatImageView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtGoalWeight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Goal weight"
-                android:textColor="#0090ff"
-                android:textSize="22sp" />
-
-            <TextView
-                android:id="@+id/textgoalweight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="55 kg"
-                android:textAlignment="viewEnd"
-                android:textColor="#585858"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="10dp"
-            android:alpha="0.7"
-            android:background="#585858">
-        </androidx.appcompat.widget.AppCompatImageView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtBMI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Purpose weight"
-                android:textColor="#0090ff"
-                android:textSize="22sp" />
-
-            <TextView
-                android:id="@+id/textbmi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="... "
-                android:textAlignment="viewEnd"
-                android:textColor="#585858"
-                android:textSize="20sp" />
-
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView10"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="10dp"
-            android:alpha="0.7"
-            android:background="#585858">
-
-        </androidx.appcompat.widget.AppCompatImageView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txt_notification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Bật tính năng thông báo"
-                android:textSize="20dp"
-                android:textColor="#0090ff"/>
-
-            <ImageButton
-                android:id="@+id/imb_notification"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/ic_baseline_notifications" />
-        </LinearLayout>
-    </LinearLayout>
-
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnLogin"
