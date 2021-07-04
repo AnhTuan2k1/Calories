@@ -12,4 +12,7 @@
     <string name="facebook_app_id">844054643130114</string>
     <string name="fb_login_protocol_scheme">fb844054643130114</string>
 
+    <string name="channel_name">Channel 1</string>
+    <string name="channel_description">Channel</string>
+
 </resources>
