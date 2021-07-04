@@ -115,11 +115,6 @@ public class FragmentAccount extends Fragment {
         profile.setImageURI(uri);
     }
 
-    private void AnhXa()
-    {
-        profile = view.findViewById(R.id.profile_image);
-        changeProfile = view.findViewById(R.id.changeProfile);
-    }
 
     private void sendNotification() {
 
@@ -146,13 +141,6 @@ public class FragmentAccount extends Fragment {
         return (int) new Date().getTime();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Uri uri = data.getData();
-        profile.setImageURI(uri);
-    }
 
     private void AnhXa()
     {
