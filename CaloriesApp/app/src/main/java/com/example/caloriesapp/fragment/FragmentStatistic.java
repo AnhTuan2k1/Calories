@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -28,6 +29,8 @@ import com.example.caloriesapp.Exercise;
 import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.activities.MainActivity;
+import com.example.caloriesapp.viewmodel.FragmentStatisticViewModel;
+import com.example.caloriesapp.viewmodel.MainActivityViewModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.data.Entry;
@@ -45,6 +48,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -102,6 +106,8 @@ public class FragmentStatistic extends Fragment {
     private View mView;
     ArrayList<String> stringArrayList;
     SimpleDateFormat sdf;
+    private FragmentStatisticViewModel viewmodel;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,7 +122,10 @@ public class FragmentStatistic extends Fragment {
         sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
         anhxa();
-        syncDataWithFirebase(getcurrentday());
+     //   if(viewmodel.gainValue.isEmpty() && ftotalCalories == 0)
+            syncDataWithFirebase(getcurrentday());
+        //else retrieveData();
+
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,18 +136,19 @@ public class FragmentStatistic extends Fragment {
         edittext_enddate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDateTimeDialog(edittext_enddate);
+                showDateTimeDialog(edittext_enddate, 2);
             }
         });
         edittext_startdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDateTimeDialog(edittext_startdate);
+                showDateTimeDialog(edittext_startdate, 1);
             }
         });
         checkbox_showdetail.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                viewmodel.checkbox_showdetail = isChecked;
                 if(isChecked){
                     showDetail();
                 }
@@ -151,7 +161,10 @@ public class FragmentStatistic extends Fragment {
         return mView;
     }
 
+
     private void showDetail() {
+        if(set1 == null || set2 == null) return;
+
         set1.setDrawCircles(true);
         set1.setValueTextSize(10);
         set1.setDrawValues(true);
@@ -160,20 +173,18 @@ public class FragmentStatistic extends Fragment {
         set2.setValueTextSize(10);
         set2.setDrawValues(true);
 
-        lineChart.getXAxis().setDrawLabels(true);
-
 
         lineChart.forceLayout();
     }
 
     private void hideDetail() {
+        if(set2 == null || set1 == null) return;
         set1.setDrawCircles(false);
         set1.setDrawValues(false);
 
         set2.setDrawCircles(false);
         set2.setDrawValues(false);
 
-        lineChart.getXAxis().setDrawLabels(false);
         lineChart.forceLayout();
     }
 
@@ -202,6 +213,7 @@ public class FragmentStatistic extends Fragment {
         lineChart.getXAxis().setDrawLabels(false);
         lineChart.getAxisRight().setEnabled(false);
         lineChart.getXAxis().setValueFormatter(new MyAxisValueFormatter(stringArrayList));
+        lineChart.getXAxis().setDrawLabels(true);
 
         int size = goalValue.size();
         int s = (int) (fgoal/size);
@@ -209,21 +221,27 @@ public class FragmentStatistic extends Fragment {
         int size2 = goalValue.size();
         int s2 = (int) (ftotalCalories/size2);
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                goal.setText(String.valueOf(s));
-                averageCalories.setText(String.valueOf(s2));
-                lineChart.forceLayout();
-                if(checkbox_showdetail.isChecked())
-                {
-                    showDetail();
+        try{
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    goal.setText(String.valueOf(s));
+                    averageCalories.setText(String.valueOf(s2));
+                    lineChart.forceLayout();
+                    if(checkbox_showdetail.isChecked())
+                    {
+                        showDetail();
+                    }
+                    else {
+                        hideDetail();
+                    }
                 }
-                else {
-                    hideDetail();
-                }
-            }
-        });
+            });
+        }catch (Exception e)
+        {
+
+        }
+
     }
 
     static class MyAxisValueFormatter extends ValueFormatter {
@@ -236,10 +254,14 @@ public class FragmentStatistic extends Fragment {
 
         @Override
         public String getAxisLabel(float value, AxisBase axis) {
-            super.getAxisLabel(value, axis);
-            return mValues.get((int)value);
+            try{
+                super.getAxisLabel(value, axis);
+                return mValues.get((int)value);
+            }catch (Exception exception)
+            {
+                return super.getAxisLabel(value, axis);
+            }
         }
-
     }
 
     private void showOptionDialog() {
@@ -256,16 +278,20 @@ public class FragmentStatistic extends Fragment {
                 switch (which)
                 {
                     case 0:
-                        textView.setText("7 days ago");
+                        viewmodel.textView = "7 days ago";
+                        textView.setText(viewmodel.textView);
                         break;
                     case 1:
-                        textView.setText("30 days ago");
+                        viewmodel.textView = "30 days ago";
+                        textView.setText(viewmodel.textView);
                         break;
                     case 2:
-                        textView.setText("today");
+                        viewmodel.textView = "today";
+                        textView.setText(viewmodel.textView);
                         break;
                     case 3:
-                        textView.setText("60 days ago");
+                        viewmodel.textView = "60 days ago";
+                        textView.setText(viewmodel.textView);
                         break;
                 }
             }
@@ -287,8 +313,8 @@ public class FragmentStatistic extends Fragment {
 
     private void syncDataWithFirebase(String date) {
         updateUI();
-        updateExercise(date);
-        updateCaloDaily(date);
+        //updateExercise(date);
+        //updateCaloDaily(date);
     }
 
     private void updateUI() {
@@ -297,15 +323,31 @@ public class FragmentStatistic extends Fragment {
         {
             case "7 days ago":
                 load7daysago();
+                viewmodel.edittext_enddate = "";
+                viewmodel.edittext_startdate = "";
+                edittext_startdate.setText(viewmodel.edittext_startdate);
+                edittext_enddate.setText(viewmodel.edittext_enddate);
                 break;
             case "30 days ago":
                 loadamonthago();
+                viewmodel.edittext_enddate = "";
+                viewmodel.edittext_startdate = "";
+                edittext_startdate.setText(viewmodel.edittext_startdate);
+                edittext_enddate.setText(viewmodel.edittext_enddate);
                 break;
             case "today":
                 loadtoday();
+                viewmodel.edittext_enddate = "";
+                viewmodel.edittext_startdate = "";
+                edittext_startdate.setText(viewmodel.edittext_startdate);
+                edittext_enddate.setText(viewmodel.edittext_enddate);
                 break;
             case "60 days ago":
                 load2monthago();
+                viewmodel.edittext_enddate = "";
+                viewmodel.edittext_startdate = "";
+                edittext_startdate.setText(viewmodel.edittext_startdate);
+                edittext_enddate.setText(viewmodel.edittext_enddate);
                 break;
             default:
                 loadDateOption(edittext_startdate.getText().toString(), edittext_enddate.getText().toString());
@@ -338,7 +380,8 @@ public class FragmentStatistic extends Fragment {
         }
         else if(comparedate(startdate, enddate) == 0)
         {
-            textView.setText("today");
+            viewmodel.textView = "today";
+            textView.setText(viewmodel.textView);
             loadtoday();
         }
         else{
@@ -367,7 +410,7 @@ public class FragmentStatistic extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toasty.info(getContext(), "load data fail",Toasty.LENGTH_SHORT).show();
+                    Toasty.info(getContext(), error.getMessage(),Toasty.LENGTH_SHORT).show();
                 }
             });
 
@@ -380,12 +423,13 @@ public class FragmentStatistic extends Fragment {
         foodateList.clear();
 //        int xx = loopdate.get(Calendar.DAY_OF_MONTH);
 //        int yy = enddate.get(Calendar.DAY_OF_MONTH);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("foodate");
         while (comparedate(loopdate, enddate) < 0)
         {
             String date = sdf.format(loopdate.getTime());
-            FirebaseDatabase.getInstance().getReference().child("users")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child("foodate").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+            reference.child(date).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for(DataSnapshot dataSnapshot : snapshot.getChildren())
@@ -397,7 +441,7 @@ public class FragmentStatistic extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toasty.info(getContext(), "load data fail",Toasty.LENGTH_SHORT).show();
+                    Toasty.info(getContext(), error.getMessage(),Toasty.LENGTH_SHORT).show();
                 }
             });
             loopdate.add(Calendar.DAY_OF_MONTH, 1);
@@ -413,9 +457,7 @@ public class FragmentStatistic extends Fragment {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            FirebaseDatabase.getInstance().getReference().child("users")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child("foodate").child(sdf.format(loopdate.getTime())).addListenerForSingleValueEvent(new ValueEventListener() {
+            reference.child(sdf.format(loopdate.getTime())).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for(DataSnapshot dataSnapshot : snapshot.getChildren())
@@ -437,7 +479,7 @@ public class FragmentStatistic extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toasty.info(getContext(), "load data fail",Toasty.LENGTH_SHORT).show();
+                    Toasty.info(getContext(), error.getMessage(),Toasty.LENGTH_SHORT).show();
                 }
             });
         }
@@ -456,21 +498,24 @@ public class FragmentStatistic extends Fragment {
 
                 float x = (fcaloBreakfast + fcaloLunch + fcaloDinner + fcaloSnacks)* 0.01f;
 
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        totalCalories.setText(String.valueOf((int)ftotalCalories));
-                        caloBreakfast.setText(String.valueOf((int)fcaloBreakfast));
-                        caloLunch.setText(String.valueOf((int)fcaloLunch));
-                        caloDinner.setText(String.valueOf((int)fcaloDinner));
-                        caloSnacks.setText(String.valueOf((int)fcaloSnacks));
+                try {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            totalCalories.setText(String.valueOf((int)ftotalCalories));
+                            caloBreakfast.setText(String.valueOf((int)fcaloBreakfast));
+                            caloLunch.setText(String.valueOf((int)fcaloLunch));
+                            caloDinner.setText(String.valueOf((int)fcaloDinner));
+                            caloSnacks.setText(String.valueOf((int)fcaloSnacks));
 
-                        percentBreakfast.setText(String.valueOf((int)(fcaloBreakfast*100/x)/100f));
-                        percentLunch.setText(String.valueOf((int)(fcaloLunch*100/x)/100f));
-                        percentDinner.setText(String.valueOf((int)(fcaloDinner*100/x)/100f));
-                        percentSnacks.setText(String.valueOf((int)(fcaloSnacks*100/x)/100f));
-                    }
-                });
+                            percentBreakfast.setText(String.valueOf((int)(fcaloBreakfast*100/x)/100f));
+                            percentLunch.setText(String.valueOf((int)(fcaloLunch*100/x)/100f));
+                            percentDinner.setText(String.valueOf((int)(fcaloDinner*100/x)/100f));
+                            percentSnacks.setText(String.valueOf((int)(fcaloSnacks*100/x)/100f));
+                        }
+                    });
+                }catch (Exception exception){
+                }
             }
         }).start();
     }
@@ -618,7 +663,7 @@ public class FragmentStatistic extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
+                Toasty.info(getContext(), error.getMessage(),Toasty.LENGTH_SHORT).show();
             }
         });
     }
@@ -639,7 +684,7 @@ public class FragmentStatistic extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
+                Toasty.info(getContext(), error.getMessage(),Toasty.LENGTH_SHORT).show();
             }
         });
     }
@@ -685,7 +730,7 @@ public class FragmentStatistic extends Fragment {
         return date;
     }
 
-    private void showDateTimeDialog(TextView editText_datetime) {
+    private void showDateTimeDialog(TextView editText_datetime, int x) {
         final Calendar cld = Calendar.getInstance();
 
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -695,8 +740,24 @@ public class FragmentStatistic extends Fragment {
                 cld.set(Calendar.MONTH, month);
                 cld.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                editText_datetime.setText(simpleDateFormat.format(cld.getTime()));
-                textView.setText("");
+
+
+                if(x == 1)
+                {
+                    viewmodel.edittext_startdate = simpleDateFormat.format(cld.getTime());
+                    editText_datetime.setText(viewmodel.edittext_startdate);
+                }
+                else if(x == 2)
+                {
+                    viewmodel.edittext_enddate = simpleDateFormat.format(cld.getTime());
+                    editText_datetime.setText(viewmodel.edittext_enddate);
+                }
+
+
+                String s = "From:  " + edittext_startdate.getText().toString() +
+                        "   To:  " + edittext_enddate.getText().toString();
+                viewmodel.textView = s;
+                textView.setText(viewmodel.textView);
                 updateUI();
             }
         };
@@ -706,6 +767,8 @@ public class FragmentStatistic extends Fragment {
 
 
     private void anhxa() {
+        viewmodel = new ViewModelProvider(this,
+                new ViewModelProvider.AndroidViewModelFactory(getActivity().getApplication())).get(FragmentStatisticViewModel.class);
 
         totalCalories = mView.findViewById(R.id.totalCalories_statistic);
         averageCalories = mView.findViewById(R.id.averageCalories_statistic);
@@ -719,10 +782,14 @@ public class FragmentStatistic extends Fragment {
         caloSnacks = mView.findViewById(R.id.caloSnacks_statistic);
         imageView = mView.findViewById(R.id.imageView_statistic);
         textView = mView.findViewById(R.id.textView_statistic);
+        textView.setText(viewmodel.textView);                                                    //viewmodel
         goal = mView.findViewById(R.id.textviewGoal_statistic);
         edittext_enddate = mView.findViewById(R.id.edittext_enddate_statistic);
+        edittext_enddate.setText(viewmodel.edittext_enddate);                                    //viewmodel
         edittext_startdate = mView.findViewById(R.id.edittext_startdate_statistic);
+        edittext_startdate.setText(viewmodel.edittext_startdate);                               //viewmodel
         checkbox_showdetail = mView.findViewById(R.id.checkbox_showdetail_statistic);
+        checkbox_showdetail.setChecked(viewmodel.checkbox_showdetail);                          //viewmodel
 
         lineChart = mView.findViewById(R.id.linechart_statistic);
         goalValue = new ArrayList<>();

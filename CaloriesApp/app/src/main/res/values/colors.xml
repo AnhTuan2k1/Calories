@@ -14,5 +14,6 @@
     <color name="light_purple">#B19CD9</color>
     <color name="green">#03fc41</color>
     <color name="blue_200">#03A9F4</color>
+    <color name="blue_500">#0277BD</color>
     <color name="trans">#1AFFEB3B</color>
 </resources>

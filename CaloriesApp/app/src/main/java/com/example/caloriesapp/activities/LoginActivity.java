@@ -89,6 +89,15 @@ public class LoginActivity extends AppCompatActivity {
         createRequestGoogleSignin();
         facebookLogin();
 
+        textView_fogotpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
