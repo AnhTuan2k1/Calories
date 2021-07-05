@@ -5,25 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".A_Breakfast">
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swiperefresh_breakfast"
-        android:layout_below="@id/tieudebreakfast"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/breakfastlist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tieudebreakfast"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:nestedScrollingEnabled="true" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tieudebreakfast"
-        android:text="Breakfast"
+        android:text="Snack"
         android:textSize="35dp"
         android:textColor="@color/black"
         android:textAllCaps="false"
@@ -33,10 +19,21 @@
         android:textStyle="bold"
         >
     </TextView>
-
-
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh_snacks"
+        android:layout_below="@id/tieudebreakfast"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/snackslistlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tieudebreakfast"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:nestedScrollingEnabled="true" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/breakfast_fab"
+        android:id="@+id/snacks_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

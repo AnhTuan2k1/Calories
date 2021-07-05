@@ -19,7 +19,11 @@
         android:textStyle="bold"
         >
     </TextView>
-
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh_lunch"
+        android:layout_below="@id/tieudebreakfast"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lunchlist"
         android:layout_width="match_parent"
@@ -27,6 +31,7 @@
         android:layout_below="@id/tieudebreakfast"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:nestedScrollingEnabled="true" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/lunch_fab"
