@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CaloriesApp">
 
+
         <activity android:name=".activities.ForgetPasswordActivity"
             android:theme="@style/Theme.Login"
             />
@@ -25,10 +26,12 @@
         <activity android:name=".activities.RegisterActivity"
             android:theme="@style/Theme.Login"
             />
-      
-        <activity
-            android:name=".activities.LoginActivity"
-            android:theme="@style/Theme.Login">
+
+        <activity android:name=".A_Dinner"></activity>
+        <activity android:name=".A_Lunch" />
+        <activity android:name=".A_Breakfast" />
+        <activity android:name=".activities.LoginActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,9 +39,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".A_Dinner" />
-        <activity android:name=".A_Lunch" />
-        <activity android:name=".A_Breakfast" />
+
         <activity
             android:name=".activities.SearchFoodActivity"
             android:label="Add Food"
@@ -46,6 +47,8 @@
             android:theme="@style/Theme.Custom"
             >
         </activity>
+
+
 
         <activity
             android:name=".A_mucdich"

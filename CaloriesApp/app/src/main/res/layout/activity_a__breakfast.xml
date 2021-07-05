@@ -5,6 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".A_Breakfast">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
+        android:layout_below="@id/tieudebreakfast"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/breakfastlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tieudebreakfast"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:nestedScrollingEnabled="true" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,13 +34,6 @@
         >
     </TextView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/breakfastlist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tieudebreakfast"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:nestedScrollingEnabled="true" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/breakfast_fab"

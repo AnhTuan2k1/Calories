@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.caloriesapp.A_Breakfast;
 import com.example.caloriesapp.FoodAdapter;
 import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
@@ -38,6 +40,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -192,6 +195,8 @@ public class SearchFoodActivity extends AppCompatActivity  {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toasty.success(SearchFoodActivity.this, "Add " + nameFood + " Successfully", Toast.LENGTH_SHORT).show();
+                            FoodStatic food = new FoodStatic(nameFood,cal,Integer.parseInt(grams));
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

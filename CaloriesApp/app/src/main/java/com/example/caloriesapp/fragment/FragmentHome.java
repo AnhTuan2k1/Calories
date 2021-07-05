@@ -5,21 +5,31 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.Toast;
+
+
+
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
+import com.example.caloriesapp.A_Breakfast;
+import com.example.caloriesapp.A_Dinner;
+import com.example.caloriesapp.A_Lunch;
 import com.example.caloriesapp.CaloDaily;
 import com.example.caloriesapp.Exercise;
 import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.activities.LoginActivity;
 import com.example.caloriesapp.activities.MainActivity;
+import com.example.caloriesapp.activities.SearchFoodActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -36,6 +47,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 
@@ -44,34 +56,32 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     boolean isClicked1,isClicked2,isClicked4,isClicked3;
     private ImageView imbottle1,imbottle2,imbottle3,imbottle4;
     private List<Foodate> foodateList;
+
     private List<Exercise> exerciseList;
     private float caloDaily;
+
     float water;
     private TextView watercount;
-
+    private ImageView imageBreakfast, imageLunch,imageDinner,imageSnack;
+    private CardView cardBreakfast,cardLunch,cardDinner,cardSnack;
     private TextView date_home;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        foodateList = new ArrayList<>();
-        exerciseList = new ArrayList<>();
+
+        AnhXa(view);
+
         caloDaily = 0;
-        syncDataWithFirebase("date"); // truyen vao ngay can update ui  "dd/MM/yyyy"
-        imbottle1 = view.findViewById(R.id.bottle1);
-        imbottle2 = view.findViewById(R.id.bottle2);
-        imbottle3 = view.findViewById(R.id.bottle3);
-        imbottle4 = view.findViewById(R.id.bottle4);
-        watercount = view.findViewById(R.id.watercount);
-        date_home = view.findViewById(R.id.home_date);
-
-
-
+        syncDataWithFirebase("date"); // truyen vao ngay can update ui  "yyyy-m-dd"
 
 //        Calendar c = Calendar.getInstance();
 //        int day = c.get(Calendar.DAY_OF_MONTH);
+//        Calendar calendar = Calendar.getInstance();
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//        String datet = sdf.format(calendar.getTime());
+//        return datet;
 
         Date date = new Date();
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -79,8 +89,8 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         int month = localDate.getMonthValue();
         int day   = localDate.getDayOfMonth();
 
-        date_home.setText(day + "thg" + month);
-
+        date_home.setText(day + " thg " + month);
+//===========================
         isClicked1 = false;
         isClicked2 = false;
         isClicked3 = false;
@@ -91,6 +101,50 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         imbottle2.setOnClickListener(this);
         imbottle3.setOnClickListener(this);
         imbottle4.setOnClickListener(this);
+
+        cardBreakfast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getActivity(), A_Breakfast.class);
+                startActivity(intent);
+
+            }
+        });
+
+        cardLunch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getActivity(), A_Lunch.class);
+                startActivity(intent);
+
+            }
+        });
+
+        cardDinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getActivity(), A_Dinner.class);
+                startActivity(intent);
+
+            }
+        });
+
+        cardSnack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getActivity(), A_Lunch.class);
+                startActivity(intent);
+
+            }
+        });
+
+
+
+
 
         return view;
     }
@@ -227,6 +281,42 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                 }
                 break;
         }
+    }
+
+
+    public void AnhXa(View view){
+        foodateList = new ArrayList<>();
+        exerciseList = new ArrayList<>();
+
+        imbottle1 = view.findViewById(R.id.bottle1);
+        imbottle2 = view.findViewById(R.id.bottle2);
+        imbottle3 = view.findViewById(R.id.bottle3);
+        imbottle4 = view.findViewById(R.id.bottle4);
+        watercount = view.findViewById(R.id.watercount);
+        date_home = view.findViewById(R.id.home_date);
+
+        imageBreakfast = view.findViewById(R.id.imagebreakfast);
+        imageLunch = view.findViewById(R.id.imagelunch);
+        imageDinner = view.findViewById(R.id.imagedinner);
+        imageSnack = view.findViewById(R.id.imagesnack);
+
+        cardBreakfast = view.findViewById(R.id.cardbreakfast);
+        cardLunch = view.findViewById(R.id.cardlunch);
+        cardDinner = view.findViewById(R.id.carddinner);
+        cardSnack = view.findViewById(R.id.cardsnack);
+
+        imbottle1.setImageResource(R.drawable.icon_bottle_unfilled);
+        imbottle2.setImageResource(R.drawable.icon_bottle_unfilled);
+        imbottle3.setImageResource(R.drawable.icon_bottle_unfilled);
+        imbottle4.setImageResource(R.drawable.icon_bottle_unfilled);
+
+
+
+    }
+
+    public void Open_Searchfood(){
+        Intent intent = new Intent(getActivity(), SearchFoodActivity.class);
+        startActivity(intent);
     }
 
 }
