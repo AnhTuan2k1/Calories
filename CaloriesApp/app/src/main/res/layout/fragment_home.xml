@@ -40,7 +40,7 @@
 
 
             <ImageView
-                android:id="@+id/day_next"
+                android:id="@+id/imageday_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -49,7 +49,7 @@
                 app:tint="@color/white" />
 
             <ImageView
-                android:id="@+id/day_back"
+                android:id="@+id/imageday_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -58,15 +58,17 @@
                 app:tint="@color/white" />
 
             <TextView
+                android:id="@+id/textview_calodaily"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/home_date"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="25dp"
-                android:text="Calories \n3000"
+                android:text="Calories\n"
                 android:textColor="@color/white"
                 android:textAlignment="center"
-                android:textSize="25dp" />
+                android:textStyle="bold"
+                android:textSize="30dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -134,7 +136,7 @@
                         android:textColor="@color/white"
                         android:layout_centerInParent="true"
                         android:textStyle="bold"
-                        android:textSize="38dp">
+                        android:textSize="30dp">
                     </TextView>
                 </RelativeLayout>
                 <RelativeLayout
@@ -147,7 +149,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:text="1763"
-                        android:textSize="38dp"
+                        android:textSize="30dp"
                         android:textStyle="bold"
                         android:layout_centerInParent="true"
                         android:textAlignment="center">
@@ -194,8 +196,9 @@
         android:gravity="center">
 
         <ImageView
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="100dp"
             android:background="@drawable/layout_water_panel"></ImageView>
 
         <TableLayout
@@ -210,40 +213,40 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="8dp"
 
                     android:layout_weight="1"
-                    android:padding="10dp"/>
+                    android:padding="8dp"/>
 
                 <ImageView
                     android:id="@+id/bottle2"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="8dp"
 
                     android:layout_weight="1"
-                    android:padding="10dp"/>
+                    android:padding="8dp"/>
 
                 <ImageView
                     android:id="@+id/bottle3"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="8dp"
 
                     android:layout_weight="1"
-                    android:padding="10dp"/>
+                    android:padding="8dp"/>
 
                 <ImageView
                     android:id="@+id/bottle4"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="8dp"
 
                     android:layout_weight="1"
-                    android:padding="10dp"/>
+                    android:padding="8dp"/>
 
             </TableRow>
 

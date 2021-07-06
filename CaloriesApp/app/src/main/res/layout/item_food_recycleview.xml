@@ -76,33 +76,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textView_nameFood_itemFoodLayout" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/expandable_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textView6">
-                        <TextView
 
-                            android:id="@+id/infoo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Description: "
-                            android:textColor="@color/black"
-                            android:textSize="15dp"
-                            android:layout_marginStart="10dp"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"></TextView>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintBottom_toBottomOf="@+id/infoo"
-                            app:layout_constraintStart_toEndOf="@id/infoo"
-                            android:text="abcxyz muda muda muda muda muda"
-                            ></TextView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

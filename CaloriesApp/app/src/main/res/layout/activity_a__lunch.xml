@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tieudebreakfast"
+        android:id="@+id/tieudelunch"
         android:text="Lunch"
         android:textSize="35dp"
         android:textColor="@color/black"
@@ -21,7 +21,7 @@
     </TextView>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh_lunch"
-        android:layout_below="@id/tieudebreakfast"
+        android:layout_below="@id/tieudelunch"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView

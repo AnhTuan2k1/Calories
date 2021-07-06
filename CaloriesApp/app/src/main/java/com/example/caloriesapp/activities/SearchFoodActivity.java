@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caloriesapp.A_Breakfast;
+import com.example.caloriesapp.A_Lunch;
 import com.example.caloriesapp.FoodAdapter;
 import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
@@ -51,7 +52,8 @@ public class SearchFoodActivity extends AppCompatActivity  {
     private EditText editTextSearch;
     private RecyclerView listFood;
     private Button btnOkSearchFood;
-
+    private String sessionofday_breakfast,sessionofday_lunch;
+    private String date_breakfast,date_lunch;
     private FoodAdapter foodAdapter;
     private List<FoodStatic> mListFood;
 
@@ -113,15 +115,23 @@ public class SearchFoodActivity extends AppCompatActivity  {
     }
 
     private void anhxa() {
+
         editTextSearch = findViewById(R.id.edittext_searchFood);
         listFood = findViewById(R.id.recycleviewFood);
         btnOkSearchFood = findViewById(R.id.btnOk_searchFood);
-
+        sessionofday_breakfast = null;
+        date_lunch = null;
         mListFood = new ArrayList<>();  //FoodDatabase.getInstance(this).foodDAO().getListFood();
         foodAdapter = new FoodAdapter();
         foodAdapter.setData(mListFood);
         listFood.setAdapter(foodAdapter);
         listFood.setLayoutManager(new LinearLayoutManager(this));
+
+        Intent intent = getIntent();
+        sessionofday_breakfast = intent.getStringExtra(A_Breakfast.SESSIONOFDAY_BREAKFAST);
+        date_breakfast = intent.getStringExtra(A_Breakfast.DATE_BREAKFAST);
+        sessionofday_lunch = intent.getStringExtra(A_Lunch.SESSIONOFDAY_LUNCH);
+        date_lunch = intent.getStringExtra(A_Lunch.DATE_LUNCH);
     }
 
     public void hideSoftKeyboard()
@@ -195,7 +205,7 @@ public class SearchFoodActivity extends AppCompatActivity  {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toasty.success(SearchFoodActivity.this, "Add " + nameFood + " Successfully", Toast.LENGTH_SHORT).show();
-                            FoodStatic food = new FoodStatic(nameFood,cal,Integer.parseInt(grams));
+
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {

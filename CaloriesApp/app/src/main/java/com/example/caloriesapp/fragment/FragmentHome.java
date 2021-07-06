@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.example.caloriesapp.A_Breakfast;
 import com.example.caloriesapp.A_Dinner;
 import com.example.caloriesapp.A_Lunch;
+import com.example.caloriesapp.A_Snacks;
 import com.example.caloriesapp.CaloDaily;
 import com.example.caloriesapp.Exercise;
 import com.example.caloriesapp.Foodate;
@@ -37,6 +38,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -56,15 +58,16 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     boolean isClicked1,isClicked2,isClicked4,isClicked3;
     private ImageView imbottle1,imbottle2,imbottle3,imbottle4;
     private List<Foodate> foodateList;
-
+    private int daynextt,daybackk;
+    private String string_datenow;
     private List<Exercise> exerciseList;
     private float caloDaily;
 
     float water;
     private TextView watercount;
-    private ImageView imageBreakfast, imageLunch,imageDinner,imageSnack;
+    private ImageView imageBreakfast, imageLunch,imageDinner,imageSnack,backday,nextday;
     private CardView cardBreakfast,cardLunch,cardDinner,cardSnack;
-    private TextView date_home;
+    private TextView date_home,text_calodaily;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,75 +75,21 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         AnhXa(view);
+        Set_date_time();
+        syncDataWithFirebase(getcurrentday()); // truyen vao ngay can update ui  "yyyy-m-dd"
 
-        caloDaily = 0;
-        syncDataWithFirebase("date"); // truyen vao ngay can update ui  "yyyy-m-dd"
 
-//        Calendar c = Calendar.getInstance();
-//        int day = c.get(Calendar.DAY_OF_MONTH);
-//        Calendar calendar = Calendar.getInstance();
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-//        String datet = sdf.format(calendar.getTime());
-//        return datet;
+//        Date date = new Date();
+//        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//        int year  = localDate.getYear();
+//        int month = localDate.getMonthValue();
+//        int day   = localDate.getDayOfMonth();
 
-        Date date = new Date();
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        int year  = localDate.getYear();
-        int month = localDate.getMonthValue();
-        int day   = localDate.getDayOfMonth();
-
-        date_home.setText(day + " thg " + month);
 //===========================
-        isClicked1 = false;
-        isClicked2 = false;
-        isClicked3 = false;
-        isClicked4 = false;
-        water = 0;
 
-        imbottle1.setOnClickListener(this);
-        imbottle2.setOnClickListener(this);
-        imbottle3.setOnClickListener(this);
-        imbottle4.setOnClickListener(this);
 
-        cardBreakfast.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), A_Breakfast.class);
-                startActivity(intent);
 
-            }
-        });
-
-        cardLunch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(getActivity(), A_Lunch.class);
-                startActivity(intent);
-
-            }
-        });
-
-        cardDinner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(getActivity(), A_Dinner.class);
-                startActivity(intent);
-
-            }
-        });
-
-        cardSnack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(getActivity(), A_Lunch.class);
-                startActivity(intent);
-
-            }
-        });
 
 
 
@@ -150,9 +99,31 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     }
 
     private void syncDataWithFirebase(String date) {
-        updateFoodateList(date);
-        updateExercise(date);
-        updateCaloDaily(date);
+        if(FirebaseAuth.getInstance().getCurrentUser() == null)
+        {
+            return;
+        }
+          updateUI(date);
+//        updateFoodateList(date);
+//        updateExercise(date);
+//        updateCaloDaily(date);
+    }
+    private void updateUI(String date){
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("calodaily").child(date).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+               caloDaily =  Math.round(snapshot.getValue(CaloDaily.class).getCalories());
+               text_calodaily.setText("Calories\n");
+               text_calodaily.append(String.valueOf(Math.round(caloDaily)));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void updateFoodateList(String date) {
@@ -280,6 +251,32 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                     watercount.setText(String.valueOf(water)+ "/2L");
                 }
                 break;
+            case R.id.cardbreakfast:
+                Intent breakfast = new Intent(getActivity(), A_Breakfast.class);
+                startActivity(breakfast);
+                break;
+            case R.id.cardlunch:
+                Intent lunch = new Intent(getActivity(), A_Lunch.class);
+                startActivity(lunch);
+                break;
+            case R.id.carddinner:
+                Intent dinner = new Intent(getActivity(), A_Dinner.class);
+                startActivity(dinner);
+                break;
+            case R.id.cardsnack:
+                Intent snacks = new Intent(getActivity(), A_Snacks.class);
+                startActivity(snacks);
+                break;
+            case R.id.imageday_back:
+                syncDataWithFirebase(getyesterday(string_datenow));
+//                Toast.makeText(getActivity(),getyesterday(string_datenow),Toast.LENGTH_SHORT).show();
+                string_datenow = getyesterday(string_datenow);
+                break;
+            case R.id.imageday_next:
+                syncDataWithFirebase(getnextday(string_datenow));
+//                Toast.makeText(getActivity(),getnextday(string_datenow),Toast.LENGTH_SHORT).show();
+                string_datenow = getnextday(string_datenow);
+                break;
         }
     }
 
@@ -294,11 +291,14 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         imbottle4 = view.findViewById(R.id.bottle4);
         watercount = view.findViewById(R.id.watercount);
         date_home = view.findViewById(R.id.home_date);
+        text_calodaily = view.findViewById(R.id.textview_calodaily);
 
         imageBreakfast = view.findViewById(R.id.imagebreakfast);
         imageLunch = view.findViewById(R.id.imagelunch);
         imageDinner = view.findViewById(R.id.imagedinner);
         imageSnack = view.findViewById(R.id.imagesnack);
+        backday = view.findViewById(R.id.imageday_back);
+        nextday = view.findViewById(R.id.imageday_next);
 
         cardBreakfast = view.findViewById(R.id.cardbreakfast);
         cardLunch = view.findViewById(R.id.cardlunch);
@@ -310,13 +310,76 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         imbottle3.setImageResource(R.drawable.icon_bottle_unfilled);
         imbottle4.setImageResource(R.drawable.icon_bottle_unfilled);
 
+        isClicked1 = false;
+        isClicked2 = false;
+        isClicked3 = false;
+        isClicked4 = false;
+        water = 0;
+        daynextt = 1;
+        daybackk = 1;
+        string_datenow = getcurrentday();
+
+        imbottle1.setOnClickListener(this);
+        imbottle2.setOnClickListener(this);
+        imbottle3.setOnClickListener(this);
+        imbottle4.setOnClickListener(this);
+
+        cardBreakfast.setOnClickListener(this);
+        cardDinner.setOnClickListener(this);
+        cardLunch.setOnClickListener(this);
+        cardSnack.setOnClickListener(this);
+        backday.setOnClickListener(this);
+        nextday.setOnClickListener(this);
+
 
 
     }
 
-    public void Open_Searchfood(){
-        Intent intent = new Intent(getActivity(), SearchFoodActivity.class);
-        startActivity(intent);
+    private String getcurrentday() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String date = sdf.format(calendar.getTime());
+        return date;
+    }
+    private String getnextday(String date){
+        String dt = date;
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            c.setTime(sdf.parse(dt));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        c.add(Calendar.DATE, daynextt);  // number of days to add
+        dt = sdf.format(c.getTime());
+        int day = c.get(Calendar.DATE);
+        int month = c.get(Calendar.MONTH) + 1;
+        date_home.setText(day + " thg " + month);
+        return dt;
+    }
+
+    private String getyesterday(String date){
+        String dt = date;
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            c.setTime(sdf.parse(dt));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        c.add(Calendar.DATE, -daybackk);  // number of days to add
+        dt = sdf.format(c.getTime());
+        int day = c.get(Calendar.DATE);
+        int month = c.get(Calendar.MONTH) + 1;
+        date_home.setText(day + " thg " + month);
+        return dt;
+    }
+
+    public void Set_date_time(){
+        Calendar c = Calendar.getInstance();
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int month = c.get(Calendar.MONTH) + 1;
+        date_home.setText(day + " thg " + month);
     }
 
 }
