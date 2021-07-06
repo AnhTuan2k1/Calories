@@ -12,43 +12,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.Toast;
-
-
 
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.example.caloriesapp.A_Breakfast;
-import com.example.caloriesapp.A_Dinner;
-import com.example.caloriesapp.A_Lunch;
-import com.example.caloriesapp.A_Snacks;
+import com.example.caloriesapp.A_Excercise;
 import com.example.caloriesapp.CaloDaily;
 import com.example.caloriesapp.Exercise;
 import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
-import com.example.caloriesapp.activities.LoginActivity;
-import com.example.caloriesapp.activities.MainActivity;
-import com.example.caloriesapp.activities.SearchFoodActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
@@ -59,15 +44,17 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     private ImageView imbottle1,imbottle2,imbottle3,imbottle4;
     private List<Foodate> foodateList;
     private int daynextt,daybackk;
-    private String string_datenow;
+    private String string_datenow,string_breakfast,string_lunch,string_dinner,string_snacks,string_excercise;
     private List<Exercise> exerciseList;
     private float caloDaily;
+    private float caloshow;
 
     float water;
-    private TextView watercount;
-    private ImageView imageBreakfast, imageLunch,imageDinner,imageSnack,backday,nextday;
+    private TextView watercount,caloshow_breakfast,caloshow_lunch,caloshow_dinner,caloshow_snacks;
+    private ImageView imageBreakfast, imageLunch,imageDinner,imageSnack,backday,nextday,imageExcercise;
     private CardView cardBreakfast,cardLunch,cardDinner,cardSnack;
-    private TextView date_home,text_calodaily;
+    private TextView date_home,text_calodaily,burnedcalo,earnedcalo;
+    public static final String SESSION = "com.example.application.example.EXTRA_SESSION";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,21 +64,6 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         AnhXa(view);
         Set_date_time();
         syncDataWithFirebase(getcurrentday()); // truyen vao ngay can update ui  "yyyy-m-dd"
-
-
-//        Date date = new Date();
-//        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        int year  = localDate.getYear();
-//        int month = localDate.getMonthValue();
-//        int day   = localDate.getDayOfMonth();
-
-//===========================
-
-
-
-
-
-
 
 
 
@@ -106,7 +78,14 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
           updateUI(date);
 //        updateFoodateList(date);
 //        updateExercise(date);
-//        updateCaloDaily(date);
+        updateCaloDaily(date,"breakfast",caloshow_breakfast);
+        updateCaloDaily(date,"lunch",caloshow_lunch);
+        updateCaloDaily(date,"dinner",caloshow_dinner);
+        updateCaloDaily(date,"snacks",caloshow_snacks);
+
+        updateEarnedCalo(date);
+        updateBurnedCalo(date);
+
     }
     private void updateUI(String date){
         FirebaseDatabase.getInstance().getReference().child("users")
@@ -122,6 +101,48 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void updateEarnedCalo(String date){
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("foodate").child(date).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Foodate foodate = dataSnapshot.getValue(Foodate.class);
+                        float a = (foodate.getGram()*foodate.getCalories());
+                        caloshow = caloshow+ a;
+                }
+                earnedcalo.setText(String.valueOf(Math.round(caloshow)));
+                caloshow = 0;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void updateBurnedCalo(String date){
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("exercise").child(date).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Exercise exercise = dataSnapshot.getValue(Exercise.class);
+                    float a = exercise.getCalories();
+                    caloshow = caloshow+ a;
+                }
+                burnedcalo.setText(String.valueOf(Math.round(caloshow)));
+                caloshow = 0;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
@@ -148,40 +169,30 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         });
     }
 
-    private void updateExercise(String date) {
+
+
+    private void updateCaloDaily(String date,String sessionofday,TextView textView) {
         FirebaseDatabase.getInstance().getReference().child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("exercise").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+                .child("foodate").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren())
-                {
-                    Exercise exercise = dataSnapshot.getValue(Exercise.class);
-                    exerciseList.add(exercise);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Foodate foodate = dataSnapshot.getValue(Foodate.class);
+                    if(foodate.getSessionofday().equals(sessionofday)){
+
+                        float a = (foodate.getGram()*foodate.getCalories());
+
+                        caloshow = caloshow+ a;
+
+                    }
+                    else{
+
+                    }
                 }
+                textView.setText(String.valueOf(Math.round(caloshow) + " Cal"));
+                caloshow = 0;
 
-                // update ui here with exerciseList
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void updateCaloDaily(String date) {
-        FirebaseDatabase.getInstance().getReference().child("users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("calodaily").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue(CaloDaily.class) != null)
-                {
-                    caloDaily = snapshot.getValue(CaloDaily.class).getCalories();
-
-                    // update ui here with caloDaily
-                }
             }
 
             @Override
@@ -253,18 +264,26 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                 break;
             case R.id.cardbreakfast:
                 Intent breakfast = new Intent(getActivity(), A_Breakfast.class);
+                breakfast.putExtra("key",string_datenow);
+                breakfast.putExtra("session",string_breakfast);
                 startActivity(breakfast);
                 break;
             case R.id.cardlunch:
-                Intent lunch = new Intent(getActivity(), A_Lunch.class);
+                Intent lunch = new Intent(getActivity(), A_Breakfast.class);
+                lunch.putExtra("key",string_datenow);
+                lunch.putExtra("session",string_lunch);
                 startActivity(lunch);
                 break;
             case R.id.carddinner:
-                Intent dinner = new Intent(getActivity(), A_Dinner.class);
+                Intent dinner = new Intent(getActivity(), A_Breakfast.class);
+                dinner.putExtra("key",string_datenow);
+                dinner.putExtra("session",string_dinner);
                 startActivity(dinner);
                 break;
             case R.id.cardsnack:
-                Intent snacks = new Intent(getActivity(), A_Snacks.class);
+                Intent snacks = new Intent(getActivity(), A_Breakfast.class);
+                snacks.putExtra("key",string_datenow);
+                snacks.putExtra("session",string_snacks);
                 startActivity(snacks);
                 break;
             case R.id.imageday_back:
@@ -276,6 +295,11 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                 syncDataWithFirebase(getnextday(string_datenow));
 //                Toast.makeText(getActivity(),getnextday(string_datenow),Toast.LENGTH_SHORT).show();
                 string_datenow = getnextday(string_datenow);
+                break;
+            case R.id.imageexcercise:
+                Intent excercise = new Intent(getActivity(), A_Excercise.class);
+                excercise.putExtra("key",string_datenow);
+                startActivity(excercise);
                 break;
         }
     }
@@ -297,6 +321,16 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         imageLunch = view.findViewById(R.id.imagelunch);
         imageDinner = view.findViewById(R.id.imagedinner);
         imageSnack = view.findViewById(R.id.imagesnack);
+        imageExcercise = view.findViewById(R.id.imageexcercise);
+
+        caloshow_breakfast = view.findViewById(R.id.caloshow_breakfast);
+        caloshow_lunch = view.findViewById(R.id.caloshow_lunch);
+        caloshow_dinner = view.findViewById(R.id.caloshow_dinner);
+        caloshow_snacks = view.findViewById(R.id.caloshow_snacks);
+
+        burnedcalo = view.findViewById(R.id.burnedcalo);
+        earnedcalo = view.findViewById(R.id.earnedcalo);
+
         backday = view.findViewById(R.id.imageday_back);
         nextday = view.findViewById(R.id.imageday_next);
 
@@ -317,7 +351,12 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         water = 0;
         daynextt = 1;
         daybackk = 1;
+        caloshow=0;
         string_datenow = getcurrentday();
+        string_breakfast = "breakfast";
+        string_snacks = "snacks";
+        string_dinner = "dinner";
+        string_lunch = "lunch";
 
         imbottle1.setOnClickListener(this);
         imbottle2.setOnClickListener(this);
@@ -330,6 +369,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         cardSnack.setOnClickListener(this);
         backday.setOnClickListener(this);
         nextday.setOnClickListener(this);
+        imageExcercise.setOnClickListener(this);
 
 
 
@@ -381,5 +421,6 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         int month = c.get(Calendar.MONTH) + 1;
         date_home.setText(day + " thg " + month);
     }
+
 
 }

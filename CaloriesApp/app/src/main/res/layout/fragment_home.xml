@@ -128,10 +128,10 @@
                     android:layout_weight="1"
                     >
                     <TextView
-                        android:id="@+id/todaycalo"
+                        android:id="@+id/earnedcalo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2250"
+                        tools:text="2250"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:layout_centerInParent="true"
@@ -144,11 +144,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
                     <TextView
-                        android:id="@+id/earnedcalo"
+                        android:id="@+id/burnedcalo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="1763"
+                        tools:text="1763"
                         android:textSize="30dp"
                         android:textStyle="bold"
                         android:layout_centerInParent="true"
@@ -313,9 +313,10 @@
                         app:layout_constraintTop_toTopOf="@+id/imagebreakfast"></TextView>
 
                     <TextView
+                        android:id="@+id/caloshow_breakfast"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="370"
+                        tools:text="370"
                         android:textColor="@color/white"
                         android:textSize="27dp"
                         android:layout_marginTop="10dp"
@@ -376,6 +377,7 @@
                         app:layout_constraintTop_toTopOf="@+id/imagelunch"></TextView>
 
                     <TextView
+                        android:id="@+id/caloshow_lunch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="550"
@@ -437,6 +439,7 @@
                         app:layout_constraintStart_toEndOf="@+id/imagedinner"
                         app:layout_constraintTop_toTopOf="@+id/imagedinner"></TextView>
                     <TextView
+                        android:id="@+id/caloshow_dinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="680"
@@ -496,6 +499,7 @@
                         app:layout_constraintStart_toEndOf="@+id/imagesnack"
                         app:layout_constraintTop_toTopOf="@+id/imagesnack"></TextView>
                     <TextView
+                        android:id="@+id/caloshow_snacks"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="680"
@@ -521,6 +525,7 @@
         android:layout_height="wrap_content"
         >
         <ImageView
+            android:id="@+id/imageexcercise"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@drawable/excercise_background"
