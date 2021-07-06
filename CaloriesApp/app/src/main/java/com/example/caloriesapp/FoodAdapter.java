@@ -14,12 +14,9 @@ import java.util.List;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
     private List<FoodStatic> mListFood;
-
     private OnRecycleViewClickListener listener;
 
-    //
 
-    //
 
 
     public interface OnRecycleViewClickListener{

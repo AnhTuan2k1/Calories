@@ -9,7 +9,6 @@ public class Exercise {
     private float calories;  //   Cal/minute
     private int duration;    // minute  default: 60
     private String date;  // vd 11/11/2020
-
     public Exercise(){}
 
     public Exercise(String nameExercise, float calories, int duration, String date) {
@@ -17,7 +16,6 @@ public class Exercise {
         this.calories = calories;
         this.duration = duration;
         this.date = date;
-
         this.id = UUID.randomUUID().toString();
     }
 
@@ -67,4 +65,6 @@ public class Exercise {
     public void setDate(String date) {
         this.date = date;
     }
+
+
 }
