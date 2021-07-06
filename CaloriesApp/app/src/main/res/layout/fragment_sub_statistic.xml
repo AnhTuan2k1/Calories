@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.FragmentStatistic"
+    tools:context=".fragment.FragmentSubStatistic"
     >
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardViewww"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -25,31 +25,50 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/textView_statistic"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:padding="12dp"
-                android:text="7 days ago"
-                android:textSize="16sp"
+            <ImageView
+                android:id="@+id/imageView_left_substatistic"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_arrow_left_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageView_statistic"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/textView_substatistic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:padding="12dp"
+                android:text="Today"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageView_down_substatistic"
+                app:layout_constraintStart_toEndOf="@+id/imageView_left_substatistic"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
-                android:id="@+id/imageView_statistic"
+                android:id="@+id/imageView_down_substatistic"
                 android:layout_width="40dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_arrow_drop_down_24"
-                app:layout_constraintBottom_toBottomOf="@+id/textView_statistic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageView_right__substatistic"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView_right__substatistic"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_arrow_right_24"
+
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_statistic"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -61,233 +80,93 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/cardViewww">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:elevation="20dp"
-                >
+                android:layout_marginBottom="8dp"
+                android:elevation="20dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/textview123"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="From: "
-                        android:padding="12dp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <TextView
-                        android:id="@+id/edittext_startdate_statistic"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:inputType="none"
-                        android:hint="select"
-                        app:layout_constraintStart_toEndOf="@+id/textview123"
-                        app:layout_constraintBottom_toBottomOf="@+id/textview123"
-                        app:layout_constraintTop_toTopOf="@+id/textview123"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:hint="To: "
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toStartOf="@+id/edittext_enddate_statistic"
-                        app:layout_constraintBottom_toBottomOf="@+id/edittext_enddate_statistic"
-                        />
-
-                    <TextView
-                        android:id="@+id/edittext_enddate_statistic"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:inputType="none"
-                        android:hint="select"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-
-
-            <androidx.cardview.widget.CardView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="450dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:elevation="20dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
                 >
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Calories"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/totalCalories_substatistic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/textView12"
+                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="% of goal"
+                    app:layout_constraintBottom_toBottomOf="@+id/averageCalories_substatistic"
+                    app:layout_constraintStart_toEndOf="@+id/averageCalories_substatistic"
+                    />
+
+                <TextView
+                    android:id="@+id/averageCalories_substatistic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    app:layout_constraintStart_toStartOf="@+id/totalCalories_substatistic"
+                    app:layout_constraintTop_toBottomOf="@+id/totalCalories_substatistic"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Goal: "
+                    app:layout_constraintBottom_toBottomOf="@id/averageCalories_substatistic"
+                    app:layout_constraintEnd_toStartOf="@+id/textviewGoal_substatistic" />
+
+                <TextView
+                    android:id="@+id/textviewGoal_substatistic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/averageCalories_substatistic"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/piechart_substatistic"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="300dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
-                    <TextView
-                        android:id="@+id/textView12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:text="Calories"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/totalCalories_statistic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="@+id/textView12"
-                        app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-                    <TextView
-                        android:id="@+id/textView14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Daily Average: "
-                        app:layout_constraintStart_toStartOf="@+id/totalCalories_statistic"
-                        app:layout_constraintTop_toBottomOf="@+id/totalCalories_statistic" />
-
-                    <TextView
-                        android:id="@+id/averageCalories_statistic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView14"
-                        app:layout_constraintStart_toEndOf="@+id/textView14" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Goal: "
-                        app:layout_constraintEnd_toStartOf="@+id/textviewGoal_statistic"
-                        app:layout_constraintBottom_toBottomOf="@id/averageCalories_statistic"
-                        />
-
-                    <TextView
-                        android:id="@+id/textviewGoal_statistic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="32dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/averageCalories_statistic"
-                        app:layout_constraintEnd_toEndOf="parent" />
-
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/linechart_statistic"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="2dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView14"
-                        app:layout_constraintBottom_toTopOf="@+id/constraint_checkbox_detail"
-                        />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/constraint_checkbox_detail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:orientation="horizontal"
-                        >
-
-                        <com.google.android.material.checkbox.MaterialCheckBox
-                            android:id="@+id/checkbox_showdetail_statistic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_marginEnd="8dp"
-                            android:text="Show details"
-                            android:textColor="@color/gray_heavy"
-                            android:textSize="12dp"
-                            app:layout_constraintBottom_toTopOf="@+id/checkbox_showGoalline_statistic"
-                            app:layout_constraintEnd_toEndOf="parent" />
-
-                        <com.google.android.material.checkbox.MaterialCheckBox
-                            android:id="@+id/checkbox_showGoalline_statistic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginBottom="8dp"
-                            android:text="Show Goal Line"
-                            android:textColor="@color/green"
-                            android:textSize="12dp"
-                            app:layout_constraintBottom_toTopOf="@+id/checkbox_showBurnline_statistic"
-                            app:layout_constraintStart_toEndOf="@id/checkbox_showGainline_statistic" />
-
-                        <com.google.android.material.checkbox.MaterialCheckBox
-                            android:id="@+id/checkbox_showGainline_statistic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_marginBottom="8dp"
-                            android:text="Show Gain Line"
-                            android:textColor="@color/red"
-                            android:textSize="12dp"
-                            app:layout_constraintBottom_toTopOf="@+id/checkbox_showBurnline_statistic"
-                            app:layout_constraintStart_toStartOf="parent" />
-                        <com.google.android.material.checkbox.MaterialCheckBox
-                            android:id="@+id/checkbox_showBurnline_statistic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginBottom="4dp"
-                            android:layout_marginTop="2dp"
-                            android:textSize="12dp"
-                            android:textColor="@color/blue"
-                            android:text="Show Burn Line"
-                            />
-
-                        <com.google.android.material.checkbox.MaterialCheckBox
-                            android:id="@+id/checkbox_showGainBurnline_statistic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="16dp"
-                            android:text="Show (Gain - Burn) Line"
-                            android:textColor="@color/redblue"
-                            android:textSize="12dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/checkbox_showBurnline_statistic"
-                            app:layout_constraintStart_toEndOf="@+id/checkbox_showBurnline_statistic" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
+            </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
-
-
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -349,7 +228,7 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
                             <TextView
-                                android:id="@+id/percentBreakfast_statistic"
+                                android:id="@+id/percentBreakfast_substatistic"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -359,12 +238,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="%)"
-                                app:layout_constraintStart_toEndOf="@+id/percentBreakfast_statistic"
-                                app:layout_constraintBottom_toBottomOf="@+id/percentBreakfast_statistic"
+                                app:layout_constraintStart_toEndOf="@+id/percentBreakfast_substatistic"
+                                app:layout_constraintBottom_toBottomOf="@+id/percentBreakfast_substatistic"
                                 />
 
                             <TextView
-                                android:id="@+id/caloBreakfast_statistic"
+                                android:id="@+id/caloBreakfast_substatistic"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="8dp"
@@ -407,7 +286,7 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
                             <TextView
-                                android:id="@+id/percentLunch_statistic"
+                                android:id="@+id/percentLunch_substatistic"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -417,12 +296,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="%)"
-                                app:layout_constraintStart_toEndOf="@+id/percentLunch_statistic"
-                                app:layout_constraintBottom_toBottomOf="@+id/percentLunch_statistic"
+                                app:layout_constraintStart_toEndOf="@+id/percentLunch_substatistic"
+                                app:layout_constraintBottom_toBottomOf="@+id/percentLunch_substatistic"
                                 />
 
                             <TextView
-                                android:id="@+id/caloLunch_statistic"
+                                android:id="@+id/caloLunch_substatistic"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="8dp"
@@ -464,7 +343,7 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
                             <TextView
-                                android:id="@+id/percentDinner_statistic"
+                                android:id="@+id/percentDinner_substatistic"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -474,12 +353,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="%)"
-                                app:layout_constraintStart_toEndOf="@+id/percentDinner_statistic"
-                                app:layout_constraintBottom_toBottomOf="@+id/percentDinner_statistic"
+                                app:layout_constraintStart_toEndOf="@+id/percentDinner_substatistic"
+                                app:layout_constraintBottom_toBottomOf="@+id/percentDinner_substatistic"
                                 />
 
                             <TextView
-                                android:id="@+id/caloDinner_statistic"
+                                android:id="@+id/caloDinner_substatistic"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="8dp"
@@ -522,7 +401,7 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
                             <TextView
-                                android:id="@+id/percentSnacks_statistic"
+                                android:id="@+id/percentSnacks_substatistic"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -532,12 +411,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="%)"
-                                app:layout_constraintStart_toEndOf="@+id/percentSnacks_statistic"
-                                app:layout_constraintBottom_toBottomOf="@+id/percentSnacks_statistic"
+                                app:layout_constraintStart_toEndOf="@+id/percentSnacks_substatistic"
+                                app:layout_constraintBottom_toBottomOf="@+id/percentSnacks_substatistic"
                                 />
 
                             <TextView
-                                android:id="@+id/caloSnacks_statistic"
+                                android:id="@+id/caloSnacks_substatistic"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="8dp"
@@ -547,10 +426,9 @@
                                 app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.cardview.widget.CardView>
+
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
-
 
         </LinearLayout>
 

@@ -59,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 
@@ -80,6 +81,10 @@ public class FragmentStatistic extends Fragment {
     private TextView edittext_startdate;
     private TextView edittext_enddate;
     private CheckBox checkbox_showdetail;
+    private CheckBox checkbox_showGoalline;
+    private CheckBox checkbox_showGainline;
+    private CheckBox checkbox_showBurnline;
+    private CheckBox checkbox_showGainBurnline;
 
     private LineChart lineChart;
 
@@ -99,8 +104,12 @@ public class FragmentStatistic extends Fragment {
 
     ArrayList<Entry> goalValue;
     ArrayList<Entry> gainValue;
+    ArrayList<Entry> burnValue;
+    ArrayList<Entry> gainburnValue;
     LineDataSet set1;
     LineDataSet set2;
+    LineDataSet set3;
+    LineDataSet set4;
     LineData lineData;
 
     private View mView;
@@ -157,6 +166,51 @@ public class FragmentStatistic extends Fragment {
                 }
             }
         });
+//        CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                setupgraphAgain(checkbox_showGoalline.isChecked(), checkbox_showGainline.isChecked(),
+//                        checkbox_showBurnline.isChecked(), checkbox_showGainBurnline.isChecked());
+//            }
+//        };
+//        checkbox_showGainline.setOnCheckedChangeListener(onCheckedChangeListener);
+//        checkbox_showBurnline.setOnCheckedChangeListener(onCheckedChangeListener);
+//        checkbox_showGainBurnline.setOnCheckedChangeListener(onCheckedChangeListener);
+//        checkbox_showGoalline.setOnCheckedChangeListener(onCheckedChangeListener);
+
+        checkbox_showGainline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                viewmodel.checkbox_showGainline = isChecked;
+                setupgraphAgain(checkbox_showGoalline.isChecked(), checkbox_showGainline.isChecked(),
+                        checkbox_showBurnline.isChecked(), checkbox_showGainBurnline.isChecked());
+            }
+        });
+        checkbox_showBurnline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                viewmodel.checkbox_showBurnline = isChecked;
+                setupgraphAgain(checkbox_showGoalline.isChecked(), checkbox_showGainline.isChecked(),
+                        checkbox_showBurnline.isChecked(), checkbox_showGainBurnline.isChecked());
+            }
+        });
+        checkbox_showGainBurnline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                viewmodel.checkbox_showGainBurnline = isChecked;
+                setupgraphAgain(checkbox_showGoalline.isChecked(), checkbox_showGainline.isChecked(),
+                        checkbox_showBurnline.isChecked(), checkbox_showGainBurnline.isChecked());
+            }
+        });
+        checkbox_showGoalline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                viewmodel.checkbox_showGoalline = isChecked;
+                setupgraphAgain(checkbox_showGoalline.isChecked(), checkbox_showGainline.isChecked(),
+                        checkbox_showBurnline.isChecked(), checkbox_showGainBurnline.isChecked());
+            }
+        });
+
 
         return mView;
     }
@@ -173,6 +227,13 @@ public class FragmentStatistic extends Fragment {
         set2.setValueTextSize(10);
         set2.setDrawValues(true);
 
+        set3.setDrawCircles(true);
+        set3.setValueTextSize(10);
+        set3.setDrawValues(true);
+
+        set4.setDrawCircles(true);
+        set4.setValueTextSize(10);
+        set4.setDrawValues(true);
 
         lineChart.forceLayout();
     }
@@ -185,27 +246,78 @@ public class FragmentStatistic extends Fragment {
         set2.setDrawCircles(false);
         set2.setDrawValues(false);
 
+        set3.setDrawCircles(false);
+        set3.setDrawValues(false);
+
+        set4.setDrawCircles(false);
+        set4.setDrawValues(false);
+
         lineChart.forceLayout();
     }
 
-    private void setupgraph(ArrayList<Entry> goalValue, ArrayList<Entry> gainValue) {
+    private void setupgraphAgain(boolean checkbox_showGoallineChecked, boolean checkbox_showGainlineChecked,
+                                 boolean checkbox_showBurnlineChecked, boolean checkbox_showGainBurnlineChecked)
+    {
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
 
-        set1 = new LineDataSet(goalValue, "goal");
-        set1.setFillAlpha(100);
-        set1.setValueTextColor(Color.RED);
-        set1.setColor(Color.RED);
-        set1.setDrawCircles(false);
-        set1.setDrawValues(false);
-        set1.setLineWidth(1.5f);
-        dataSets.add(set1);
+        if(checkbox_showBurnlineChecked)
+        {
+            dataSets.add(set3);
+        }
+        if(checkbox_showGainlineChecked)
+        {
+            dataSets.add(set2);
+        }
+        if(checkbox_showGainBurnlineChecked)
+        {
+            dataSets.add(set4);
+        }
+        if(checkbox_showGoallineChecked)
+        {
+            dataSets.add(set1);
+        }
 
-        set2 = new LineDataSet(gainValue, "gain");
-        set2.setValueTextColor(Color.BLUE);
-        set2.setColor(Color.BLUE);
+        lineData = new LineData(dataSets);
+        lineChart.setData(lineData);
+        lineChart.setScaleEnabled(true);
+        lineChart.getXAxis().setDrawLabels(false);
+        lineChart.getAxisRight().setEnabled(false);
+        lineChart.getXAxis().setValueFormatter(new MyAxisValueFormatter(stringArrayList));
+        lineChart.getXAxis().setDrawLabels(true);
+        lineChart.forceLayout();
+    }
+
+    private void setupgraph(ArrayList<Entry> goalValue, ArrayList<Entry> gainValue,
+                            ArrayList<Entry> burnValue, ArrayList<Entry> gainburnValue) {
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+
+        set2 = new LineDataSet(gainValue, "Gain");
+        set2.setValueTextColor(Color.RED);
+        set2.setColor(Color.RED);
         set2.setDrawValues(false);
         set2.setLineWidth(1.5f);
         dataSets.add(set2);
+
+        set1 = new LineDataSet(goalValue, "Goal");
+        set1.setValueTextColor(Color.GREEN);
+        set1.setColor(Color.GREEN);
+        set1.setDrawCircles(false);
+        set1.setLineWidth(1.5f);
+        dataSets.add(set1);
+
+        set3 = new LineDataSet(burnValue, "Burn");
+        set3.setValueTextColor(Color.BLUE);
+        set3.setColor(Color.BLUE);
+        set3.setDrawValues(false);
+        set3.setLineWidth(1.5f);
+        dataSets.add(set3);
+
+        set4 = new LineDataSet(gainburnValue, "Gain - Burn");
+        set4.setValueTextColor(Color.rgb(225, 0, 225));
+        set4.setColor(Color.rgb(225, 0, 225));
+        set4.setDrawValues(false);
+        set4.setLineWidth(1.5f);
+        dataSets.add(set4);
 
         lineData = new LineData(dataSets);
         lineChart.setData(lineData);
@@ -241,6 +353,8 @@ public class FragmentStatistic extends Fragment {
         {
 
         }
+        setupgraphAgain(checkbox_showGoalline.isChecked(), checkbox_showGainline.isChecked(),
+                checkbox_showBurnline.isChecked(), checkbox_showGainBurnline.isChecked());
 
     }
 
@@ -265,7 +379,7 @@ public class FragmentStatistic extends Fragment {
     }
 
     private void showOptionDialog() {
-        String[] a = {"7 days ago", "30 days ago", "today", "60 days ago"};
+        String[] a = {"Today", "Last Week", "Last 30 Days", "Last 60 Days"};
         new MaterialAlertDialogBuilder(getContext())
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -278,19 +392,19 @@ public class FragmentStatistic extends Fragment {
                 switch (which)
                 {
                     case 0:
-                        viewmodel.textView = "7 days ago";
+                        viewmodel.textView = "Today";
                         textView.setText(viewmodel.textView);
                         break;
                     case 1:
-                        viewmodel.textView = "30 days ago";
+                        viewmodel.textView = "Last Week";
                         textView.setText(viewmodel.textView);
                         break;
                     case 2:
-                        viewmodel.textView = "today";
+                        viewmodel.textView = "Last 30 Days";
                         textView.setText(viewmodel.textView);
                         break;
                     case 3:
-                        viewmodel.textView = "60 days ago";
+                        viewmodel.textView = "Last 60 Days";
                         textView.setText(viewmodel.textView);
                         break;
                 }
@@ -299,13 +413,13 @@ public class FragmentStatistic extends Fragment {
     }
 
     private int getCheckedItem() {
-        if(textView.getText() == "7 days ago")
+        if(textView.getText() == "Today")
             xChecked = 0;
-        else if(textView.getText() == "30 days ago")
+        else if(textView.getText() == "Last Week")
             xChecked = 1;
-        else if(textView.getText() == "today")
+        else if(textView.getText() == "Last 30 Days")
             xChecked = 2;
-        else if(textView.getText() == "60 days ago")
+        else if(textView.getText() == "Last 60 Days")
             xChecked = 3;
 
         return xChecked;
@@ -321,28 +435,28 @@ public class FragmentStatistic extends Fragment {
 
         switch(textView.getText().toString())
         {
-            case "7 days ago":
+            case "Last Week":
                 load7daysago();
                 viewmodel.edittext_enddate = "";
                 viewmodel.edittext_startdate = "";
                 edittext_startdate.setText(viewmodel.edittext_startdate);
                 edittext_enddate.setText(viewmodel.edittext_enddate);
                 break;
-            case "30 days ago":
+            case "Last 30 Days":
                 loadamonthago();
                 viewmodel.edittext_enddate = "";
                 viewmodel.edittext_startdate = "";
                 edittext_startdate.setText(viewmodel.edittext_startdate);
                 edittext_enddate.setText(viewmodel.edittext_enddate);
                 break;
-            case "today":
+            case "Today":
                 loadtoday();
                 viewmodel.edittext_enddate = "";
                 viewmodel.edittext_startdate = "";
                 edittext_startdate.setText(viewmodel.edittext_startdate);
                 edittext_enddate.setText(viewmodel.edittext_enddate);
                 break;
-            case "60 days ago":
+            case "Last 60 Days":
                 load2monthago();
                 viewmodel.edittext_enddate = "";
                 viewmodel.edittext_startdate = "";
@@ -364,11 +478,13 @@ public class FragmentStatistic extends Fragment {
         Calendar enddate = Calendar.getInstance();
         Calendar loopdate = Calendar.getInstance();
         Calendar loopdate2 = Calendar.getInstance();
+        Calendar loopdate3 = Calendar.getInstance();
 
         try {
             startdate.setTime(sdf.parse(start));
             loopdate.setTime(sdf.parse(start));
             loopdate2.setTime(sdf.parse(start));
+            loopdate3.setTime(sdf.parse(start));
             enddate.setTime(sdf.parse(end));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -380,17 +496,45 @@ public class FragmentStatistic extends Fragment {
         }
         else if(comparedate(startdate, enddate) == 0)
         {
-            viewmodel.textView = "today";
+            viewmodel.textView = "Today";
             textView.setText(viewmodel.textView);
             loadtoday();
         }
         else{
             updateCaloDailyList(startdate, enddate, loopdate);
-            updateFoodList(startdate, enddate, loopdate2);
+            updateExerciseList(startdate, enddate, loopdate2);
+            updateFoodList(startdate, enddate, loopdate3);
         }
 
 
 
+    }
+
+    private void updateExerciseList(Calendar startdate, Calendar enddate, Calendar loopdate) {
+        exerciseList.clear();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("exercise");
+        while (comparedate(loopdate, enddate) < 1)
+        {
+            String date = sdf.format(loopdate.getTime());
+            reference.child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren())
+                    {
+                        Exercise exercise = dataSnapshot.getValue(Exercise.class);
+                        exerciseList.add(exercise);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toasty.info(Objects.requireNonNull(getContext()), error.getMessage(),Toasty.LENGTH_SHORT).show();
+                }
+            });
+            loopdate.add(Calendar.DAY_OF_MONTH, 1);
+        }
     }
 
     private void updateCaloDailyList(Calendar startdate, Calendar enddate, Calendar loopdate) {
@@ -410,7 +554,7 @@ public class FragmentStatistic extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toasty.info(getContext(), error.getMessage(),Toasty.LENGTH_SHORT).show();
+                    Toasty.info(Objects.requireNonNull(getContext()), error.getMessage(),Toasty.LENGTH_SHORT).show();
                 }
             });
 
@@ -470,7 +614,7 @@ public class FragmentStatistic extends Fragment {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            updategraph(foodateList, startdate, enddate);
+                            updategraph(startdate, enddate);
                         }
                     }).start();
 
@@ -520,7 +664,44 @@ public class FragmentStatistic extends Fragment {
         }).start();
     }
 
-    private void updategraph(final List<Foodate> foodateList, Calendar startdate, Calendar enddate) {
+    private void updategraph(Calendar startdate, Calendar enddate) {
+
+        updateburnValue(startdate, enddate);
+        updategainValue(startdate, enddate);
+        updategoalValue(startdate, enddate);
+        updategainburnValue(gainValue, burnValue);
+
+        setupgraph(goalValue, gainValue, burnValue, gainburnValue);
+    }
+
+
+    private void updateburnValue(Calendar startdate, Calendar enddate) {
+
+        burnValue.clear();
+
+        Calendar loopdate = Calendar.getInstance();
+        loopdate.setTime(startdate.getTime());
+
+        int x = 0;
+        while (comparedate(loopdate, enddate) < 1)
+        {
+            float y = 0;
+            for(int i = 0; i<exerciseList.size(); i++)
+            {
+                if(sdf.format(loopdate.getTime()).equals(exerciseList.get(i).getDate()))
+                {
+                    y += exerciseList.get(i).getCalories()*exerciseList.get(i).getDuration();
+                }
+            }
+
+            burnValue.add(new Entry(x, y));
+
+            x++;
+            loopdate.add(Calendar.DAY_OF_MONTH, 1);
+        }
+    }
+
+    private void updategainValue(Calendar startdate, Calendar enddate) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd", Locale.getDefault());
         gainValue.clear();
         stringArrayList.clear();
@@ -546,9 +727,6 @@ public class FragmentStatistic extends Fragment {
             x++;
             loopdate.add(Calendar.DAY_OF_MONTH, 1);
         }
-
-        updategoalValue(startdate, enddate);
-        setupgraph(goalValue, gainValue);
     }
 
     private void updategoalValue(Calendar startdate, Calendar enddate) {
@@ -580,6 +758,16 @@ public class FragmentStatistic extends Fragment {
         }
     }
 
+    private void updategainburnValue(ArrayList<Entry> gainValue, ArrayList<Entry> burnValue) {
+
+        gainburnValue.clear();
+        for(int i = 0; i<gainValue.size(); i++)
+        {
+            gainburnValue.add(new Entry(i, gainValue.get(i).getY() - burnValue.get(i).getY()));
+        }
+
+    }
+
     private int convertcalendartoint(Calendar calendar) {
 
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -602,6 +790,13 @@ public class FragmentStatistic extends Fragment {
     }
 
     private void loadtoday() {
+        try{
+            ((MainActivity) getActivity()).openSubStatisticFragment();
+        }
+        catch (Exception ignored)
+        {
+
+        }
 
     }
 
@@ -791,9 +986,22 @@ public class FragmentStatistic extends Fragment {
         checkbox_showdetail = mView.findViewById(R.id.checkbox_showdetail_statistic);
         checkbox_showdetail.setChecked(viewmodel.checkbox_showdetail);                          //viewmodel
 
+        checkbox_showGoalline = mView.findViewById(R.id.checkbox_showGoalline_statistic);
+        checkbox_showGainline = mView.findViewById(R.id.checkbox_showGainline_statistic);
+        checkbox_showBurnline = mView.findViewById(R.id.checkbox_showBurnline_statistic);
+        checkbox_showGainBurnline = mView.findViewById(R.id.checkbox_showGainBurnline_statistic);
+
+        checkbox_showGoalline.setChecked(viewmodel.checkbox_showGoalline);
+        checkbox_showGainline.setChecked(viewmodel.checkbox_showGainline);
+        checkbox_showBurnline.setChecked(viewmodel.checkbox_showBurnline);
+        checkbox_showGainBurnline.setChecked(viewmodel.checkbox_showGainBurnline);
+
+
         lineChart = mView.findViewById(R.id.linechart_statistic);
         goalValue = new ArrayList<>();
         gainValue = new ArrayList<>();
+        burnValue = new ArrayList<>();
+        gainburnValue = new ArrayList<>();
 
         foodateList = new ArrayList<>();
         exerciseList = new ArrayList<>();
