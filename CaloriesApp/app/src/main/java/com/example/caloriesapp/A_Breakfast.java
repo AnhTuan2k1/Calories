@@ -3,7 +3,6 @@ package com.example.caloriesapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,9 +61,10 @@ public class A_Breakfast extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private Foodate deletedFood = null;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView tieude;
+    private TextView tieude,text_explain_2;
     private String sessionofday;
     private String date;
+    private int total;
 
     public static final String SESSIONOFDAY_BREAKFAST = "com.example.application.example.EXTRA_SESSIONOFDAY";
     public static final String DATE_BREAKFAST = "com.example.application.example.EXTRA_DATE";
@@ -199,6 +199,7 @@ public class A_Breakfast extends AppCompatActivity {
         floatingActionButton = findViewById(R.id.breakfast_fab);
         swipeRefreshLayout = findViewById(R.id.swiperefresh_breakfast);
         recyclerView = findViewById(R.id.breakfastlist);
+        text_explain_2 = findViewById(R.id.text_explain2);
         foodateList = new ArrayList<>();
         foodateAdapter = new FoodateAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -208,10 +209,7 @@ public class A_Breakfast extends AppCompatActivity {
         date = intent.getStringExtra("key");
         sessionofday = intent.getStringExtra("session");
         tieude.setText(sessionofday.substring(0,1).toUpperCase() + sessionofday.substring(1));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
-
+        total = 0;
 
         }
     private void syncDataWithFirebase(String date) {
@@ -234,13 +232,21 @@ public class A_Breakfast extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Foodate foodate = dataSnapshot.getValue(Foodate.class);
                         if(foodate.getSessionofday().equals(sessionofday)){
-//                    Toasty.info(A_Breakfast.this, foodate.getSessionofday(), Toasty.LENGTH_SHORT).show();
-                            foodateList.add(foodate);
 
+
+                            float a = (foodate.getGram()*foodate.getCalories());
+
+//                            Toasty.info(A_Breakfast.this, String.valueOf(a), Toasty.LENGTH_SHORT).show();
+                            total = total + Math.round(a);
+                            foodateList.add(foodate);
                         }
                     }
                     foodateAdapter.notifyDataSetChanged();
 
+                    text_explain_2.clearComposingText();
+                    text_explain_2.setText("Total Calories: ");
+                    text_explain_2.append(String.valueOf(total));
+                    total=0;
                 // update ui here with foodateList
             }
 

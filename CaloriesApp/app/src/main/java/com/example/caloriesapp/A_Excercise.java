@@ -55,8 +55,9 @@ public class A_Excercise extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private Exercise deletedExcercise = null;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView tieude;
+    private TextView tieude,text_explain_3;
     private String date;
+    private int total;
 
     public static final String DATE_EXERCISE = "com.example.application.example.EXTRA_DATE_EXERCISE";
     @Override
@@ -163,6 +164,7 @@ public class A_Excercise extends AppCompatActivity {
     }
     private void AnhXa() {
         tieude = findViewById(R.id.tieudeexcercise);
+        text_explain_3 = findViewById(R.id.text_explain3);
         floatingActionButton = findViewById(R.id.excercise_fab);
         swipeRefreshLayout = findViewById(R.id.swiperefresh_excercise);
         recyclerView = findViewById(R.id.excerciselist);
@@ -185,9 +187,16 @@ public class A_Excercise extends AppCompatActivity {
                 {
                     Exercise exercise = dataSnapshot.getValue(Exercise.class);
 //                        Toasty.info(A_Excercise.this, exercise.getSessionofday(), Toasty.LENGTH_SHORT).show();
-                        exerciseList.add(exercise);
+                    int a = Math.round(exercise.getCalories()*exercise.getDuration());
+                    total = total + a;
+                    exerciseList.add(exercise);
                 }
                 exerciseAdapter.notifyDataSetChanged();
+                text_explain_3.clearComposingText();
+                text_explain_3.setText("Total Calories: ");
+                text_explain_3.append(String.valueOf(total));
+                total=0;
+
                 // update ui here with exerciseList
             }
 
