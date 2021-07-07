@@ -22,6 +22,7 @@ import com.example.caloriesapp.User;
 import com.example.caloriesapp.fragment.FragmentAccount;
 import com.example.caloriesapp.fragment.FragmentHome;
 import com.example.caloriesapp.fragment.FragmentStatistic;
+import com.example.caloriesapp.fragment.FragmentSubStatistic;
 import com.example.caloriesapp.viewmodel.MainActivityViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int FRAGMENT_HOME = 1;
     private static final int FRAGMENT_STATISTIC = 2;
     private static final int FRAGMENT_ACCOUNT = 3;
+    private static final int FRAGMENT_SUBSTATISTIC = 4;
 
    private Button bt1;
 
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     //private User user;
     private int current_Fragment;
-    private MainActivityViewModel viewmodel;
+    public MainActivityViewModel viewmodel;
     private BottomNavigationView navigationView;
     LottieAnimationView lottieAnimationView;
     FirebaseAuth firebaseAuth;
@@ -159,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-    private void openStatisticFragment()
+    public void openStatisticFragment()
     {
         if(current_Fragment != FRAGMENT_STATISTIC)
         {
@@ -177,6 +179,18 @@ public class MainActivity extends AppCompatActivity {
             replaceFragment(fragment);
             viewmodel.currentFragment = FRAGMENT_ACCOUNT;
             current_Fragment = viewmodel.currentFragment;
+        }
+    }
+
+    public void openSubStatisticFragment()
+    {
+        if(current_Fragment != FRAGMENT_SUBSTATISTIC)
+        {
+            fragment = new FragmentSubStatistic();
+            replaceFragment(fragment);
+            viewmodel.currentFragment = FRAGMENT_SUBSTATISTIC;
+            current_Fragment = viewmodel.currentFragment;
+
         }
     }
 
