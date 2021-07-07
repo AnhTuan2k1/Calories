@@ -93,8 +93,9 @@ public class A_Breakfast extends AppCompatActivity {
             public void onRefresh() {
                 foodateList.clear();
 //                foodateList.add(food);
-                syncDataWithFirebase(date);
+
                 foodateAdapter.notifyDataSetChanged();
+                syncDataWithFirebase(date);
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -133,12 +134,14 @@ public class A_Breakfast extends AppCompatActivity {
                             .child(date)
                             .child(deletedFood.getId()).removeValue();
                     foodateAdapter.notifyItemRemoved(positon);
+                    updateUI(date);
                     Snackbar.make(recyclerView, deletedFood.getNameFood(), BaseTransientBottomBar.LENGTH_LONG)
                             .setAction("Undo", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     foodateList.add(positon, deletedFood);
                                     foodateAdapter.notifyItemInserted(positon);
+
                                     FirebaseDatabase.getInstance().getReference().child("users")
                                             .child(FirebaseAuth.getInstance().getUid())
                                             .child("foodate")
@@ -148,7 +151,7 @@ public class A_Breakfast extends AppCompatActivity {
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-
+                                                    updateUI(date);
                                                 }
                                             });
                                 }
@@ -165,6 +168,8 @@ public class A_Breakfast extends AppCompatActivity {
                             deletedFood.getGram(),
                             sessionofday,
                             date);
+                    foodateList.clear();
+                    updateUI(date);
                     foodateAdapter.notifyDataSetChanged();
                     break;
                 default:
@@ -192,6 +197,14 @@ public class A_Breakfast extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(A_Breakfast.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+    }
 
     public void AnhXa(){
 
@@ -217,11 +230,42 @@ public class A_Breakfast extends AppCompatActivity {
         {
             return;
         }
-//        updateUI(date);
+        updateUI(date);
         updateFoodateList(date);
 //        updateExercise(date);
 //        updateCaloDaily(date);
     }
+    private void updateUI(String date) {
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("foodate")
+                .child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Foodate foodate = dataSnapshot.getValue(Foodate.class);
+                    if(foodate.getSessionofday().equals(sessionofday)){
+                        float a = (foodate.getGram()*foodate.getCalories());
+//                            Toasty.info(A_Breakfast.this, String.valueOf(a), Toasty.LENGTH_SHORT).show();
+                        total = total + Math.round(a);
+                    }
+                }
+
+
+                text_explain_2.clearComposingText();
+                text_explain_2.setText("Total Calories: ");
+                text_explain_2.append(String.valueOf(total));
+                total=0;
+                // update ui here with foodateList
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toasty.info(A_Breakfast.this, "Please Restart", Toasty.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void updateFoodateList(String date) {
         FirebaseDatabase.getInstance().getReference().child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -233,20 +277,10 @@ public class A_Breakfast extends AppCompatActivity {
                     Foodate foodate = dataSnapshot.getValue(Foodate.class);
                         if(foodate.getSessionofday().equals(sessionofday)){
 
-
-                            float a = (foodate.getGram()*foodate.getCalories());
-
-//                            Toasty.info(A_Breakfast.this, String.valueOf(a), Toasty.LENGTH_SHORT).show();
-                            total = total + Math.round(a);
                             foodateList.add(foodate);
                         }
                     }
                     foodateAdapter.notifyDataSetChanged();
-
-                    text_explain_2.clearComposingText();
-                    text_explain_2.setText("Total Calories: ");
-                    text_explain_2.append(String.valueOf(total));
-                    total=0;
                 // update ui here with foodateList
             }
 
@@ -256,6 +290,8 @@ public class A_Breakfast extends AppCompatActivity {
             }
         });
     }
+
+
     private String getcurrentday() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());

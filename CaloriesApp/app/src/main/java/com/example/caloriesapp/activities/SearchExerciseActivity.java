@@ -90,6 +90,8 @@ public class SearchExerciseActivity extends AppCompatActivity  {
 
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();

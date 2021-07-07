@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CaloriesApp">
-        <activity android:name=".A_Excercise"></activity>
+        <activity android:name=".A_Excercise"
+            android:parentActivityName=".activities.MainActivity"></activity>
         <activity
             android:name=".activities.ForgetPasswordActivity"
             android:theme="@style/Theme.Login" />
@@ -25,7 +26,8 @@
         <activity
             android:name=".activities.RegisterActivity"
             android:theme="@style/Theme.Login" />
-        <activity android:name=".A_Breakfast" />
+        <activity android:name=".A_Breakfast"
+            android:parentActivityName=".activities.MainActivity"/>
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
