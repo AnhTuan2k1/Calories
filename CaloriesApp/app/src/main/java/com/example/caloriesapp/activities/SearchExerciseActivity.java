@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.caloriesapp.A_Excercise;
 import com.example.caloriesapp.Exercise;
 import com.example.caloriesapp.ExerciseAdapter;
 import com.example.caloriesapp.FoodAdapter;
@@ -54,7 +56,7 @@ public class SearchExerciseActivity extends AppCompatActivity  {
     private ExerciseAdapter exerciseAdapter;
     private List<Exercise> mListExercise;
     private List<Exercise> xListExercise;
-
+    private String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,7 @@ public class SearchExerciseActivity extends AppCompatActivity  {
         exerciseAdapter.OnRecycleViewClickListener(new ExerciseAdapter.OnRecycleViewClickListener() {
             @Override
             public void OnItemClick(int position) {
-                openDialog(Gravity.CENTER, mListExercise.get(position), "date");// "dd/MM/yyyy"
+                openDialog(Gravity.CENTER, mListExercise.get(position), date);// "dd/MM/yyyy"
             }
         });
 
@@ -131,6 +133,10 @@ public class SearchExerciseActivity extends AppCompatActivity  {
         exerciseAdapter.setData(mListExercise);
         listExercise.setAdapter(exerciseAdapter);
         listExercise.setLayoutManager(new LinearLayoutManager(this));
+
+        Intent intent = getIntent();
+        date = intent.getStringExtra(A_Excercise.DATE_EXERCISE);
+
     }
 
     public void hideSoftKeyboard()
@@ -144,7 +150,7 @@ public class SearchExerciseActivity extends AppCompatActivity  {
         }
     }
 
-    private void openDialog(int gravity, final Exercise exercise, final String date) {
+    private void openDialog(int gravity, final Exercise exercise, final String date ) {
 
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -194,7 +200,7 @@ public class SearchExerciseActivity extends AppCompatActivity  {
                 if(!time.equals("")  && Integer.parseInt(time)!= 0)
                 {
                     Exercise exercise2 = new Exercise(exercise.getNameExercise(), exercise.getCalories(),
-                                                        exercise.getDuration(), date);
+                                                        Integer.parseInt(time), date);
 
                     FirebaseDatabase.getInstance().getReference().child("users")
                             .child(FirebaseAuth.getInstance().getUid())

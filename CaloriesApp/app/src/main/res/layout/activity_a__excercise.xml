@@ -4,12 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".A_Breakfast">
+    tools:context=".A_Excercise">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh_excercise"
+        android:layout_below="@id/tieudeexcercise"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/excerciselist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tieudeexcercise"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:nestedScrollingEnabled="true" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tieudebreakfast"
-        android:text="Lunch"
+        android:id="@+id/tieudeexcercise"
+        android:text="Excercise"
         android:textSize="35dp"
         android:textColor="@color/black"
         android:textAllCaps="false"
@@ -20,16 +34,9 @@
         >
     </TextView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lunchlist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tieudebreakfast"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:nestedScrollingEnabled="true" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/lunch_fab"
+        android:id="@+id/excercise_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

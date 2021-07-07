@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -11,12 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.caloriesapp.activities.MainActivity;
+import es.dmoral.toasty.Toasty;
 
 public class A_info_4 extends AppCompatActivity {
     private Button button;
-    private EditText weighttxt,weighttxt2;
-
+    private EditText goalweight,currentweight;
+    private TextWatcher textWatcher = null;
     public String mucdich_4;
     public String gioitinh_4;
     public Float tuoi_4;
@@ -44,27 +47,15 @@ public class A_info_4 extends AppCompatActivity {
         gioitinh_4 = intent.getStringExtra(A_info_3.EXTRA_TEXTGIOITINH);
         tuoi_4 = intent.getFloatExtra(A_info_3.EXTRA_TEXTTUOI, 0);
         chieucao_4 = intent.getFloatExtra(A_info_3.EXTRA_TEXTCHIEUCAO,0);
-        weighttxt =(EditText) findViewById(R.id.txtweight);
-        weighttxt2 =(EditText) findViewById(R.id.txtweight2);
-
+        goalweight =(EditText) findViewById(R.id.txtweight);
+        currentweight =(EditText) findViewById(R.id.txtweight2);
+        Checking(mucdich_4);
 
         button = (Button)findViewById(R.id.next4);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(weighttxt2.getText().toString().matches("")||weighttxt.getText().toString().matches(""))
-                {
-
-                }
-                else{
-                    Animation animation = AnimationUtils.loadAnimation(A_info_4.this,R.anim.fadein);
-                    button.startAnimation(animation);
-                    cannang = Float.parseFloat(weighttxt2.getText().toString());
-                    cannanggoal = Float.parseFloat(weighttxt.getText().toString());
-
-
-                    OpenA_info_5();
-                }
+                Checking2(mucdich_4);
 
             }
         });
@@ -78,5 +69,92 @@ public class A_info_4 extends AppCompatActivity {
         intent.putExtra(EXTRA_TEXTCANNANG,cannang);
         intent.putExtra(EXTRA_TEXTCANNANGGOAL,cannanggoal);
         startActivity(intent);
+    }
+
+    public void Checking(String mucdich){
+
+            if(mucdich == "Maintain Weight"){
+                {
+                    textWatcher = new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            goalweight.setText(currentweight.getText().toString());
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                        }
+                    };
+                    currentweight.addTextChangedListener(textWatcher);
+                }
+        }
+    }
+
+    public void Checking2(String mucdich){
+        switch (mucdich){
+            case "Gain Weight":
+                if(currentweight.getText().toString().matches("")
+                        ||goalweight.getText().toString().matches("")
+                        ||Float.parseFloat(currentweight.getText().toString()) <0
+                        ||Float.parseFloat(goalweight.getText().toString()) <0
+                        ||Float.parseFloat(currentweight.getText().toString()) >300
+                        ||Float.parseFloat(goalweight.getText().toString()) >300
+                        ||Float.parseFloat(goalweight.getText().toString()) < Float.parseFloat(currentweight.getText().toString()))
+                {
+                    Toasty.warning(A_info_4.this, "Invalid Weight!!").show();
+                }
+                else{
+                    Animation animation = AnimationUtils.loadAnimation(A_info_4.this,R.anim.fadein);
+                    button.startAnimation(animation);
+                    cannang = Float.parseFloat(currentweight.getText().toString());
+                    cannanggoal = Float.parseFloat(goalweight.getText().toString());
+                    OpenA_info_5();
+                }
+                break;
+            case "Lose Weight":
+                if(currentweight.getText().toString().matches("")
+                        ||goalweight.getText().toString().matches("")
+                        ||Float.parseFloat(currentweight.getText().toString()) <0
+                        ||Float.parseFloat(goalweight.getText().toString()) <0
+                        ||Float.parseFloat(currentweight.getText().toString()) >300
+                        ||Float.parseFloat(goalweight.getText().toString()) >300
+                        ||Float.parseFloat(goalweight.getText().toString()) > Float.parseFloat(currentweight.getText().toString()))
+                {
+                    Toasty.warning(A_info_4.this, "Invalid Weight!!").show();
+                }
+                else{
+                    Animation animation = AnimationUtils.loadAnimation(A_info_4.this,R.anim.fadein);
+                    button.startAnimation(animation);
+                    cannang = Float.parseFloat(currentweight.getText().toString());
+                    cannanggoal = Float.parseFloat(goalweight.getText().toString());
+                    OpenA_info_5();
+                }
+                break;
+            case "Maintain Weight":
+                if(currentweight.getText().toString().matches("")
+                        ||goalweight.getText().toString().matches("")
+                        ||Float.parseFloat(currentweight.getText().toString()) <0
+                        ||Float.parseFloat(goalweight.getText().toString()) <0
+                        ||Float.parseFloat(currentweight.getText().toString()) >300
+                        ||Float.parseFloat(goalweight.getText().toString()) >300
+                )
+                {
+                    Toasty.warning(A_info_4.this, "Invalid Weight!!").show();
+                }
+                else{
+                    Animation animation = AnimationUtils.loadAnimation(A_info_4.this,R.anim.fadein);
+                    button.startAnimation(animation);
+                    cannang = Float.parseFloat(currentweight.getText().toString());
+                    cannanggoal = Float.parseFloat(goalweight.getText().toString());
+                    OpenA_info_5();
+                }
+                break;
+        }
     }
 }

@@ -25,11 +25,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.caloriesapp.activities.MainActivity;
 import com.example.caloriesapp.activities.SearchExerciseActivity;
 import com.example.caloriesapp.activities.SearchFoodActivity;
-import com.example.caloriesapp.database.FoodStatic;
-import com.example.caloriesapp.fragment.FragmentHome;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,74 +40,52 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class A_Breakfast extends AppCompatActivity {
+public class A_Excercise extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private FoodateAdapter foodateAdapter;
-    private List<Foodate> foodateList;
+    private ExerciseAdapter exerciseAdapter;
+    private List<Exercise> exerciseList;
     private FloatingActionButton floatingActionButton;
-    private Foodate deletedFood = null;
+    private Exercise deletedExcercise = null;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView tieude;
-    private String sessionofday;
     private String date;
 
-    public static final String SESSIONOFDAY_BREAKFAST = "com.example.application.example.EXTRA_SESSIONOFDAY";
-    public static final String DATE_BREAKFAST = "com.example.application.example.EXTRA_DATE";
-
-
+    public static final String DATE_EXERCISE = "com.example.application.example.EXTRA_DATE_EXERCISE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_a__breakfast);
+        setContentView(R.layout.activity_a__excercise);
         AnhXa();
-
-
-        String a = "Kiwi";
-        int b = 2;
-        float c = 123/22;
-
-        Foodate food = new Foodate(a,c,b,sessionofday,date);
-
-        foodateAdapter.setData(foodateList);
-//        foodateList.add(food);
+        exerciseAdapter.setData(exerciseList);
         syncDataWithFirebase(date);
-
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                foodateList.clear();
-//                foodateList.add(food);
+                exerciseList.clear();
                 syncDataWithFirebase(date);
-                foodateAdapter.notifyDataSetChanged();
+                exerciseAdapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
 
             }
         });
-
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Open_SearchFoodActivity();
+                Open_SearchExerciseActivity();
             }
         });
     }
-
 
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
         @Override
@@ -125,58 +100,55 @@ public class A_Breakfast extends AppCompatActivity {
 
             switch (direction) {
                 case ItemTouchHelper.LEFT:
-                    deletedFood = foodateList.get(positon);
-                    foodateList.remove(positon);
+                    deletedExcercise = exerciseList.get(positon);
+                    exerciseList.remove(positon);
                     FirebaseDatabase.getInstance().getReference().child("users")
-                            .child(FirebaseAuth.getInstance().getUid())
-                            .child("foodate")
-                            .child(date)
-                            .child(deletedFood.getId()).removeValue();
-                    foodateAdapter.notifyItemRemoved(positon);
-                    Snackbar.make(recyclerView, deletedFood.getNameFood(), BaseTransientBottomBar.LENGTH_LONG)
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("exercise").child(date).child(deletedExcercise.getId()).removeValue();
+                    exerciseAdapter.notifyItemRemoved(positon);
+                    Snackbar.make(recyclerView, deletedExcercise.getNameExercise(), BaseTransientBottomBar.LENGTH_LONG)
                             .setAction("Undo", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    foodateList.add(positon, deletedFood);
-                                    foodateAdapter.notifyItemInserted(positon);
+                                    exerciseList.add(positon, deletedExcercise);
+                                    exerciseAdapter.notifyItemInserted(positon);
                                     FirebaseDatabase.getInstance().getReference().child("users")
                                             .child(FirebaseAuth.getInstance().getUid())
-                                            .child("foodate")
+                                            .child("exercise")
                                             .child(date)
-                                            .child(deletedFood.getId())
-                                            .setValue(deletedFood)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            .child(deletedExcercise.getId())
+                                            .setValue(deletedExcercise)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
-                                                public void onSuccess(Void aVoid) {
+                                                public void onComplete(@NonNull Task<Void> task) {
 
                                                 }
                                             });
+
                                 }
                             }).show();
 
 
                     break;
                 case ItemTouchHelper.RIGHT:
-                    deletedFood = foodateList.get(positon);
+                    deletedExcercise = exerciseList.get(positon);
                     openDialog(Gravity.CENTER,
-                            deletedFood.getId(),
-                            deletedFood.getNameFood(),
-                            deletedFood.getCalories(),
-                            deletedFood.getGram(),
-                            sessionofday,
-                            date);
-                    foodateAdapter.notifyDataSetChanged();
+                            deletedExcercise.getId(),
+                            deletedExcercise,
+                            date
+                            );
+                    exerciseAdapter.notifyDataSetChanged();
                     break;
                 default:
                     break;
             }
         }
-        public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,float dX, float dY,int actionState, boolean isCurrentlyActive){
+        public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive){
 
             new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(A_Breakfast.this, R.color.gray_item_nav))
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(A_Excercise.this, R.color.gray_item_nav))
                     .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_sweep_24)
-                    .addSwipeRightBackgroundColor(ContextCompat.getColor(A_Breakfast.this, R.color.gray_item_nav))
+                    .addSwipeRightBackgroundColor(ContextCompat.getColor(A_Excercise.this, R.color.gray_item_nav))
                     .addSwipeRightActionIcon(R.drawable.ic_baseline_edit_24)
                     .create()
                     .decorate();
@@ -184,84 +156,62 @@ public class A_Breakfast extends AppCompatActivity {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     };
-
-    public void Open_SearchFoodActivity() {
-        Intent intent = new Intent(this, SearchFoodActivity.class);
-        intent.putExtra(SESSIONOFDAY_BREAKFAST,sessionofday);
-        intent.putExtra(DATE_BREAKFAST,date);
+    private void Open_SearchExerciseActivity() {
+        Intent intent = new Intent(this, SearchExerciseActivity.class);
+        intent.putExtra(DATE_EXERCISE,date);
         startActivity(intent);
     }
-
-
-    public void AnhXa(){
-
-        tieude = findViewById(R.id.tieudebreakfast);
-        floatingActionButton = findViewById(R.id.breakfast_fab);
-        swipeRefreshLayout = findViewById(R.id.swiperefresh_breakfast);
-        recyclerView = findViewById(R.id.breakfastlist);
-        foodateList = new ArrayList<>();
-        foodateAdapter = new FoodateAdapter();
+    private void AnhXa() {
+        tieude = findViewById(R.id.tieudeexcercise);
+        floatingActionButton = findViewById(R.id.excercise_fab);
+        swipeRefreshLayout = findViewById(R.id.swiperefresh_excercise);
+        recyclerView = findViewById(R.id.excerciselist);
+        exerciseList = new ArrayList<>();
+        exerciseAdapter = new ExerciseAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(foodateAdapter);
-        sessionofday = ((String) tieude.getText()).toLowerCase();
+        recyclerView.setAdapter(exerciseAdapter);
         Intent intent = getIntent();
         date = intent.getStringExtra("key");
-        sessionofday = intent.getStringExtra("session");
-        tieude.setText(sessionofday.substring(0,1).toUpperCase() + sessionofday.substring(1));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
+    }
+    private void updateExercise(String date) {
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("exercise").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren())
+                {
+                    Exercise exercise = dataSnapshot.getValue(Exercise.class);
+//                        Toasty.info(A_Excercise.this, exercise.getSessionofday(), Toasty.LENGTH_SHORT).show();
+                        exerciseList.add(exercise);
+                }
+                exerciseAdapter.notifyDataSetChanged();
+                // update ui here with exerciseList
+            }
 
-
-
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toasty.info(A_Excercise.this, "Please Restart",Toasty.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void syncDataWithFirebase(String date) {
         if(FirebaseAuth.getInstance().getCurrentUser() == null)
         {
             return;
         }
 //        updateUI(date);
-        updateFoodateList(date);
-//        updateExercise(date);
+//        updateFoodateList(date);
+        updateExercise(date);
 //        updateCaloDaily(date);
     }
-    private void updateFoodateList(String date) {
-        FirebaseDatabase.getInstance().getReference().child("users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("foodate")
-                .child(date).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Foodate foodate = dataSnapshot.getValue(Foodate.class);
-                        if(foodate.getSessionofday().equals(sessionofday)){
-//                    Toasty.info(A_Breakfast.this, foodate.getSessionofday(), Toasty.LENGTH_SHORT).show();
-                            foodateList.add(foodate);
-
-                        }
-                    }
-                    foodateAdapter.notifyDataSetChanged();
-
-                // update ui here with foodateList
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toasty.info(A_Breakfast.this, "Please Restart", Toasty.LENGTH_SHORT).show();
-            }
-        });
-    }
-    private String getcurrentday() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String date = sdf.format(calendar.getTime());
-        return date;
-    }
-    private void openDialog(int gravity,final String id ,final String nameFood, final float calories, final float gram, String sessionofday, String date) {
+    private void openDialog(int gravity,final String id, final Exercise exercise, final String date) {
 
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_editfoodate);
-
+        dialog.setContentView(R.layout.dialog_editexercise);
         Window window = dialog.getWindow();
         if(window == null) return;
 
@@ -272,27 +222,29 @@ public class A_Breakfast extends AppCompatActivity {
         windowAttributes.gravity = gravity;
         window.setAttributes(windowAttributes);
 
-        EditText editText_gram = dialog.findViewById(R.id.editText_gram_dialogEditfood);
-        TextView textView_calories = dialog.findViewById(R.id.textView_calories_dialogEditfood);
-        TextView textView_namefood = dialog.findViewById(R.id.textView_namefood_dialogEditfood);
-        Button button_add = dialog.findViewById(R.id.button_Edit_dialogEditfood);
-        Button button_cancel = dialog.findViewById(R.id.button_cancel_dialogEditfood);
+        EditText duration = dialog.findViewById(R.id.editText_duration_dialogEditexercise);
+        TextView textView_calories = dialog.findViewById(R.id.textView_calories_dialogEditexercise);
+        TextView textView_nameExercise = dialog.findViewById(R.id.textView_nameexercise_dialogEditexercise);
+        Button button_add = dialog.findViewById(R.id.button_Edit_dialogEditexercise);
+        Button button_cancel = dialog.findViewById(R.id.button_cancel_dialogEditexercise);
         /////////////////////////////////////////////
-        float cal = calories*gram;
-        textView_calories.setText(String.valueOf(cal));
-        textView_namefood.setText(nameFood);
-        editText_gram.setText(String.valueOf((int)gram));
 
-        editText_gram.setOnKeyListener(new View.OnKeyListener() {
+        int cal = (int)(exercise.getDuration()*exercise.getCalories());
+
+        textView_calories.setText(String.valueOf(cal));
+        textView_nameExercise.setText(exercise.getNameExercise());
+        duration.setText(String.valueOf(exercise.getDuration()));
+
+        duration.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(editText_gram.getText().toString().isEmpty())
+                if(duration.getText().toString().isEmpty())
                 {
                     textView_calories.setText("0");
                 }
                 else
                 {
-                    textView_calories.setText(String.valueOf((int)(Float.parseFloat(editText_gram.getText().toString())*calories)));
+                    textView_calories.setText(String.valueOf((int)(Float.parseFloat(duration.getText().toString())*exercise.getCalories())));
                 }
                 return false;
             }
@@ -301,43 +253,50 @@ public class A_Breakfast extends AppCompatActivity {
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String grams = editText_gram.getText().toString();
-                if(!grams.equals("")  && Integer.parseInt(grams)!= 0)
+                String time = duration.getText().toString();
+                if(!time.equals("")  && Integer.parseInt(time)!= 0)
                 {
+                    Exercise exercise2 = new Exercise(exercise.getNameExercise(), exercise.getCalories(),
+                            Integer.parseInt(time), date);
+                    HashMap EXER = new HashMap();
+                    EXER.put("nameExercise",exercise2.getNameExercise());
+                    EXER.put("calories",exercise2.getCalories());
+                    EXER.put("duration",exercise2.getDuration());
 
-                    HashMap Food = new HashMap();
-                    Food.put("nameFood",nameFood);
-                    Food.put("calories",calories);
-                    Food.put("gram",Integer.parseInt(grams));
-//                    Foodate foodate = new Foodate(nameFood, cal, Integer.parseInt(grams), sessionofday, date);
+
                     FirebaseDatabase.getInstance().getReference().child("users")
                             .child(FirebaseAuth.getInstance().getUid())
-                            .child("foodate")
+                            .child("exercise")
                             .child(date)
                             .child(id)
-                            .updateChildren(Food).addOnCompleteListener(new OnCompleteListener() {
+                            .updateChildren(EXER).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
+                            Toasty.success(A_Excercise.this, "Edit exercise Successfully", Toast.LENGTH_SHORT).show();
+                            exerciseList.clear();
                             if(task.isSuccessful()){
-                                Toasty.success(A_Breakfast.this, "Edit " + nameFood + " Successfully", Toast.LENGTH_SHORT).show();
-                                foodateList.clear();
+                                exerciseList.clear();
                                 syncDataWithFirebase(date);
-                                foodateAdapter.notifyDataSetChanged();
+                                exerciseAdapter.notifyDataSetChanged();
                             }
                             else{
-                                Toasty.error(A_Breakfast.this, "something was fail", Toast.LENGTH_SHORT).show();
+                                Toasty.error(A_Excercise.this, "something was fail", Toast.LENGTH_SHORT).show();
                             }
                         }
+
                     });
+
+
+
                     // add food locally here
-
-
                     dialog.dismiss();
                 }
                 else
                 {
-                    Toasty.warning(A_Breakfast.this, "gram has errors", Toast.LENGTH_SHORT).show();
+                    Toasty.warning(A_Excercise.this, "duration has errors", Toast.LENGTH_SHORT).show();
                 }
+
+
             }
         });
 
@@ -352,6 +311,4 @@ public class A_Breakfast extends AppCompatActivity {
         //dialog.setCancelable(false);
         dialog.show();
     }
-
-
 }

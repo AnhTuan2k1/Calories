@@ -9,8 +9,17 @@ public class Foodate {
     private int gram;    // total gram ate
     private String sessionofday;  // breakfast, lunch, diner, snacks
     private String date;  // vd 11/11/2020
+    private boolean expanded;
 
     public Foodate(){}
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }
 
     public Foodate(String nameFood, float calories, int gram, String sessionofday, String date) {
         this.nameFood = nameFood;
@@ -19,6 +28,7 @@ public class Foodate {
         this.sessionofday = sessionofday;
         this.date = date;
         this.id = UUID.randomUUID().toString();
+        this.expanded = false;
     }
 
     public String getId() {

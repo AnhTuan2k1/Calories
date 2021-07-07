@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import es.dmoral.toasty.Toasty;
+
 public class A_info_1 extends AppCompatActivity {
     private Button next;
     private ImageView Ifemale, Imale;
@@ -102,7 +104,7 @@ public class A_info_1 extends AppCompatActivity {
             public void onClick(View v) {
 
                if((isFemaleClicked==false)&&(isMaleClicked==false)){
-
+                   Toasty.warning(A_info_1.this,"Please pick a gender!!!",Toasty.LENGTH_SHORT).show();
                }
                else {
 
@@ -141,18 +143,22 @@ public class A_info_1 extends AppCompatActivity {
     public void CheckMale(boolean a){
 
         if(a){
+            male.setBackgroundColor(Color.parseColor("#0277BD"));
             male.setTextColor(Color.parseColor("#000000"));
         }
         else{
+            male.setBackgroundColor(Color.parseColor("#03A9F4"));
             male.setTextColor(Color.parseColor("#FFFFFF"));
         }
     }
     public void CheckFeMale(boolean a){
 
         if(a){
+            female.setBackgroundColor(Color.parseColor("#0277BD"));
             female.setTextColor(Color.parseColor("#000000"));
         }
         else{
+            female.setBackgroundColor(Color.parseColor("#03A9F4"));
             female.setTextColor(Color.parseColor("#FFFFFF"));
         }
     }

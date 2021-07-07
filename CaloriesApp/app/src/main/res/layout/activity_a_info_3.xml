@@ -11,8 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="How tall are you?"
-        android:textColor="@color/black"
-        android:textSize="35dp"
+        android:textSize="29dp"
+        android:textStyle="bold"
+        android:textColor="@color/blue_200"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,11 +65,14 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/next3"
-        android:layout_width="130dp"
-        android:layout_height="55dp"
-        android:background="@drawable/custom_button_normal"
-        android:text="NEXT"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+
+        android:background="@color/blue_500"
+        android:text="Next"
         android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

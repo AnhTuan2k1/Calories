@@ -40,7 +40,7 @@
 
 
             <ImageView
-                android:id="@+id/day_next"
+                android:id="@+id/imageday_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -49,7 +49,7 @@
                 app:tint="@color/white" />
 
             <ImageView
-                android:id="@+id/day_back"
+                android:id="@+id/imageday_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -58,15 +58,18 @@
                 app:tint="@color/white" />
 
             <TextView
+                android:id="@+id/textview_calodaily"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/home_date"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="25dp"
-                android:text="Calories \n3000"
+                android:text="Calories\n"
                 android:textColor="@color/white"
                 android:textAlignment="center"
-                android:textSize="25dp" />
+                android:background="@drawable/gradient_background"
+                android:textStyle="bold"
+                android:textSize="30dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -126,15 +129,15 @@
                     android:layout_weight="1"
                     >
                     <TextView
-                        android:id="@+id/todaycalo"
+                        android:id="@+id/earnedcalo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2250"
+                        tools:text="2250"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:layout_centerInParent="true"
                         android:textStyle="bold"
-                        android:textSize="38dp">
+                        android:textSize="30dp">
                     </TextView>
                 </RelativeLayout>
                 <RelativeLayout
@@ -142,12 +145,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
                     <TextView
-                        android:id="@+id/earnedcalo"
+                        android:id="@+id/burnedcalo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="1763"
-                        android:textSize="38dp"
+                        tools:text="1763"
+                        android:textSize="30dp"
                         android:textStyle="bold"
                         android:layout_centerInParent="true"
                         android:textAlignment="center">
@@ -194,8 +197,9 @@
         android:gravity="center">
 
         <ImageView
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="100dp"
             android:background="@drawable/layout_water_panel"></ImageView>
 
         <TableLayout
@@ -210,40 +214,40 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/icon_bottle_unfilled"
+                    android:layout_marginTop="8dp"
+
                     android:layout_weight="1"
-                    android:padding="10dp"/>
+                    android:padding="8dp"/>
 
                 <ImageView
                     android:id="@+id/bottle2"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/icon_bottle_unfilled"
+                    android:layout_marginTop="8dp"
+
                     android:layout_weight="1"
-                    android:padding="10dp"/>
+                    android:padding="8dp"/>
 
                 <ImageView
                     android:id="@+id/bottle3"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/icon_bottle_unfilled"
+                    android:layout_marginTop="8dp"
+
                     android:layout_weight="1"
-                    android:padding="10dp"/>
+                    android:padding="8dp"/>
 
                 <ImageView
                     android:id="@+id/bottle4"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/icon_bottle_unfilled"
+                    android:layout_marginTop="8dp"
+
                     android:layout_weight="1"
-                    android:padding="10dp"/>
+                    android:padding="8dp"/>
 
             </TableRow>
 
@@ -266,6 +270,7 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardbreakfast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -309,9 +314,10 @@
                         app:layout_constraintTop_toTopOf="@+id/imagebreakfast"></TextView>
 
                     <TextView
+                        android:id="@+id/caloshow_breakfast"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="370"
+                        tools:text="370"
                         android:textColor="@color/white"
                         android:textSize="27dp"
                         android:layout_marginTop="10dp"
@@ -326,6 +332,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardlunch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -371,6 +378,7 @@
                         app:layout_constraintTop_toTopOf="@+id/imagelunch"></TextView>
 
                     <TextView
+                        android:id="@+id/caloshow_lunch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="550"
@@ -389,6 +397,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/carddinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -431,6 +440,7 @@
                         app:layout_constraintStart_toEndOf="@+id/imagedinner"
                         app:layout_constraintTop_toTopOf="@+id/imagedinner"></TextView>
                     <TextView
+                        android:id="@+id/caloshow_dinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="680"
@@ -446,7 +456,66 @@
                     </TextView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardsnack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="6dp">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_dashboard_breakfast">
+
+                    <ImageView
+                        android:id="@+id/imagesnack"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/icon_background"
+                        android:padding="3dp"
+                        android:src="@drawable/icons_snack"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+                    <TextView
+                        android:id="@+id/textview14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="80dp"
+                        android:text="Snack"
+                        android:textColor="@color/white"
+                        android:textSize="25dp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/imagesnack"
+                        app:layout_constraintTop_toTopOf="@+id/imagesnack"></TextView>
+                    <TextView
+                        android:id="@+id/caloshow_snacks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="680"
+                        android:textColor="@color/white"
+                        android:textSize="27dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textview14"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </TextView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
@@ -457,6 +526,7 @@
         android:layout_height="wrap_content"
         >
         <ImageView
+            android:id="@+id/imageexcercise"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@drawable/excercise_background"

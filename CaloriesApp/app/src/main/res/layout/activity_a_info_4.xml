@@ -1,148 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".A_info_4">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+
+tools:context=".A_info_1">
 
 
-  <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="20dp">
     <TextView
         android:id="@+id/whatis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_centerInParent="true"
         android:text="What is"
+        android:textColor="@color/blue_200"
+        android:textSize="29dp"
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toTopOf="@+id/tieude"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tieudegoal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Your goal weight?"
+        android:textColor="@color/blue_200"
+        android:textSize="29dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txtweight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.959" />
+
+    <EditText
+        android:id="@+id/txtweight"
+        android:layout_width="127dp"
+        android:layout_height="63dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="336dp"
+        android:ems="10"
+        android:hint=". . . . ."
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/next4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.416" />
+
+    <TextView
+        android:layout_width="65dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="18dp"
+        android:layout_toRightOf="@id/txtweight"
+        android:gravity="center"
+        android:text="Kg"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+
+        android:textSize="25dp"
+        app:layout_constraintStart_toEndOf="@+id/txtweight"
+        app:layout_constraintTop_toTopOf="@+id/txtweight" />
+
+    <EditText
+        android:id="@+id/txtweight2"
+        android:layout_width="127dp"
+        android:layout_height="63dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="212dp"
+        android:ems="10"
+        android:hint=". . . . ."
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/tieudegoal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:layout_width="65dp"
+        android:layout_height="55dp"
+        android:layout_toRightOf="@id/txtweight2"
+        android:gravity="center"
+        android:text="Kg"
+        android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="25dp"
-        android:layout_centerInParent="true"
 
-      />
-</RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
-            <TextView
-                android:id="@+id/tieudegoal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="Your goal weight?"
-                android:textColor="@color/black"
-                android:textSize="23dp"
-                android:layout_centerInParent="true"
-                />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/goalweightlayout"
-            android:layout_marginTop="20dp">
+        app:layout_constraintStart_toEndOf="@+id/txtweight2"
+        app:layout_constraintTop_toTopOf="@+id/txtweight2" />
 
-            <EditText
-                android:id="@+id/txtweight"
-                android:layout_width="127dp"
-                android:layout_height="63dp"
-                android:ems="10"
-                android:hint=". . . . ."
-                android:inputType="number"
-                android:textColor="@color/black"
-                android:textSize="40sp"
-                android:layout_centerInParent="true"
-                />
-            <TextView
-                android:layout_toRightOf="@id/txtweight"
-                android:layout_width="65dp"
-                android:layout_height="55dp"
-                android:layout_marginStart="12dp"
-                android:gravity="center"
-                android:text="Kg"
-                android:textColor="@color/black"
-                android:textAlignment="center"
-                android:textSize="25dp"
-
-                />
-        </RelativeLayout>
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="5dp">
-           <TextView
-               android:id="@+id/tieude"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="45dp"
-               android:text="Your current weight?"
-               android:textColor="@color/black"
-               android:textSize="23dp"
-
-               android:layout_centerInParent="true"
-               />
-       </RelativeLayout>
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:id="@+id/currentweightlayout"
-           android:layout_marginTop="20dp">
-
-           <EditText
-               android:id="@+id/txtweight2"
-               android:layout_width="127dp"
-               android:layout_height="63dp"
-               android:ems="10"
-               android:hint=". . . . ."
-               android:inputType="number"
-               android:textColor="@color/black"
-               android:textSize="40sp"
-               android:layout_centerInParent="true"
-           />
-           <TextView
-               android:layout_toRightOf="@id/txtweight2"
-               android:layout_width="65dp"
-               android:layout_height="55dp"
-               android:layout_marginStart="12dp"
-               android:gravity="center"
-               android:text="Kg"
-               android:textColor="@color/black"
-               android:textAlignment="center"
-               android:textSize="25dp"
-
-                />
-       </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tieude"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="90dp">
+        android:layout_centerInParent="true"
+        android:layout_marginTop="112dp"
+        android:text="Your current weight?"
+        android:textColor="@color/blue_200"
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/next4"
-            android:layout_width="130dp"
-            android:layout_height="50dp"
-            android:background="@drawable/custom_button_normal"
-            android:text="NEXT"
-            android:textSize="20sp"
-            android:layout_centerInParent="true"
+        android:textSize="29dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txtweight2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.606" />
 
-        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/next4"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
 
-    </RelativeLayout>
-    </LinearLayout>
-</ScrollView>
+        android:layout_centerInParent="true"
+        android:background="@color/blue_500"
+        android:text="Next"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtweight"
+        app:layout_constraintVertical_bias="0.684" />
 
 
-
-
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
