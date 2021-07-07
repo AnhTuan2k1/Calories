@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     //private User user;
     private int current_Fragment;
-    private MainActivityViewModel viewmodel;
+    public MainActivityViewModel viewmodel;
     private BottomNavigationView navigationView;
     LottieAnimationView lottieAnimationView;
     FirebaseAuth firebaseAuth;

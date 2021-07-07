@@ -1,6 +1,7 @@
 package com.example.caloriesapp.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -27,8 +29,10 @@ import android.widget.Toast;
 import com.example.caloriesapp.CaloDaily;
 import com.example.caloriesapp.Exercise;
 import com.example.caloriesapp.Foodate;
+import com.example.caloriesapp.FoodateStatisticAdapter;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.activities.MainActivity;
+import com.example.caloriesapp.database.FoodStatic;
 import com.example.caloriesapp.viewmodel.FragmentStatisticViewModel;
 import com.example.caloriesapp.viewmodel.MainActivityViewModel;
 import com.github.mikephil.charting.charts.LineChart;
@@ -115,7 +119,8 @@ public class FragmentStatistic extends Fragment {
     private View mView;
     ArrayList<String> stringArrayList;
     SimpleDateFormat sdf;
-    private FragmentStatisticViewModel viewmodel;
+    private MainActivityViewModel viewmodel;
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -356,6 +361,7 @@ public class FragmentStatistic extends Fragment {
         setupgraphAgain(checkbox_showGoalline.isChecked(), checkbox_showGainline.isChecked(),
                 checkbox_showBurnline.isChecked(), checkbox_showGainBurnline.isChecked());
 
+        updateFoodate();
     }
 
     static class MyAxisValueFormatter extends ValueFormatter {
@@ -918,6 +924,74 @@ public class FragmentStatistic extends Fragment {
         }
     }
 
+    private synchronized void updateFoodate() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (foodateList){
+                    List<FoodStatic> list = new ArrayList<>();
+
+                    for(int i = 0; i<foodateList.size(); i++)
+                    {
+                        int x = 0;
+
+                        for(int j = 0; j<list.size(); j++)
+                        {
+
+                            if(list.get(j).getNameFood().equals(foodateList.get(i).getNameFood()))
+                            {
+                                list.get(j).setGram(list.get(j).getGram() + 1);   // update soluong
+
+                                list.get(j).setCalories(list.get(j).getCalories() +
+                                        foodateList.get(i).getGram()*foodateList.get(i).getCalories());   // update calo
+                                x = 1;
+                                break;
+                            }
+                        }
+
+                        if(x == 0)
+                        {
+                            list.add(new FoodStatic(foodateList.get(i).getNameFood(),
+                                    foodateList.get(i).getGram()* foodateList.get(i).getCalories(), 1));
+                        }
+
+                    }
+
+                    //xap xep
+                    for(int i = 0; i<list.size() - 1; i++)
+                    {
+                        for(int j = i + 1; j<list.size(); j++)
+                        {
+                            if(list.get(j).getGram()>list.get(i).getGram())
+                            {
+                                list.add(i, list.get(j));
+                                list.add(j + 1, list.get(i + 1));
+
+                                list.remove(i+1);
+                                list.remove(j+1);
+                            }
+                        }
+                    }
+
+
+                    FoodateStatisticAdapter foodAdapter = new FoodateStatisticAdapter();
+                    try {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                foodAdapter.setData(list);
+                                recyclerView.setAdapter(foodAdapter);
+                            }
+                        });
+                    }catch (Exception ignored){
+
+                    }
+
+                }
+            }
+        }).start();
+    }
+
     private String getcurrentday() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -948,11 +1022,14 @@ public class FragmentStatistic extends Fragment {
                     editText_datetime.setText(viewmodel.edittext_enddate);
                 }
 
+                if(edittext_startdate.getText().toString().isEmpty() || edittext_enddate.getText().toString().isEmpty())
+                    return;
 
                 String s = "From:  " + edittext_startdate.getText().toString() +
                         "   To:  " + edittext_enddate.getText().toString();
                 viewmodel.textView = s;
                 textView.setText(viewmodel.textView);
+
                 updateUI();
             }
         };
@@ -962,8 +1039,7 @@ public class FragmentStatistic extends Fragment {
 
 
     private void anhxa() {
-        viewmodel = new ViewModelProvider(this,
-                new ViewModelProvider.AndroidViewModelFactory(getActivity().getApplication())).get(FragmentStatisticViewModel.class);
+        viewmodel = ((MainActivity) getActivity()).viewmodel;
 
         totalCalories = mView.findViewById(R.id.totalCalories_statistic);
         averageCalories = mView.findViewById(R.id.averageCalories_statistic);
@@ -990,6 +1066,8 @@ public class FragmentStatistic extends Fragment {
         checkbox_showGainline = mView.findViewById(R.id.checkbox_showGainline_statistic);
         checkbox_showBurnline = mView.findViewById(R.id.checkbox_showBurnline_statistic);
         checkbox_showGainBurnline = mView.findViewById(R.id.checkbox_showGainBurnline_statistic);
+
+        recyclerView = mView.findViewById(R.id.recycleview_foodate_statistic);
 
         checkbox_showGoalline.setChecked(viewmodel.checkbox_showGoalline);
         checkbox_showGainline.setChecked(viewmodel.checkbox_showGainline);
