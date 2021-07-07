@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.caloriesapp.activities.MainActivity;
 import com.example.caloriesapp.activities.SearchExerciseActivity;
 import com.example.caloriesapp.activities.SearchFoodActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -55,8 +56,9 @@ public class A_Excercise extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private Exercise deletedExcercise = null;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView tieude;
+    private TextView tieude,text_explain_3;
     private String date;
+    private int total;
 
     public static final String DATE_EXERCISE = "com.example.application.example.EXTRA_DATE_EXERCISE";
     @Override
@@ -70,10 +72,10 @@ public class A_Excercise extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 exerciseList.clear();
-                syncDataWithFirebase(date);
+
                 exerciseAdapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
-
+                syncDataWithFirebase(date);
             }
         });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
@@ -106,6 +108,7 @@ public class A_Excercise extends AppCompatActivity {
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .child("exercise").child(date).child(deletedExcercise.getId()).removeValue();
                     exerciseAdapter.notifyItemRemoved(positon);
+                    updateUI(date);
                     Snackbar.make(recyclerView, deletedExcercise.getNameExercise(), BaseTransientBottomBar.LENGTH_LONG)
                             .setAction("Undo", new View.OnClickListener() {
                                 @Override
@@ -121,7 +124,7 @@ public class A_Excercise extends AppCompatActivity {
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
-
+                                                    updateUI(date);
                                                 }
                                             });
 
@@ -138,6 +141,7 @@ public class A_Excercise extends AppCompatActivity {
                             date
                             );
                     exerciseAdapter.notifyDataSetChanged();
+                    updateUI(date);
                     break;
                 default:
                     break;
@@ -163,6 +167,7 @@ public class A_Excercise extends AppCompatActivity {
     }
     private void AnhXa() {
         tieude = findViewById(R.id.tieudeexcercise);
+        text_explain_3 = findViewById(R.id.text_explain3);
         floatingActionButton = findViewById(R.id.excercise_fab);
         swipeRefreshLayout = findViewById(R.id.swiperefresh_excercise);
         recyclerView = findViewById(R.id.excerciselist);
@@ -172,9 +177,18 @@ public class A_Excercise extends AppCompatActivity {
         recyclerView.setAdapter(exerciseAdapter);
         Intent intent = getIntent();
         date = intent.getStringExtra("key");
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
+
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(A_Excercise.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+    }
+
     private void updateExercise(String date) {
         FirebaseDatabase.getInstance().getReference().child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -185,9 +199,40 @@ public class A_Excercise extends AppCompatActivity {
                 {
                     Exercise exercise = dataSnapshot.getValue(Exercise.class);
 //                        Toasty.info(A_Excercise.this, exercise.getSessionofday(), Toasty.LENGTH_SHORT).show();
-                        exerciseList.add(exercise);
+
+                    exerciseList.add(exercise);
                 }
-                exerciseAdapter.notifyDataSetChanged();
+                    exerciseAdapter.notifyDataSetChanged();
+
+                // update ui here with exerciseList
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toasty.info(A_Excercise.this, "Please Restart",Toasty.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void updateUI(String date) {
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("exercise").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren())
+                {
+                    Exercise exercise = dataSnapshot.getValue(Exercise.class);
+//                        Toasty.info(A_Excercise.this, exercise.getSessionofday(), Toasty.LENGTH_SHORT).show();
+                    int a = Math.round(exercise.getCalories()*exercise.getDuration());
+                    total = total + a;
+
+                }
+
+                text_explain_3.clearComposingText();
+                text_explain_3.setText("Total Calories: ");
+                text_explain_3.append(String.valueOf(total));
+                total=0;
+
                 // update ui here with exerciseList
             }
 
@@ -202,7 +247,7 @@ public class A_Excercise extends AppCompatActivity {
         {
             return;
         }
-//        updateUI(date);
+        updateUI(date);
 //        updateFoodateList(date);
         updateExercise(date);
 //        updateCaloDaily(date);

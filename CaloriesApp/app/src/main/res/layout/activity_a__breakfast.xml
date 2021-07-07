@@ -7,7 +7,7 @@
     tools:context=".A_Breakfast">
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh_breakfast"
-        android:layout_below="@id/tieudebreakfast"
+        android:layout_below="@id/text_explain2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -15,7 +15,7 @@
             android:id="@+id/breakfastlist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tieudebreakfast"
+            android:layout_below="@id/text_explain2"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:nestedScrollingEnabled="true" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -25,14 +25,40 @@
         android:id="@+id/tieudebreakfast"
         android:text="Breakfast"
         android:textSize="35dp"
-        android:textColor="@color/black"
+        android:textColor="@color/blue_200"
         android:textAllCaps="false"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+
+
+        android:textStyle="bold"
+        >
+    </TextView>
+    <TextView
+        android:id="@+id/text_explain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="| eaten foods"
+        android:textSize="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@id/tieudebreakfast"
+        ></TextView>
+    <TextView
+        android:id="@+id/text_explain2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Calories: "
+        android:textSize="25dp"
+        android:layout_below="@id/text_explain"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
         android:textStyle="bold"
-        >
-    </TextView>
+        ></TextView>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

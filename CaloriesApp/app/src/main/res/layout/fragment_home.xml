@@ -69,7 +69,7 @@
                 android:textAlignment="center"
                 android:background="@drawable/gradient_background"
                 android:textStyle="bold"
-                android:textSize="30dp" />
+                android:textSize="28dp" />
         </RelativeLayout>
 
         <RelativeLayout
