@@ -1,11 +1,15 @@
 package com.example.caloriesapp.fragment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,22 +17,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.caloriesapp.A_Breakfast;
 import com.example.caloriesapp.A_Excercise;
+import com.example.caloriesapp.A_mucdich;
 import com.example.caloriesapp.CaloDaily;
 import com.example.caloriesapp.Exercise;
 import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
+import com.example.caloriesapp.activities.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,10 +45,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import es.dmoral.toasty.Toasty;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class FragmentHome extends Fragment implements View.OnClickListener {
+
+public class FragmentHome extends Fragment implements View.OnClickListener{
     boolean isClicked1,isClicked2,isClicked4,isClicked3;
     private ImageView imbottle1,imbottle2,imbottle3,imbottle4;
     private List<Foodate> foodateList;
@@ -48,6 +60,8 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     private List<Exercise> exerciseList;
     private float caloDaily;
     private float caloshow;
+    private DatePickerDialog.OnDateSetListener setListener;
+    private boolean isClicked;
 
     float water;
     private TextView watercount,caloshow_breakfast,caloshow_lunch,caloshow_dinner,caloshow_snacks;
@@ -78,24 +92,47 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
           updateUI(date);
 //        updateFoodateList(date);
 //        updateExercise(date);
+
+        //update calo fragment home
         updateCaloDaily(date,"breakfast",caloshow_breakfast);
         updateCaloDaily(date,"lunch",caloshow_lunch);
         updateCaloDaily(date,"dinner",caloshow_dinner);
         updateCaloDaily(date,"snacks",caloshow_snacks);
-
+        //update earned calo
         updateEarnedCalo(date);
+        //update burned calo
         updateBurnedCalo(date);
 
     }
-    private void updateUI(String date){
+    private void  updateUI(String date){
         FirebaseDatabase.getInstance().getReference().child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("calodaily").child(date).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-               caloDaily =  Math.round(snapshot.getValue(CaloDaily.class).getCalories());
-               text_calodaily.setText("Calories\n");
-               text_calodaily.append(String.valueOf(Math.round(caloDaily)));
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if(dataSnapshot.child("calories").equals("")){
+                        MaterialDialog mDialog = new MaterialDialog.Builder(getActivity())
+                                .setTitle("Notify")
+                                .setMessage("to use this app, please update your profile")
+                                .setCancelable(false)
+                                .setPositiveButton("         OK     ", R.drawable.ic_green_check_24, new MaterialDialog.OnClickListener() {
+                                    @Override
+                                    public void onClick(dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                                        startActivity(new Intent(getApplicationContext(), A_mucdich.class));
+                                        getActivity().getFragmentManager().popBackStack();
+                                    }
+                                }).build();
+                        mDialog.show();
+                    }
+                    else
+                    {
+                        caloDaily = Math.round(snapshot.getValue(CaloDaily.class).getCalories()) ;
+                        text_calodaily.setText("Daily Calories Target\n");
+                        text_calodaily.append(String.valueOf(Math.round(caloDaily)));
+                    }
+                }
+
             }
 
             @Override
@@ -133,7 +170,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Exercise exercise = dataSnapshot.getValue(Exercise.class);
-                    float a = exercise.getCalories();
+                    float a = exercise.getCalories()*exercise.getDuration();
                     caloshow = caloshow+ a;
                 }
                 burnedcalo.setText(String.valueOf(Math.round(caloshow)));
@@ -301,6 +338,38 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                 excercise.putExtra("key",string_datenow);
                 startActivity(excercise);
                 break;
+
+            case R.id.home_date:
+                Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dialog = new DatePickerDialog(getContext(), android.R.style.Theme_Holo_Dialog_MinWidth,setListener,year,month,day);
+                dialog.show();
+                break;
+            case R.id.textview_calodaily:
+                String temp =  text_calodaily.getText().toString();
+                if(isClicked==false){
+                    isClicked = true;
+                    text_calodaily.clearComposingText();
+                    text_calodaily.setText("Remaining Calories\n");
+                    int b = Math.round(caloDaily) - Integer.parseInt( earnedcalo.getText().toString()) - Integer.parseInt(burnedcalo.getText().toString());
+                    if(b < 0){
+                        text_calodaily.append(String.valueOf(0));
+                    }
+                    else{
+                        text_calodaily.append(String.valueOf(b));
+                    }
+                }
+                else{
+                    isClicked = false;
+                    text_calodaily.clearComposingText();
+                    text_calodaily.setText("Daily Calories Target\n");
+                    text_calodaily.append(String.valueOf(Math.round(caloDaily)));
+                }
+
+
+                break;
         }
     }
 
@@ -343,7 +412,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         imbottle2.setImageResource(R.drawable.icon_bottle_unfilled);
         imbottle3.setImageResource(R.drawable.icon_bottle_unfilled);
         imbottle4.setImageResource(R.drawable.icon_bottle_unfilled);
-
+        isClicked = false;
         isClicked1 = false;
         isClicked2 = false;
         isClicked3 = false;
@@ -362,7 +431,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         imbottle2.setOnClickListener(this);
         imbottle3.setOnClickListener(this);
         imbottle4.setOnClickListener(this);
-
+        text_calodaily.setOnClickListener(this);
         cardBreakfast.setOnClickListener(this);
         cardDinner.setOnClickListener(this);
         cardLunch.setOnClickListener(this);
@@ -372,7 +441,28 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         imageExcercise.setOnClickListener(this);
 
 
+        date_home.setOnClickListener(this);
 
+
+        setListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month+1;
+                date_home.setText(dayOfMonth + " thg " + month);
+                String thang = String.valueOf(month);
+                String ngay = String.valueOf(dayOfMonth);
+                if(month<=10)
+                {
+                    thang = "0"+String.valueOf(month);
+                }
+                if(dayOfMonth<=10)
+                {
+                    ngay = "0"+String.valueOf(dayOfMonth);
+                }
+                string_datenow =year+"-"+thang+"-"+ngay;
+                syncDataWithFirebase(string_datenow);
+            }
+        };
     }
 
     private String getcurrentday() {

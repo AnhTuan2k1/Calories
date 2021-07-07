@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/animation_button_1"
     tools:context=".A_mucdich">
 
 
@@ -18,9 +17,12 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.177"
 
-        android:background="@drawable/custom_button_normal_3"
+        android:background="@color/blue_200"
         android:text="Lose Weight"
         android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+
 
         android:textSize="20dp"
         />
@@ -35,9 +37,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/giamcan"
 
-        android:background="@drawable/custom_button_normal_4"
-        android:textAllCaps="false"
+        android:background="@color/blue_200"
 
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textColor="@color/white"
         android:textSize="20dp"/>
     <androidx.appcompat.widget.AppCompatButton
 
@@ -51,10 +55,11 @@
         app:layout_constraintVertical_bias="0.762"
 
         android:id="@+id/giucan"
-        android:background="@drawable/animation_button_1"
+        android:background="@color/blue_200"
         android:text="Maintain Weight"
         android:textAllCaps="false"
-
+        android:textStyle="bold"
+        android:textColor="@color/white"
         android:textSize="20dp"/>
 
 
@@ -64,6 +69,8 @@
         android:layout_height="wrap_content"
         android:text="Calories"
         android:textSize="45dp"
+        android:textStyle="bold"
+        android:textColor="@color/blue_200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +82,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Let us know your purpose!"
-        android:textSize="20dp"
+        android:textSize="22dp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

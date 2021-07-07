@@ -14,17 +14,17 @@
         android:layout_height="wrap_content"
 
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="80dp"
         android:text="What is your gender?"
-
-        android:textColor="@color/black"
-        android:textSize="35dp"
+        android:textStyle="bold"
+        android:textColor="@color/blue_200"
+        android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
 
         android:id="@+id/buttonmale"
         android:layout_width="wrap_content"
@@ -35,14 +35,18 @@
         android:text="Male"
 
         android:textAlignment="center"
-        android:textAllCaps="false"
 
-        android:textSize="15dp"
+
+
+        android:background="@color/blue_200"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textColor="@color/white"
 
         app:layout_constraintEnd_toEndOf="@+id/imagemale"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagemale"></Button>
+        app:layout_constraintTop_toBottomOf="@+id/imagemale"/>
 
     <ImageView
         android:id="@+id/imagefemale"
@@ -59,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textwhatisyourgender" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
 
 
         android:id="@+id/buttonfemale"
@@ -74,12 +78,14 @@
         android:textAllCaps="false"
 
         android:textSize="15dp"
-
+        android:background="@color/blue_200"
+        android:textStyle="bold"
+        android:textColor="@color/white"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/imagefemale"
-        app:layout_constraintTop_toBottomOf="@+id/imagefemale"></Button>
+        app:layout_constraintTop_toBottomOf="@+id/imagefemale"/>
 
     <ImageView
         android:id="@+id/imagemale"
@@ -102,8 +108,11 @@
         android:layout_height="50dp"
         android:layout_below="@+id/textwhatisyourgender"
         android:layout_centerInParent="true"
-        android:background="@drawable/custom_button_normal"
+        android:background="@color/blue_500"
         android:text="Next"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
