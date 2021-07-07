@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/custom_button_normal" android:duration="2500"></item>
-    <item android:duration="2500" android:drawable="@drawable/custom_button_normal_2"></item>
-    <item android:drawable="@drawable/custom_button_normal_4" android:duration="2500"></item>
-    <item android:drawable="@drawable/custom_button_normal_3" android:duration="2500"></item>
+    <item android:drawable="@drawable/custom_button_normal" android:duration="4500"></item>
+    <item android:duration="4500" android:drawable="@drawable/custom_button_normal_2"></item>
+    <item android:drawable="@drawable/custom_button_normal_4" android:duration="4500"></item>
+    <item android:drawable="@drawable/custom_button_normal_3" android:duration="4500"></item>
 </animation-list>

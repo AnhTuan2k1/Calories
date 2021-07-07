@@ -171,6 +171,7 @@ import com.google.firebase.database.FirebaseDatabase;
                 break;
             case "Maintain Weight":
                 Calo = TDEE;
+                time=0f;
         }
     }
 
