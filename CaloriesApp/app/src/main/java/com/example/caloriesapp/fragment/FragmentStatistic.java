@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.caloriesapp.CaloDaily;
 import com.example.caloriesapp.Exercise;
 import com.example.caloriesapp.Foodate;
@@ -121,6 +122,7 @@ public class FragmentStatistic extends Fragment {
     SimpleDateFormat sdf;
     private MainActivityViewModel viewmodel;
     private RecyclerView recyclerView;
+    LottieAnimationView lottieAnimationView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -345,6 +347,7 @@ public class FragmentStatistic extends Fragment {
                     goal.setText(String.valueOf(s));
                     averageCalories.setText(String.valueOf(s2));
                     lineChart.forceLayout();
+                    lottieAnimationView.setVisibility(View.GONE);
                     if(checkbox_showdetail.isChecked())
                     {
                         showDetail();
@@ -442,32 +445,35 @@ public class FragmentStatistic extends Fragment {
         switch(textView.getText().toString())
         {
             case "Last Week":
-                load7daysago();
                 viewmodel.edittext_enddate = "";
                 viewmodel.edittext_startdate = "";
                 edittext_startdate.setText(viewmodel.edittext_startdate);
                 edittext_enddate.setText(viewmodel.edittext_enddate);
+                load7daysago();
                 break;
             case "Last 30 Days":
-                loadamonthago();
                 viewmodel.edittext_enddate = "";
                 viewmodel.edittext_startdate = "";
                 edittext_startdate.setText(viewmodel.edittext_startdate);
                 edittext_enddate.setText(viewmodel.edittext_enddate);
+                loadamonthago();
                 break;
             case "Today":
-                loadtoday();
                 viewmodel.edittext_enddate = "";
                 viewmodel.edittext_startdate = "";
                 edittext_startdate.setText(viewmodel.edittext_startdate);
                 edittext_enddate.setText(viewmodel.edittext_enddate);
+
+                viewmodel.currentdate.setTime(Calendar.getInstance().getTime());
+                viewmodel.textView_date = "Today";
+                loadtoday();
                 break;
             case "Last 60 Days":
-                load2monthago();
                 viewmodel.edittext_enddate = "";
                 viewmodel.edittext_startdate = "";
                 edittext_startdate.setText(viewmodel.edittext_startdate);
                 edittext_enddate.setText(viewmodel.edittext_enddate);
+                load2monthago();
                 break;
             default:
                 loadDateOption(edittext_startdate.getText().toString(), edittext_enddate.getText().toString());
@@ -476,7 +482,7 @@ public class FragmentStatistic extends Fragment {
 
 
     private void loadDateOption(final String start,final String end) {
-
+        lottieAnimationView.setVisibility(View.VISIBLE);
         if(start == null || end == null || start.equals("") || end.equals(""))
             return;
 
@@ -504,6 +510,7 @@ public class FragmentStatistic extends Fragment {
         {
             viewmodel.textView = "Today";
             textView.setText(viewmodel.textView);
+            viewmodel.currentdate.setTime(startdate.getTime());
             loadtoday();
         }
         else{
@@ -511,8 +518,6 @@ public class FragmentStatistic extends Fragment {
             updateExerciseList(startdate, enddate, loopdate2);
             updateFoodList(startdate, enddate, loopdate3);
         }
-
-
 
     }
 
@@ -602,11 +607,6 @@ public class FragmentStatistic extends Fragment {
         //final data
         if(x == y)
         {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             reference.child(sdf.format(loopdate.getTime())).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -620,6 +620,11 @@ public class FragmentStatistic extends Fragment {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            try {
+                                Thread.sleep(700);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             updategraph(startdate, enddate);
                         }
                     }).start();
@@ -640,6 +645,11 @@ public class FragmentStatistic extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                try {
+                    Thread.sleep(700);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 ftotalCalories = calculateTotalCalories(foodateList);
                 fcaloBreakfast =  calculateTotalCalories(foodateList, "breakfast");
                 fcaloLunch =  calculateTotalCalories(foodateList, "lunch");
@@ -1053,7 +1063,7 @@ public class FragmentStatistic extends Fragment {
         caloSnacks = mView.findViewById(R.id.caloSnacks_statistic);
         imageView = mView.findViewById(R.id.imageView_statistic);
         textView = mView.findViewById(R.id.textView_statistic);
-        textView.setText(viewmodel.textView);                                                    //viewmodel
+        textView.setText("Last Week");                                                    //viewmodel
         goal = mView.findViewById(R.id.textviewGoal_statistic);
         edittext_enddate = mView.findViewById(R.id.edittext_enddate_statistic);
         edittext_enddate.setText(viewmodel.edittext_enddate);                                    //viewmodel
@@ -1067,6 +1077,7 @@ public class FragmentStatistic extends Fragment {
         checkbox_showBurnline = mView.findViewById(R.id.checkbox_showBurnline_statistic);
         checkbox_showGainBurnline = mView.findViewById(R.id.checkbox_showGainBurnline_statistic);
 
+        lottieAnimationView = mView.findViewById(R.id.LottieAnimationView_statistic);
         recyclerView = mView.findViewById(R.id.recycleview_foodate_statistic);
 
         checkbox_showGoalline.setChecked(viewmodel.checkbox_showGoalline);

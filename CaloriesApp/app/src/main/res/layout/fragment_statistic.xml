@@ -7,6 +7,22 @@
     tools:context=".fragment.FragmentStatistic"
     >
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/LottieAnimationView_statistic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:background="@drawable/transp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="100dp"
+
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/foodloading" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
