@@ -12,20 +12,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CaloriesApp">
-
-        <activity android:name=".activities.ForgetPasswordActivity"
-            android:theme="@style/Theme.Login"
-            />
+        <activity android:name=".activity_editprofile"></activity>
+        <activity
+            android:name=".activities.ForgetPasswordActivity"
+            android:theme="@style/Theme.Login" />
         <activity
             android:name=".activities.SearchExerciseActivity"
             android:label="Add Exercise"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/Theme.Custom" />
         <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.RegisterActivity"
-            android:theme="@style/Theme.Login"
-            />
-      
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:theme="@style/Theme.Login" />
         <activity
             android:name=".activities.LoginActivity"
             android:theme="@style/Theme.Login">
@@ -35,7 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".A_Dinner" />
         <activity android:name=".A_Lunch" />
         <activity android:name=".A_Breakfast" />
@@ -43,10 +41,7 @@
             android:name=".activities.SearchFoodActivity"
             android:label="Add Food"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/Theme.Custom"
-            >
-        </activity>
-
+            android:theme="@style/Theme.Custom"></activity>
         <activity
             android:name=".A_mucdich"
             android:label="Intro" />

@@ -30,6 +30,7 @@ import com.example.caloriesapp.activities.MainActivity;
 import android.widget.Toast;
 import com.example.caloriesapp.Foodate;
 
+import com.example.caloriesapp.activity_editprofile;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,7 +58,7 @@ public class FragmentAccount extends Fragment {
 
     private TextView userName, male, age, height, currentWeight,goalWeight, purpose;
     boolean Click;
-    ImageButton notification;
+    ImageButton notification, editprofile;
     Button logout;
 
     @Nullable
@@ -101,6 +102,13 @@ public class FragmentAccount extends Fragment {
                 }
                 else
                     notification.setImageResource(R.drawable.ic_baseline_notifications);
+            }
+        });
+        editprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), activity_editprofile.class);
+                startActivity(intent);
             }
         });
 
@@ -155,6 +163,7 @@ public class FragmentAccount extends Fragment {
         notification = view.findViewById(R.id.imb_notification);
         logout = view.findViewById(R.id.btnLogin);
         purpose = view.findViewById(R.id.txtpurpose);
+        editprofile =view.findViewById(R.id.imb_edit);
 
     }
 
@@ -179,6 +188,7 @@ public class FragmentAccount extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 user = snapshot.getValue(User.class);
+
                 userName.setText(user.getUserName());
                 age.setText(String.valueOf(user.getAge()));
                 male.setText(user.getGender());
