@@ -32,15 +32,16 @@ public class A_mucdich extends AppCompatActivity {
         giamcan = (Button)findViewById(R.id.giamcan);
 
         //
-//        anim = (AnimationDrawable)tangcan.getBackground();
-//        anim.setEnterFadeDuration(2500);
-//        anim.setExitFadeDuration(2500);
-//        anim2 = (AnimationDrawable)giamcan.getBackground();
-//        anim2.setEnterFadeDuration(2500);
-//        anim2.setExitFadeDuration(2500);
-//        anim3 = (AnimationDrawable)giucan.getBackground();
-//        anim3.setEnterFadeDuration(2500);
-//        anim3.setExitFadeDuration(2500);
+       // anim = (AnimationDrawable)tangcan.getBackground();
+       // anim.setEnterFadeDuration(2500);
+       // anim.setExitFadeDuration(2500);
+       // anim2 = (AnimationDrawable)giamcan.getBackground();
+       // anim2.setEnterFadeDuration(2500);
+       // anim2.setExitFadeDuration(2500);
+       // anim3 = (AnimationDrawable)giucan.getBackground();
+       // anim3.setEnterFadeDuration(2500);
+        //anim3.setExitFadeDuration(2500);
+
 
         //
 
