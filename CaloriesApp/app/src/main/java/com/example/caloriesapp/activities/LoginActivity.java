@@ -207,6 +207,14 @@ public class LoginActivity extends AppCompatActivity {
                 //if not have info: start initialize info account activity
                 // Intent intent = new Intent(LoginActivity.this, A_mucdich.class);
                 //else start mainActivity
+                if(!Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).isEmailVerified())
+                {
+                    lottieAnimationView.setVisibility(View.GONE);
+                    Toasty.error(LoginActivity.this, "User does not exist", Toasty.LENGTH_SHORT).show();
+                    myDatabase.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(null);
+                    FirebaseAuth.getInstance().getCurrentUser().delete();
+                    return;
+                }
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 lottieAnimationView.setVisibility(View.GONE);

@@ -189,6 +189,7 @@ public class FragmentAccount extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 user = snapshot.getValue(User.class);
 
+                if(user != null){
                 userName.setText(user.getUserName());
                 age.setText(String.valueOf(user.getAge()));
                 male.setText(user.getGender());
@@ -196,6 +197,7 @@ public class FragmentAccount extends Fragment {
                 currentWeight.setText(String.valueOf(user.getCurrentWeight()) +" KG" );
                 goalWeight.setText(String.valueOf(user.getGoalWeight()) + " KG");
                 purpose.setText(user.getPurposeWeight());
+                }
 
 
 
@@ -204,7 +206,8 @@ public class FragmentAccount extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
+                if(getContext() != null)
+                    Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
             }
         });
     }

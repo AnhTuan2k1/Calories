@@ -137,6 +137,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                if(getContext() != null)
                 Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
             }
         });
@@ -202,6 +203,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                if(getContext() != null)
                 Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
             }
         });
@@ -235,6 +237,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                if(getContext() != null)
                 Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
             }
         });
@@ -354,13 +357,8 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
                     isClicked = true;
                     text_calodaily.clearComposingText();
                     text_calodaily.setText("Remaining Calories\n");
-                    int b = Math.round(caloDaily) - Integer.parseInt( earnedcalo.getText().toString()) - Integer.parseInt(burnedcalo.getText().toString());
-                    if(b < 0){
-                        text_calodaily.append(String.valueOf(0));
-                    }
-                    else{
-                        text_calodaily.append(String.valueOf(b));
-                    }
+                    int b = Math.round(caloDaily) - Integer.parseInt( earnedcalo.getText().toString()) + Integer.parseInt(burnedcalo.getText().toString());
+                    text_calodaily.append(String.valueOf(b));
                 }
                 else{
                     isClicked = false;

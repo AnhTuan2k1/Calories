@@ -124,6 +124,7 @@ import com.google.firebase.database.FirebaseDatabase;
         });
     }
     public void OpenA_Main(){
+
         Intent intent = new Intent(A_info_5.this, MainActivity.class);
 //        intent.putExtra(EXTRA_TEXTMUCDICH,mucdich_5);
 //        intent.putExtra(EXTRA_TEXTGIOITINH,gioitinh_5);
@@ -138,9 +139,8 @@ import com.google.firebase.database.FirebaseDatabase;
         FirebaseDatabase.getInstance().getReference()
                 .child("users").child(FirebaseAuth.getInstance().getUid())
                 .child("userinfo").setValue(user);
-
         startActivity(intent);
-
+        finish();
     }
 
 

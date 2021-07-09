@@ -47,7 +47,7 @@ public class A_info_3 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 chieucao = Float.parseFloat(heighttxt.getText().toString());
-                if(heighttxt.getText().toString().equals("")||chieucao<0||chieucao>250){
+                if(heighttxt.getText().toString().equals("")||chieucao<30||chieucao>250){
                     Toasty.error(A_info_3.this,"Invalid Height",Toasty.LENGTH_SHORT).show();
                 }
                 else{
