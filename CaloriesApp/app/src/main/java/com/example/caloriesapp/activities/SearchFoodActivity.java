@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,23 +19,21 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.caloriesapp.A_Breakfast;
+import com.example.caloriesapp.A_Excercise;
 import com.example.caloriesapp.FoodAdapter;
 import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
-import com.example.caloriesapp.database.FoodDAO;
 import com.example.caloriesapp.database.FoodDatabase;
 import com.example.caloriesapp.database.FoodStatic;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -48,7 +46,8 @@ public class SearchFoodActivity extends AppCompatActivity  {
     private EditText editTextSearch;
     private RecyclerView listFood;
     private Button btnOkSearchFood;
-
+    private String sessionofday_breakfast;
+    private String date_breakfast;
     private FoodAdapter foodAdapter;
     private List<FoodStatic> mListFood;
 
@@ -79,12 +78,14 @@ public class SearchFoodActivity extends AppCompatActivity  {
             @Override
             public void OnItemClick(int position, String nameFood, String gram, String Calories) {
                 openDialog(Gravity.CENTER, nameFood, Float.parseFloat(Calories),
-                        Float.parseFloat(gram), "sessionofday", "date"); // "dd/MM/yyyy"
+                        Float.parseFloat(gram), sessionofday_breakfast, date_breakfast); // "dd/MM/yyyy"
   //              Toasty.success(SearchFoodActivity.this, nameFood, Toast.LENGTH_LONG).show();
             }
         });
 
     }
+
+
 
     @Override
     protected void onResume() {
@@ -110,15 +111,20 @@ public class SearchFoodActivity extends AppCompatActivity  {
     }
 
     private void anhxa() {
+
         editTextSearch = findViewById(R.id.edittext_searchFood);
         listFood = findViewById(R.id.recycleviewFood);
         btnOkSearchFood = findViewById(R.id.btnOk_searchFood);
-
+        sessionofday_breakfast = null;
         mListFood = new ArrayList<>();  //FoodDatabase.getInstance(this).foodDAO().getListFood();
         foodAdapter = new FoodAdapter();
         foodAdapter.setData(mListFood);
         listFood.setAdapter(foodAdapter);
         listFood.setLayoutManager(new LinearLayoutManager(this));
+
+        Intent intent = getIntent();
+        sessionofday_breakfast = intent.getStringExtra(A_Breakfast.SESSIONOFDAY_BREAKFAST);
+        date_breakfast = intent.getStringExtra(A_Breakfast.DATE_BREAKFAST);
     }
 
     public void hideSoftKeyboard()
@@ -192,6 +198,8 @@ public class SearchFoodActivity extends AppCompatActivity  {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toasty.success(SearchFoodActivity.this, "Add " + nameFood + " Successfully", Toast.LENGTH_SHORT).show();
+
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

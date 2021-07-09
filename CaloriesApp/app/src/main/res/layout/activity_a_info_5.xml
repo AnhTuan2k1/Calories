@@ -6,70 +6,90 @@
     android:layout_height="match_parent"
     tools:context=".A_info_5">
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/R1"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
         android:text="If you are sedentary \n(little or no exercise)"
-        android:textSize="15dp"
+        android:layout_centerInParent="true"
+        android:background="@color/blue_200"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/R2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent">
 
-    </Button>
+    </androidx.appcompat.widget.AppCompatButton>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/R4"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="132dp"
+        android:layout_marginBottom="64dp"
         android:text="If you are very active\n(hard exercise/sports 6-7 days a week)"
-        android:textSize="15dp"
+        android:layout_centerInParent="true"
+        android:background="@color/blue_200"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.553"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-    </Button>
 
-    <Button
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/R3"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
         android:text="If you are moderately active\n(moderate exercise/sports 3-5 days/week)"
-        android:textSize="15dp"
+        android:layout_centerInParent="true"
+        android:background="@color/blue_200"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/R4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.549"
         app:layout_constraintStart_toStartOf="parent">
 
-    </Button>
+    </androidx.appcompat.widget.AppCompatButton>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/R2"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:text="If you are lightly active\n(light exercise/sports 1-3 days/week)"
-        android:textSize="15dp"
+        android:layout_centerInParent="true"
+        android:background="@color/blue_200"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/R3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="parent">
 
-    </Button>
+    </androidx.appcompat.widget.AppCompatButton>
 
     <TextView
         android:id="@+id/txt111"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Let us know your exercise intensity"
+        android:text="Let us know your\n exercise intensity"
         android:textAlignment="center"
-        android:textSize="20dp"
+
+        android:textColor="@color/blue_200"
+
+        android:textSize="23sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/R1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"

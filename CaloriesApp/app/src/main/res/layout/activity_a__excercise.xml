@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".A_Breakfast">
+    tools:context=".A_Excercise">
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swiperefresh_breakfast"
-        android:layout_below="@id/text_explain2"
+        android:id="@+id/swiperefresh_excercise"
+        android:layout_below="@id/text_explain3"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/breakfastlist"
+            android:id="@+id/excerciselist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_explain2"
@@ -22,16 +22,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tieudebreakfast"
-        android:text="Breakfast"
-        android:textSize="35dp"
+        android:id="@+id/tieudeexcercise"
+        android:text="Excercise"
+        android:textSize="32dp"
         android:textColor="@color/blue_200"
         android:textAllCaps="false"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
-
-
         android:textStyle="bold"
         >
     </TextView>
@@ -39,16 +37,16 @@
         android:id="@+id/text_explain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="| eaten foods"
+        android:text="| done exercises"
         android:textSize="25dp"
         android:layout_marginTop="15dp"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
         android:textStyle="bold"
-        android:layout_toEndOf="@id/tieudebreakfast"
+        android:layout_toEndOf="@id/tieudeexcercise"
         ></TextView>
     <TextView
-        android:id="@+id/text_explain2"
+        android:id="@+id/text_explain3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Total Calories: "
@@ -62,7 +60,7 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/breakfast_fab"
+        android:id="@+id/excercise_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

@@ -22,6 +22,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Calendar;
 
+import es.dmoral.toasty.Toasty;
+
 public class A_info_2 extends AppCompatActivity {
     private EditText Age;
     private Button buttonnext;
@@ -43,11 +45,16 @@ public class A_info_2 extends AppCompatActivity {
         buttonnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Animation animation= AnimationUtils.loadAnimation(A_info_2.this,R.anim.fadein);
-                buttonnext.startAnimation(animation);
-                tuoi = Float.parseFloat(Age.getText().toString());
+                if(Age.getText().toString().equals("")|| Integer.parseInt(Age.getText().toString())<=0|| Integer.parseInt(Age.getText().toString())>100){
+                    Toasty.error(A_info_2.this,"Invalid Age",Toasty.LENGTH_SHORT).show();
+                }
+                else{
+                    Animation animation= AnimationUtils.loadAnimation(A_info_2.this,R.anim.fadein);
+                    buttonnext.startAnimation(animation);
+                    tuoi = Float.parseFloat(Age.getText().toString());
 
-                OpenA_info_3();
+                    OpenA_info_3();
+                }
             }
         });
 

@@ -42,6 +42,7 @@ public class A_mucdich extends AppCompatActivity {
        // anim3.setEnterFadeDuration(2500);
         //anim3.setExitFadeDuration(2500);
 
+
         //
 
         tangcan.setOnClickListener(new View.OnClickListener() {

@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import es.dmoral.toasty.Toasty;
+
 public class A_info_3 extends AppCompatActivity {
     private Button btnnext;
     private EditText heighttxt;
@@ -44,11 +46,15 @@ public class A_info_3 extends AppCompatActivity {
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Animation animation= AnimationUtils.loadAnimation(A_info_3.this,R.anim.fadein);
-                btnnext.startAnimation(animation);
                 chieucao = Float.parseFloat(heighttxt.getText().toString());
-                Toast.makeText(A_info_3.this,chieucao.toString(),Toast.LENGTH_LONG).show();
-                OpenA_info_4();
+                if(heighttxt.getText().toString().equals("")||chieucao<0||chieucao>250){
+                    Toasty.error(A_info_3.this,"Invalid Height",Toasty.LENGTH_SHORT).show();
+                }
+                else{
+                    Animation animation= AnimationUtils.loadAnimation(A_info_3.this,R.anim.fadein);
+                    btnnext.startAnimation(animation);
+                    OpenA_info_4();
+                }
             }
         });
 
