@@ -64,7 +64,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
     private boolean isClicked;
 
     float water;
-    private TextView watercount,caloshow_breakfast,caloshow_lunch,caloshow_dinner,caloshow_snacks;
+    private TextView watercount,caloshow_breakfast,caloshow_lunch,caloshow_dinner,caloshow_snacks,text_explain_3;
     private ImageView imageBreakfast, imageLunch,imageDinner,imageSnack,backday,nextday,imageExcercise;
     private CardView cardBreakfast,cardLunch,cardDinner,cardSnack;
     private TextView date_home,text_calodaily,burnedcalo,earnedcalo;
@@ -174,7 +174,8 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
                     caloshow = caloshow+ a;
                 }
                 burnedcalo.setText(String.valueOf(Math.round(caloshow)));
-                caloshow = 0;
+
+
             }
 
             @Override
@@ -385,6 +386,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
         watercount = view.findViewById(R.id.watercount);
         date_home = view.findViewById(R.id.home_date);
         text_calodaily = view.findViewById(R.id.textview_calodaily);
+
 
         imageBreakfast = view.findViewById(R.id.imagebreakfast);
         imageLunch = view.findViewById(R.id.imagelunch);

@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
                                             finish();
                                         }
                                     }).build();
-                            mDialog.show();
+                            //mDialog.show();
                         }
 
                         saveCaloriesTarget();

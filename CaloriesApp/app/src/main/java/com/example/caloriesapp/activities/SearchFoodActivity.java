@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caloriesapp.A_Breakfast;
+import com.example.caloriesapp.A_Excercise;
 import com.example.caloriesapp.FoodAdapter;
 import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
@@ -83,6 +84,8 @@ public class SearchFoodActivity extends AppCompatActivity  {
         });
 
     }
+
+
 
     @Override
     protected void onResume() {
