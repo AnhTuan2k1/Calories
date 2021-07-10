@@ -1,5 +1,6 @@
 package com.example.caloriesapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -15,6 +16,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -34,6 +41,7 @@ public class A_info_2 extends AppCompatActivity {
     public static final String EXTRA_TEXTMUCDICH = "com.example.application.example.EXTRA_TEXTMUCDICH";
     public static final String EXTRA_TEXTGIOITINH = "com.example.application.example.EXTRA_TEXTGIOITINH";
     public static final String EXTRA_TEXTTUOI = "com.example.application.example.EXTRA_TEXTTUOI";
+    private User user;
 
 
     @Override
@@ -67,7 +75,7 @@ public class A_info_2 extends AppCompatActivity {
 
 
 
-
+        syncUserWithFirebase();
     }
     public void OpenA_info_3() {
         Intent intent = new Intent(this,A_info_3.class);
@@ -75,5 +83,37 @@ public class A_info_2 extends AppCompatActivity {
         intent.putExtra(EXTRA_TEXTGIOITINH,gioitinh_2);
         intent.putExtra(EXTRA_TEXTTUOI,tuoi);
         startActivity(intent);
+    }
+
+    private void syncUserWithFirebase() {
+        buttonnext.setEnabled(false);
+        if(FirebaseAuth.getInstance().getCurrentUser() == null)
+        {
+            return;
+        }
+
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("userinfo").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user = snapshot.getValue(User.class);
+
+                try {
+                    Age.setText(String.valueOf(user.getAge()));
+                }catch (Exception e){}
+
+                // update ui here with user
+                buttonnext.setEnabled(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                if(getApplicationContext() != null)
+                    Toasty.info(getApplicationContext(), error.getMessage(),Toasty.LENGTH_SHORT).show();
+
+                buttonnext.setEnabled(true);
+            }
+        });
     }
 }

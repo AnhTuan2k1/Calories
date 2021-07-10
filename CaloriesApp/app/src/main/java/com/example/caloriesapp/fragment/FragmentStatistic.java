@@ -347,7 +347,12 @@ public class FragmentStatistic extends Fragment {
                     goal.setText(String.valueOf(s));
                     averageCalories.setText(String.valueOf(s2));
                     lineChart.forceLayout();
+
                     lottieAnimationView.setVisibility(View.GONE);
+                    edittext_startdate.setEnabled(true);
+                    edittext_enddate.setEnabled(true);
+                    imageView.setEnabled(true);
+
                     if(checkbox_showdetail.isChecked())
                     {
                         showDetail();
@@ -483,6 +488,9 @@ public class FragmentStatistic extends Fragment {
 
     private void loadDateOption(final String start,final String end) {
         lottieAnimationView.setVisibility(View.VISIBLE);
+        edittext_startdate.setEnabled(false);
+        edittext_enddate.setEnabled(false);
+        imageView.setEnabled(false);
         if(start == null || end == null || start.equals("") || end.equals(""))
             return;
 
@@ -514,9 +522,16 @@ public class FragmentStatistic extends Fragment {
             loadtoday();
         }
         else{
+            try{
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
             updateCaloDailyList(startdate, enddate, loopdate);
             updateExerciseList(startdate, enddate, loopdate2);
             updateFoodList(startdate, enddate, loopdate3);
+                    }
+                }).start();
+            }catch(Exception ignored){}
         }
 
     }
@@ -621,7 +636,7 @@ public class FragmentStatistic extends Fragment {
                         @Override
                         public void run() {
                             try {
-                                Thread.sleep(700);
+                                Thread.sleep(500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -646,7 +661,7 @@ public class FragmentStatistic extends Fragment {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(700);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -1084,7 +1099,6 @@ public class FragmentStatistic extends Fragment {
         checkbox_showGainline.setChecked(viewmodel.checkbox_showGainline);
         checkbox_showBurnline.setChecked(viewmodel.checkbox_showBurnline);
         checkbox_showGainBurnline.setChecked(viewmodel.checkbox_showGainBurnline);
-
 
         lineChart = mView.findViewById(R.id.linechart_statistic);
         goalValue = new ArrayList<>();

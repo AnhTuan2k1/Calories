@@ -1,19 +1,38 @@
     package com.example.caloriesapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caloriesapp.activities.MainActivity;
+import com.example.caloriesapp.activities.SearchFoodActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
+import es.dmoral.toasty.Toasty;
 
     public class A_info_5 extends AppCompatActivity {
 
@@ -79,8 +98,11 @@ import com.google.firebase.database.FirebaseDatabase;
                 TinhCalo_BMR(gioitinh_5);
                 TinhCalo_TDEE(BMR,AM);
                 TinhCalo_Mucdich(mucdich_5);
+                /*
                 Toast.makeText(A_info_5.this,"Thanh cong ne thang lon", Toast.LENGTH_LONG).show();
-//                OpenA_Main();
+
+                 */
+                OpenA_Main();
             }
         });
         R2.setOnClickListener(new View.OnClickListener() {
@@ -125,14 +147,15 @@ import com.google.firebase.database.FirebaseDatabase;
     }
     public void OpenA_Main(){
 
-        Intent intent = new Intent(A_info_5.this, MainActivity.class);
+       openDialog(Gravity.CENTER, Calo, time.intValue());
 //        intent.putExtra(EXTRA_TEXTMUCDICH,mucdich_5);
 //        intent.putExtra(EXTRA_TEXTGIOITINH,gioitinh_5);
 //        intent.putExtra(EXTRA_TEXTTUOI,tuoi_5);
 //        intent.putExtra(EXTRA_TEXTCHIEUCAO,chieucao_5);
 //        intent.putExtra(EXTRA_TEXTCANNANG,cannang_5);
 //        intent.putExtra(EXTRA_TEXTAM,AM);
-
+/*
+        Intent intent = new Intent(A_info_5.this, MainActivity.class);
         String s = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         if(s == null) s = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         User user = new User(mucdich_5,gioitinh_5,time.toString(),cannanggoal_5,cannang_5,Math.round(tuoi_5),chieucao_5,AM,Calo, s);
@@ -141,6 +164,8 @@ import com.google.firebase.database.FirebaseDatabase;
                 .child("userinfo").setValue(user);
         startActivity(intent);
         finish();
+
+ */
     }
 
 
@@ -174,5 +199,64 @@ import com.google.firebase.database.FirebaseDatabase;
                 time=0f;
         }
     }
+
+        private void openDialog(int gravity, final float calories, int time) {
+
+            final Dialog dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_goal);
+
+            Window window = dialog.getWindow();
+            if(window == null) return;
+
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            WindowManager.LayoutParams windowAttributes = window.getAttributes();
+            windowAttributes.gravity = gravity;
+            window.setAttributes(windowAttributes);
+
+
+            TextView textView_calories = dialog.findViewById(R.id.textView_calodaily_dialogcongratulation);
+            TextView textView_time = dialog.findViewById(R.id.textView_time_dialogcongratulation);
+            Button btnStart = dialog.findViewById(R.id.start_congratulation);
+            /////////////////////////////////////////////
+            textView_calories.setText(String.valueOf((int)calories));
+            textView_time.setText(String.valueOf(time));
+
+            btnStart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(A_info_5.this, MainActivity.class);
+                    String s = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                    if(s == null) s = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+                    User user = new User(mucdich_5,gioitinh_5, String.valueOf(time),cannanggoal_5,cannang_5,Math.round(tuoi_5),chieucao_5,AM,Calo, s);
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("users").child(FirebaseAuth.getInstance().getUid())
+                            .child("userinfo").setValue(user);
+
+                    DatabaseReference reference =  FirebaseDatabase.getInstance().getReference()
+                            .child("users").child(FirebaseAuth.getInstance().getUid()).child("calodaily");
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    String date = simpleDateFormat.format(calendar.getTime());
+                    for(int i = 1; i<time*7; i++)
+                    {
+                        reference.child(date).setValue(new CaloDaily(date, calories));
+                        calendar.add(Calendar.DAY_OF_MONTH, 1);
+                        date = simpleDateFormat.format(calendar.getTime());
+                    }
+
+
+                    startActivity(intent);
+                    finish();
+                }
+            });
+
+
+            //dialog.setCancelable(false);
+            dialog.show();
+        }
 
 }

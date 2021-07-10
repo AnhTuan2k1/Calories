@@ -1,5 +1,6 @@
 package com.example.caloriesapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -20,6 +21,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.w3c.dom.Text;
 
 import es.dmoral.toasty.Toasty;
@@ -35,6 +42,7 @@ public class A_info_1 extends AppCompatActivity {
 
     public static final String EXTRA_TEXT1 = "com.example.application.example.EXTRA_TEXT1";
     public static final String EXTRA_TEXT = "com.example.application.example.EXTRA_TEXT";
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +132,7 @@ public class A_info_1 extends AppCompatActivity {
                }
             }
         });
+        syncUserWithFirebase();
     }
 
 
@@ -161,6 +170,47 @@ public class A_info_1 extends AppCompatActivity {
             female.setBackgroundColor(Color.parseColor("#03A9F4"));
             female.setTextColor(Color.parseColor("#FFFFFF"));
         }
+    }
+
+    private void syncUserWithFirebase() {
+        next.setEnabled(false);
+        if(FirebaseAuth.getInstance().getCurrentUser() == null)
+        {
+            return;
+        }
+
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("userinfo").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user = snapshot.getValue(User.class);
+
+                try {
+                    switch (user.getGender())
+                    {
+                        case "Male":
+                            male.callOnClick();
+                            break;
+                        case "Female":
+                            female.callOnClick();
+                            break;
+                    }
+
+                }catch (Exception e){}
+
+                // update ui here with user
+                next.setEnabled(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                if(getApplicationContext() != null)
+                    Toasty.info(getApplicationContext(), error.getMessage(),Toasty.LENGTH_SHORT).show();
+
+                next.setEnabled(true);
+            }
+        });
     }
 
 }

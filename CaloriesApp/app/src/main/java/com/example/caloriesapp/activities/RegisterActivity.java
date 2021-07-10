@@ -151,8 +151,8 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onSuccess(AuthResult authResult) {
                 myDatabase.child("users").child(FirebaseAuth.getInstance().getUid())
-                        .child("userinfo").setValue(new User("9","8","7",6,
-                        5,4,3,2,0, email));
+                        .child("userinfo").setValue(new User("0","0","0",0,
+                        0,0,0,0,0, email));
 
                 Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).sendEmailVerification()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {

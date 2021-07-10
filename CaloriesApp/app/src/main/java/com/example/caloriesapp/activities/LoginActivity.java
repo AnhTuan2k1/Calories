@@ -210,7 +210,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(!Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).isEmailVerified())
                 {
                     lottieAnimationView.setVisibility(View.GONE);
-                    Toasty.error(LoginActivity.this, "User does not exist", Toasty.LENGTH_SHORT).show();
+                    Toasty.error(LoginActivity.this, "There is no user record\ncorresponding to this identifier. The\nuser may have been deleted.", Toasty.LENGTH_SHORT).show();
                     myDatabase.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(null);
                     FirebaseAuth.getInstance().getCurrentUser().delete();
                     return;
@@ -299,8 +299,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         if(snapshot.child("dailyCaloriesTarget").getValue(float.class) == null){
                             myDatabase.child("users").child(FirebaseAuth.getInstance().getUid())
-                                    .child("userinfo").setValue(new User("9","8","7",6,
-                                    5,4,3,2,0, firebaseUser.getEmail()));
+                                    .child("userinfo").setValue(new User("0","0","0",0,
+                                    0,0,0,0,0, firebaseUser.getEmail()));
 
                             startActivity(new Intent(getApplicationContext(), A_mucdich.class));
                             finish();

@@ -231,8 +231,8 @@ public class MainActivity extends AppCompatActivity {
 
                         if(snapshot.child("dailyCaloriesTarget").getValue(float.class) == null){
                             myDatabase.child("users").child(FirebaseAuth.getInstance().getUid())
-                                    .child("userinfo").setValue(new User("9","8","7",6,
-                                    5,4,3,2,0, firebaseUser.getEmail()));
+                                    .child("userinfo").setValue(new User("0","0","0",0,
+                                    0,0,0,0,0, firebaseUser.getEmail()));
 
                             startActivity(new Intent(getApplicationContext(), A_mucdich.class));
                             finish();
