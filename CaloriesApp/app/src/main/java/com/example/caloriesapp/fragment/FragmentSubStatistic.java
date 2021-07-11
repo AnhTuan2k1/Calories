@@ -454,7 +454,8 @@ public class FragmentSubStatistic extends Fragment {
         down = view.findViewById(R.id.imageView_down_substatistic);
         right = view.findViewById(R.id.imageView_right__substatistic);
         textView_date = view.findViewById(R.id.textView_substatistic);
-        textView_date.setText(viewmodel.textView_date);
+        textView_date.setText(new SimpleDateFormat("MMM dd", Locale.getDefault())
+                .format(viewmodel.currentdate.getTime()));
 
         totalCalories = view.findViewById(R.id.totalCalories_substatistic);
         averageCalories = view.findViewById(R.id.averageCalories_substatistic);

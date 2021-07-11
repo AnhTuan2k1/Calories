@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -112,6 +113,11 @@ public class A_Breakfast extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
         @Override
@@ -201,10 +207,13 @@ public class A_Breakfast extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(A_Breakfast.this, MainActivity.class);
+        intent.putExtra("date",date);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+
     }
+
 
     public void AnhXa(){
 
@@ -290,7 +299,6 @@ public class A_Breakfast extends AppCompatActivity {
             }
         });
     }
-
 
     private String getcurrentday() {
         Calendar calendar = Calendar.getInstance();

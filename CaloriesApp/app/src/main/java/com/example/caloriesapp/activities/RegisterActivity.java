@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -37,6 +38,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import es.dmoral.toasty.Toasty;
@@ -73,6 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
             }
         });
 //        editText_email.setOnKeyListener(new View.OnKeyListener() {
@@ -105,6 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 
     private void register() {
@@ -148,21 +152,35 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                Toasty.success(RegisterActivity.this, "Register Successfully", Toasty.LENGTH_SHORT).show();
                 myDatabase.child("users").child(FirebaseAuth.getInstance().getUid())
-                        .child("userinfo").setValue(new User("9","8","7",6,
-                        5,4,3,2,0, email));
+                        .child("userinfo").setValue(new User("0","0","0",0,
+                        0,0,0,0,0, email));
 
+                Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).sendEmailVerification()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
+                        startActivity(intent);
+                        lottieAnimationView.setVisibility(View.GONE);
+                        finish();
 
-                Intent intent = new Intent(RegisterActivity.this, A_mucdich.class);
-                startActivity(intent);
-                lottieAnimationView.setVisibility(View.GONE);
-                finish();
+                        FirebaseAuth.getInstance().signOut();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        lottieAnimationView.setVisibility(View.GONE);
+                        Toasty.error(RegisterActivity.this, Objects.requireNonNull(e.getMessage()), Toasty.LENGTH_LONG).show();
+
+                        FirebaseAuth.getInstance().signOut();
+                    }
+                });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toasty.error(RegisterActivity.this, e.getMessage(), Toasty.LENGTH_LONG).show();
+                Toasty.error(RegisterActivity.this, Objects.requireNonNull(e.getMessage()), Toasty.LENGTH_LONG).show();
                 lottieAnimationView.setVisibility(View.GONE);
             }
         });

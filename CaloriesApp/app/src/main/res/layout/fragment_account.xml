@@ -11,43 +11,54 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ImageButton
+            android:id="@+id/imageView_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:elevation="50dp"
+            android:background="@drawable/transpextr"
+            android:src="@drawable/ic_baseline_edit_24"
+            app:layout_constraintBottom_toBottomOf="@+id/txtUsername"
+            app:layout_constraintStart_toEndOf="@+id/txtUsername"
+            app:layout_constraintTop_toTopOf="@+id/txtUsername" />
+
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:src="@drawable/header_background_acc"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:src="@drawable/food_bg"
-        app:civ_border_color="#FFFFFF"
-        app:civ_border_width="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+            android:id="@+id/profile_image"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:src="@drawable/food_bg"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2" />
 
 
-    <TextView
-        android:id="@+id/txtUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Calories"
-        android:textColor="@color/white"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
-
+        <TextView
+            android:id="@+id/txtUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Calories"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_image" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/changeProfile"
@@ -59,6 +70,7 @@
             app:layout_constraintEnd_toEndOf="@+id/profile_image" />
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="25dp"
@@ -85,7 +97,7 @@
                 android:background="@drawable/ic_baseline_edit_24"
                 android:backgroundTint="@color/black"
                 android:scaleType="center"
-                />
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -129,6 +141,16 @@
                     android:textAlignment="viewEnd"
                     android:textColor="#585858"
                     android:textSize="20sp" />
+
+                <ImageButton
+                    android:id="@+id/imbSex_edit"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/ic_baseline_edit_24"
+                    android:backgroundTint="@color/black"
+                    android:scaleType="center"
+                    />
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -166,6 +188,15 @@
                     android:textAlignment="viewEnd"
                     android:textColor="#585858"
                     android:textSize="20sp" />
+                <ImageButton
+                    android:id="@+id/imbAge_edit"
+                    android:layout_marginStart="4dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_baseline_edit_24"
+                    android:backgroundTint="@color/black"
+                    android:scaleType="center"
+                    />
 
 
             </LinearLayout>
@@ -204,6 +235,15 @@
                     android:textAlignment="viewEnd"
                     android:textColor="#585858"
                     android:textSize="18sp" />
+                <ImageButton
+                    android:id="@+id/imbHeight_edit"
+                    android:layout_marginStart="4dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_baseline_edit_24"
+                    android:backgroundTint="@color/black"
+                    android:scaleType="center"
+                    />
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -229,7 +269,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Current weight"
+                    android:text="weight"
                     android:textColor="#0090ff"
                     android:textSize="22sp" />
 
@@ -241,6 +281,16 @@
                     android:textColor="#585858"
                     android:textSize="18sp" />
 
+                <ImageButton
+                    android:id="@+id/imbWeight_edit"
+                    android:layout_width="30dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_baseline_edit_24"
+                    android:backgroundTint="@color/black"
+                    android:scaleType="center"
+                    />
+
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -248,6 +298,7 @@
                 android:layout_height="1dp"
                 android:layout_margin="10dp"
                 android:alpha="0.7"
+                android:visibility="gone"
                 android:background="#585858"></androidx.appcompat.widget.AppCompatImageView>
 
             <LinearLayout
@@ -256,7 +307,9 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:id="@+id/txtGoalWeight"
@@ -282,6 +335,7 @@
                 android:layout_height="1dp"
                 android:layout_margin="10dp"
                 android:alpha="0.7"
+                android:visibility="gone"
                 android:background="#585858"></androidx.appcompat.widget.AppCompatImageView>
 
             <LinearLayout
@@ -290,7 +344,9 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:id="@+id/txtBMI"
@@ -308,6 +364,51 @@
                     android:textAlignment="viewEnd"
                     android:textColor="#585858"
                     android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:alpha="0.7"
+                android:background="#585858"></androidx.appcompat.widget.AppCompatImageView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:id="@+id/txt_updategoal_Account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Goal"
+                    android:textColor="#0090ff"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/txtgoal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#585858"
+                    android:textSize="20sp" />
+
+                <ImageButton
+                    android:id="@+id/imbGoal_edit"
+                    android:layout_marginStart="4dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_baseline_edit_24"
+                    android:backgroundTint="@color/black"
+                    android:scaleType="center"
+                    />
 
             </LinearLayout>
 

@@ -187,6 +187,7 @@ public class A_Excercise extends AppCompatActivity {
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+
     }
 
     private void updateExercise(String date) {

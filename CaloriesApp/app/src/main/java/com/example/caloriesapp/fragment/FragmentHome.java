@@ -1,5 +1,6 @@
 package com.example.caloriesapp.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,6 +32,7 @@ import com.example.caloriesapp.Exercise;
 import com.example.caloriesapp.Foodate;
 import com.example.caloriesapp.R;
 import com.example.caloriesapp.activities.MainActivity;
+import com.example.caloriesapp.viewmodel.MainActivityViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -69,6 +71,10 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
     private CardView cardBreakfast,cardLunch,cardDinner,cardSnack;
     private TextView date_home,text_calodaily,burnedcalo,earnedcalo;
     public static final String SESSION = "com.example.application.example.EXTRA_SESSION";
+    private MainActivityViewModel viewmodel;
+    @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+    @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf2 = new SimpleDateFormat("MMM dd");
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,7 +83,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
 
         AnhXa(view);
         Set_date_time();
-        syncDataWithFirebase(getcurrentday()); // truyen vao ngay can update ui  "yyyy-m-dd"
+        syncDataWithFirebase(string_datenow); // truyen vao ngay can update ui  "yyyy-m-dd"
 
 
 
@@ -137,6 +143,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                if(getContext() != null)
                 Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
             }
         });
@@ -202,6 +209,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                if(getContext() != null)
                 Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
             }
         });
@@ -235,6 +243,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                if(getContext() != null)
                 Toasty.info(getContext(), "Please Restart",Toasty.LENGTH_SHORT).show();
             }
         });
@@ -243,6 +252,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()){
             case R.id.bottle1:
                 if(isClicked1==false){
@@ -328,11 +338,25 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
                 syncDataWithFirebase(getyesterday(string_datenow));
 //                Toast.makeText(getActivity(),getyesterday(string_datenow),Toast.LENGTH_SHORT).show();
                 string_datenow = getyesterday(string_datenow);
+                viewmodel.string_datenow = string_datenow;
+                date_home.setText(string_datenow);
+                try {
+                    date_home.setText(sdf2.format(sdf1.parse(string_datenow)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.imageday_next:
                 syncDataWithFirebase(getnextday(string_datenow));
 //                Toast.makeText(getActivity(),getnextday(string_datenow),Toast.LENGTH_SHORT).show();
                 string_datenow = getnextday(string_datenow);
+                viewmodel.string_datenow = string_datenow;
+                date_home.setText(string_datenow);
+                try {
+                    date_home.setText(sdf2.format(sdf1.parse(string_datenow)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.imageexcercise:
                 Intent excercise = new Intent(getActivity(), A_Excercise.class);
@@ -354,13 +378,8 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
                     isClicked = true;
                     text_calodaily.clearComposingText();
                     text_calodaily.setText("Remaining Calories\n");
-                    int b = Math.round(caloDaily) - Integer.parseInt( earnedcalo.getText().toString()) - Integer.parseInt(burnedcalo.getText().toString());
-                    if(b < 0){
-                        text_calodaily.append(String.valueOf(0));
-                    }
-                    else{
-                        text_calodaily.append(String.valueOf(b));
-                    }
+                    int b = Math.round(caloDaily) - Integer.parseInt( earnedcalo.getText().toString()) + Integer.parseInt(burnedcalo.getText().toString());
+                    text_calodaily.append(String.valueOf(b));
                 }
                 else{
                     isClicked = false;
@@ -376,6 +395,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
 
 
     public void AnhXa(View view){
+        viewmodel = ((MainActivity) getActivity()).viewmodel;
         foodateList = new ArrayList<>();
         exerciseList = new ArrayList<>();
 
@@ -423,7 +443,26 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
         daynextt = 1;
         daybackk = 1;
         caloshow=0;
-        string_datenow = getcurrentday();
+        string_datenow = viewmodel.string_datenow;
+        date_home.setText(string_datenow);
+        try {
+            date_home.setText(sdf2.format(sdf1.parse(string_datenow)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            Intent intent = getActivity().getIntent();
+            if(intent.getStringExtra("date") != null)
+            {
+                string_datenow = intent.getStringExtra("date");
+                viewmodel.string_datenow = string_datenow;
+                date_home.setText(sdf2.format(sdf1.parse(string_datenow)));
+
+            }
+
+        }catch (Exception ignored){
+
+        }
         string_breakfast = "breakfast";
         string_snacks = "snacks";
         string_dinner = "dinner";
@@ -453,15 +492,22 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
                 date_home.setText(dayOfMonth + " thg " + month);
                 String thang = String.valueOf(month);
                 String ngay = String.valueOf(dayOfMonth);
-                if(month<=10)
+                if(month<10)
                 {
                     thang = "0"+String.valueOf(month);
                 }
-                if(dayOfMonth<=10)
+                if(dayOfMonth<10)
                 {
                     ngay = "0"+String.valueOf(dayOfMonth);
                 }
                 string_datenow =year+"-"+thang+"-"+ngay;
+                viewmodel.string_datenow = string_datenow;
+                date_home.setText(string_datenow);
+                try {
+                    date_home.setText(sdf2.format(sdf1.parse(string_datenow)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 syncDataWithFirebase(string_datenow);
             }
         };
@@ -486,7 +532,6 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
         dt = sdf.format(c.getTime());
         int day = c.get(Calendar.DATE);
         int month = c.get(Calendar.MONTH) + 1;
-        date_home.setText(day + " thg " + month);
         return dt;
     }
 
@@ -503,7 +548,6 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
         dt = sdf.format(c.getTime());
         int day = c.get(Calendar.DATE);
         int month = c.get(Calendar.MONTH) + 1;
-        date_home.setText(day + " thg " + month);
         return dt;
     }
 
@@ -511,7 +555,6 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DAY_OF_MONTH);
         int month = c.get(Calendar.MONTH) + 1;
-        date_home.setText(day + " thg " + month);
     }
 
 

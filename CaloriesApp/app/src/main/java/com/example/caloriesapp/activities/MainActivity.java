@@ -231,8 +231,8 @@ public class MainActivity extends AppCompatActivity {
 
                         if(snapshot.child("dailyCaloriesTarget").getValue(float.class) == null){
                             myDatabase.child("users").child(FirebaseAuth.getInstance().getUid())
-                                    .child("userinfo").setValue(new User("9","8","7",6,
-                                    5,4,3,2,0, firebaseUser.getEmail()));
+                                    .child("userinfo").setValue(new User("0","0","0",0,
+                                    0,0,0,0,0, firebaseUser.getEmail()));
 
                             startActivity(new Intent(getApplicationContext(), A_mucdich.class));
                             finish();
@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
                                             finish();
                                         }
                                     }).build();
-                            //mDialog.show();
+                            mDialog.show();
                         }
 
                         saveCaloriesTarget();
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //        String year = String.valueOf(calendar.get(Calendar.YEAR));
 //        String date = year + month + day;
-
+/*
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String date = sdf.format(calendar.getTime());
@@ -299,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference().child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("calodaily").child(date).setValue(new CaloDaily(date, calories));
-
+*/
 
 //        Calendar calendar = Calendar.getInstance();
 //        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
