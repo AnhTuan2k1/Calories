@@ -116,7 +116,6 @@ public class A_Breakfast extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
