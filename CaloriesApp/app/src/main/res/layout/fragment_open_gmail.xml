@@ -60,6 +60,7 @@
                 android:layout_marginTop="32dp"
                 android:text="Open gmail app"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/textView23"
                 app:layout_constraintStart_toStartOf="@+id/textView23"
                 app:layout_constraintTop_toBottomOf="@+id/textView23" />

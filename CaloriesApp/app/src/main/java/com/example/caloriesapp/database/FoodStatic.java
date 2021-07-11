@@ -17,6 +17,9 @@ public class FoodStatic {
         this.gram = gram;
     }
 
+    public FoodStatic() {
+    }
+
     public int getId() {
         return id;
     }
