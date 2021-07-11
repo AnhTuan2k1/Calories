@@ -116,7 +116,7 @@ public class A_Breakfast extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        syncDataWithFirebase(DATE_BREAKFAST);
+
     }
 
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
@@ -207,6 +207,7 @@ public class A_Breakfast extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(A_Breakfast.this, MainActivity.class);
+        intent.putExtra("date",date);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);

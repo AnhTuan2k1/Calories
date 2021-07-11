@@ -31,7 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
-        android:layout_marginEnd="32dp"
         android:text="Your custom plan is ready"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,10 +52,11 @@
         android:id="@+id/textView_calodaily_dialogcongratulation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:text="0"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="@+id/textView_dialogAddfood"
-        app:layout_constraintTop_toBottomOf="@+id/textView_dialogAddfood" />
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_dialogAddfood"
+        app:layout_constraintStart_toEndOf="@+id/textView_dialogAddfood" />
 
     <TextView
         android:id="@+id/textView45"
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="kcal"
-        android:textSize="25sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView_calodaily_dialogcongratulation"
         app:layout_constraintStart_toEndOf="@+id/textView_calodaily_dialogcongratulation" />
 
@@ -72,19 +72,21 @@
         android:id="@+id/textViewkk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="In: "
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/textView_calodaily_dialogcongratulation"
-        app:layout_constraintTop_toBottomOf="@+id/textView_calodaily_dialogcongratulation" />
+        android:layout_marginTop="4dp"
+        android:text="In"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/textView_dialogAddfood"
+        app:layout_constraintTop_toBottomOf="@+id/textView_dialogAddfood" />
 
     <TextView
         android:id="@+id/textView_time_dialogcongratulation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:text="0"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/textViewkk"
-        app:layout_constraintTop_toBottomOf="@+id/textView_calodaily_dialogcongratulation" />
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewkk"
+        app:layout_constraintStart_toEndOf="@+id/textViewkk" />
 
     <TextView
         android:id="@+id/textViewkk3"
@@ -92,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Weeks"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView_time_dialogcongratulation"
         app:layout_constraintStart_toEndOf="@+id/textView_time_dialogcongratulation" />
 

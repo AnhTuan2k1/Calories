@@ -49,6 +49,7 @@ public class FragmentOpenGmail extends Fragment {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();
+                getActivity().overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
             }
         });
 

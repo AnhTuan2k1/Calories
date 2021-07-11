@@ -1078,7 +1078,7 @@ public class FragmentStatistic extends Fragment {
         caloSnacks = mView.findViewById(R.id.caloSnacks_statistic);
         imageView = mView.findViewById(R.id.imageView_statistic);
         textView = mView.findViewById(R.id.textView_statistic);
-        textView.setText("Last Week");                                                    //viewmodel
+        textView.setText(viewmodel.textView);                                                    //viewmodel
         goal = mView.findViewById(R.id.textviewGoal_statistic);
         edittext_enddate = mView.findViewById(R.id.edittext_enddate_statistic);
         edittext_enddate.setText(viewmodel.edittext_enddate);                                    //viewmodel

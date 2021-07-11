@@ -2,7 +2,9 @@ package com.example.caloriesapp.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivityViewModel extends ViewModel {
     public int currentFragment;
@@ -18,6 +20,8 @@ public class MainActivityViewModel extends ViewModel {
     public String textView_date;
     public Calendar currentdate;
 
+    public String string_datenow;
+
     public MainActivityViewModel() {
         this.currentFragment = 0;
         this.edittext_startdate = "";
@@ -30,5 +34,7 @@ public class MainActivityViewModel extends ViewModel {
         this.checkbox_showGainBurnline = false;
         textView_date = "Today";
         currentdate = Calendar.getInstance();
+        string_datenow = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                .format(currentdate.getTime());
     }
 }

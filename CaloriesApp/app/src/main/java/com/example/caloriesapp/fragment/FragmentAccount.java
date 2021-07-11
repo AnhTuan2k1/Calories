@@ -5,7 +5,10 @@ import android.app.Dialog;
 import android.app.Notification;
 import android.app.PendingIntent;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -17,6 +20,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +30,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -47,6 +52,8 @@ import com.example.caloriesapp.Foodate;
 
 import com.example.caloriesapp.activity_editprofile;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,8 +62,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -90,6 +103,7 @@ public class FragmentAccount extends Fragment {
     private ImageButton imbWeight;
     private ImageButton imbSex;
     private ImageButton imbAge;
+    private ImageButton imageView_name;
 
     @Nullable
     @Override
@@ -173,6 +187,7 @@ public class FragmentAccount extends Fragment {
         imbHeight.setOnClickListener(onClickListener);
         imbWeight.setOnClickListener(onClickListener);
         imbAge.setOnClickListener(onClickListener);
+        imageView_name.setOnClickListener(onClickListener);
 
         return view;
     }
@@ -217,6 +232,12 @@ public class FragmentAccount extends Fragment {
                 editText.setText(String.valueOf((int) user.getCurrentWeight()));
                 editText.setHint("Kg");
                 break;
+            case R.id.imageView_name:
+                textView.setText("Name");
+                editText.setText(user.getUserName());
+                editText.setHint("");
+                editText.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+                break;
         }
 
         btnOK.setOnClickListener(new View.OnClickListener() {
@@ -227,50 +248,63 @@ public class FragmentAccount extends Fragment {
                         .child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                         .child("userinfo");
 
-                switch (imageButton.getId())
-                {
-                    case R.id.imbAge_edit :
-                        if(editText.getText().toString().equals("")
-                                || Integer.parseInt(editText.getText().toString())<=5
-                                || Integer.parseInt(editText.getText().toString())>100){
-                            Toasty.error(getContext(),"Invalid Age",Toasty.LENGTH_SHORT).show();
-                        }
-                        else{
-                            user.setAge(Integer.parseInt(editText.getText().toString()));
-                            age.setText(String.valueOf(user.getAge()));
-                            reference.setValue(user);
-                        }
+                try{
+                    switch (imageButton.getId())
+                    {
+                        case R.id.imbAge_edit :
+                            if(editText.getText().toString().equals("")
+                                    || Integer.parseInt(editText.getText().toString())<=5
+                                    || Integer.parseInt(editText.getText().toString())>100){
+                                Toasty.error(getContext(),"Invalid Age",Toasty.LENGTH_SHORT).show();
+                            }
+                            else{
+                                user.setAge(Integer.parseInt(editText.getText().toString()));
+                                age.setText(String.valueOf(user.getAge()));
+                                reference.setValue(user);
+                            }
 
-                        break;
-                    case R.id.imbHeight_edit :
-                        int chieucao = Integer.parseInt(editText.getText().toString());
-                        if(editText.getText().toString().equals("")||chieucao<30||chieucao>250){
-                            Toasty.error(getContext(),"Invalid Height",Toasty.LENGTH_SHORT).show();
-                        }
-                        else{
-                            user.setHeight(chieucao);
-                            height.setText(String.valueOf(user.getHeight()) + " CM" );
-                            reference.setValue(user);
-                        }
+                            break;
+                        case R.id.imbHeight_edit :
+                            int chieucao = Integer.parseInt(editText.getText().toString());
+                            if(editText.getText().toString().equals("")||chieucao<30||chieucao>250){
+                                Toasty.error(getContext(),"Invalid Height",Toasty.LENGTH_SHORT).show();
+                            }
+                            else{
+                                user.setHeight(chieucao);
+                                height.setText(String.valueOf(user.getHeight()) + " CM" );
+                                reference.setValue(user);
+                            }
 
-                        break;
-                    case R.id.imbWeight_edit :
-                        if(editText.getText().toString().matches("")
-                                ||Integer.parseInt(editText.getText().toString()) <0
-                                ||Integer.parseInt(editText.getText().toString()) >300
-                                ||Integer.parseInt(editText.getText().toString())
-                                != Integer.parseInt(editText.getText().toString())
-                        ){
-                            Toasty.error(getContext(),"Invalid Weight",Toasty.LENGTH_SHORT).show();
-                        }
-                        else{
-                            user.setCurrentWeight(Integer.parseInt(editText.getText().toString()));
-                            currentWeight.setText(String.valueOf(user.getCurrentWeight()) +" KG" );
-                            reference.setValue(user);
-                        }
+                            break;
+                        case R.id.imbWeight_edit :
+                            if(editText.getText().toString().matches("")
+                                    ||Integer.parseInt(editText.getText().toString()) <0
+                                    ||Integer.parseInt(editText.getText().toString()) >300
+                                    ||Integer.parseInt(editText.getText().toString())
+                                    != Integer.parseInt(editText.getText().toString())
+                            ){
+                                Toasty.error(getContext(),"Invalid Weight",Toasty.LENGTH_SHORT).show();
+                            }
+                            else{
+                                user.setCurrentWeight(Integer.parseInt(editText.getText().toString()));
+                                currentWeight.setText(String.valueOf(user.getCurrentWeight()) +" KG" );
+                                reference.setValue(user);
+                            }
 
-                        break;
-                }
+                            break;
+                        case R.id.imageView_name:
+                            if(editText.getText().toString().isEmpty())
+                            {
+                                dialog.dismiss();
+                                return;
+                            }
+                            user.setUserName(editText.getText().toString());
+                            userName.setText(user.getUserName());
+                            reference.setValue(user);
+                            break;
+                    }
+                }catch (Exception ignored){}
+
 
                 dialog.dismiss();
 
@@ -284,8 +318,54 @@ public class FragmentAccount extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Uri uri = data.getData();
-        profile.setImageURI(uri);
+        Uri uri = null;
+        try {
+            uri = data.getData();
+            profile.setImageURI(uri);
+
+
+        }catch (Exception ignored){}
+        StorageReference reference = FirebaseStorage.getInstance()
+                .getReference().child(FirebaseAuth.getInstance().getUid());
+
+        reference.putFile(uri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                FirebaseDatabase.getInstance().getReference().child("users")
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .child("image").setValue(uri.toString());
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                if(getContext() != null)
+                                    Toasty.error(getContext(), e.getMessage(), Toasty.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                if(getContext() != null)
+                    Toasty.error(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private String getFileExtension(Uri uri) {
+        String s = null;
+        try{
+            ContentResolver cr = getActivity().getContentResolver();
+            MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+            s = mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
+        }catch (Exception ignored){}
+
+        return  s;
     }
 
     private void showGenderDialog() {
@@ -369,6 +449,7 @@ public class FragmentAccount extends Fragment {
         imbHeight = view.findViewById(R.id.imbHeight_edit);
         imbWeight = view.findViewById(R.id.imbWeight_edit);
         imbGoal = view.findViewById(R.id.imbGoal_edit);
+        imageView_name = view.findViewById(R.id.imageView_name);
     }
 
     public void goToAttract(View v)
@@ -413,6 +494,49 @@ public class FragmentAccount extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
                 if(getContext() != null)
                     Toasty.info(getContext(), error.getMessage(),Toasty.LENGTH_SHORT).show();
+            }
+        });
+
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("image").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                String s = snapshot.getValue(String.class);
+                Bitmap bitmap = null;
+                HttpURLConnection httpURLConnection = null;
+                if(s != null)
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            HttpURLConnection httpURLConnection = null;
+                            try {
+
+                                httpURLConnection = (HttpURLConnection) new URL(s).openConnection();
+                                Bitmap bitmap = BitmapFactory.decodeStream(httpURLConnection.getInputStream());
+
+                                if(getActivity() != null)
+                                {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            profile.setImageBitmap(bitmap);
+                                        }
+                                    });
+                                }
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }).start();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

@@ -92,6 +92,17 @@ public class SearchFoodActivity extends AppCompatActivity  {
         super.onResume();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), A_Breakfast.class);
+        intent.putExtra("key",date_breakfast);
+        intent.putExtra("session",sessionofday_breakfast);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+    }
+
     private void handleSearchFood() {
         String keyword = editTextSearch.getText().toString().trim();
         mListFood = FoodDatabase.getInstance(this).foodDAO().searchFood(keyword);

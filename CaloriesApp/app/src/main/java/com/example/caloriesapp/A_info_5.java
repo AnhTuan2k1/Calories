@@ -229,7 +229,7 @@ import es.dmoral.toasty.Toasty;
                 public void onClick(View v) {
                     Intent intent = new Intent(A_info_5.this, MainActivity.class);
                     String s = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-                    if(s == null) s = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                    if(s == null || s.isEmpty()) s = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
                     User user = new User(mucdich_5,gioitinh_5, String.valueOf(time),cannanggoal_5,cannang_5,Math.round(tuoi_5),chieucao_5,AM,Calo, s);
                     FirebaseDatabase.getInstance().getReference()
