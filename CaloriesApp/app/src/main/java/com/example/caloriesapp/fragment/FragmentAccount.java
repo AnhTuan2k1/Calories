@@ -542,6 +542,7 @@ public class FragmentAccount extends Fragment {
                     public void onClick(dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
                         startActivity(new Intent(getContext(), A_mucdich.class));
                         getActivity().finish();
+                        dialogInterface.dismiss();
                     }
                 }).setNegativeButton("No", R.drawable.ic_cancel_24, new MaterialDialog.OnClickListener() {
                     @Override

@@ -75,8 +75,17 @@ public class A_info_3 extends AppCompatActivity {
         intent.putExtra(EXTRA_TEXTTUOI,tuoi_3);
         intent.putExtra(EXTRA_TEXTCHIEUCAO,chieucao);
         startActivity(intent);
+        finish();
     }
-
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this,A_info_2.class);
+        intent.putExtra(A_info_1.EXTRA_TEXT1,gioitinh_3);
+        intent.putExtra(A_info_1.EXTRA_TEXT,gioitinh_3);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        finish();
+    }
     private void syncUserWithFirebase() {
         btnnext.setEnabled(false);
         if(FirebaseAuth.getInstance().getCurrentUser() == null)

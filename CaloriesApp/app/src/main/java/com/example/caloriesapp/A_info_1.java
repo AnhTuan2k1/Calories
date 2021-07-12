@@ -142,7 +142,19 @@ public class A_info_1 extends AppCompatActivity {
         intent.putExtra(EXTRA_TEXT1,gioitinh);
         intent.putExtra(EXTRA_TEXT,mucdich_1);
         startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this,A_mucdich.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        finish();
+    }
+
     @Override
     public void finish() {
         super.finish();

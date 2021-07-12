@@ -54,12 +54,12 @@ import es.dmoral.toasty.Toasty;
     private Float time;
     private User user;
 
-//    public static final String EXTRA_TEXTMUCDICH = "com.example.application.example.EXTRA_TEXTMUCDICH";
-//    public static final String EXTRA_TEXTGIOITINH = "com.example.application.example.EXTRA_TEXTGIOITINH";
-//    public static final String EXTRA_TEXTTUOI = "com.example.application.example.EXTRA_TEXTTUOI";
-//    public static final String EXTRA_TEXTCHIEUCAO = "com.example.application.example.EXTRA_TEXTCHIEUCAO";
-//    public static final String EXTRA_TEXTCANNANG = "com.example.application.example.EXTRA_TEXTCANNANG";
-//    public static final String EXTRA_TEXTAM= "com.example.application.example.EXTRA_TEXTAM";
+    public static final String EXTRA_TEXTMUCDICH = "com.example.application.example.EXTRA_TEXTMUCDICH";
+    public static final String EXTRA_TEXTGIOITINH = "com.example.application.example.EXTRA_TEXTGIOITINH";
+    public static final String EXTRA_TEXTTUOI = "com.example.application.example.EXTRA_TEXTTUOI";
+    public static final String EXTRA_TEXTCHIEUCAO = "com.example.application.example.EXTRA_TEXTCHIEUCAO";
+    public static final String EXTRA_TEXTCANNANG = "com.example.application.example.EXTRA_TEXTCANNANG";
+    public static final String EXTRA_TEXTAM= "com.example.application.example.EXTRA_TEXTAM";
 
 
 
@@ -149,7 +149,21 @@ import es.dmoral.toasty.Toasty;
             }
         });
     }
-    public void OpenA_Main(){
+
+        @Override
+        public void onBackPressed() {
+            super.onBackPressed();
+            Intent intent = new Intent(this,A_info_4.class);
+            intent.putExtra(EXTRA_TEXTMUCDICH,mucdich_5);
+            intent.putExtra(EXTRA_TEXTGIOITINH,gioitinh_5);
+            intent.putExtra(EXTRA_TEXTTUOI,tuoi_5);
+            intent.putExtra(EXTRA_TEXTCHIEUCAO,chieucao_5);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            finish();
+        }
+
+        public void OpenA_Main(){
 
        openDialog(Gravity.CENTER, Calo, time.intValue());
 //        intent.putExtra(EXTRA_TEXTMUCDICH,mucdich_5);
@@ -232,13 +246,20 @@ import es.dmoral.toasty.Toasty;
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(A_info_5.this, MainActivity.class);
-                    String s = null;
-                    if(user.getUserName().isEmpty()) {
-                        s = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-                        if (s == null || s.isEmpty())
-                            s = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                    String s = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                    if(user != null)
+                    {
+                        if(user.getUserName() != null)
+                        {
+                            if(user.getUserName().isEmpty()) {
+                                s = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                                if (s == null || s.isEmpty())
+                                    s = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                            }
+                            else s = user.getUserName();
+                        }
                     }
-                    else s = user.getUserName();
+
                     User user = new User(mucdich_5,gioitinh_5, String.valueOf(time),cannanggoal_5,cannang_5,Math.round(tuoi_5),chieucao_5,AM,Calo, s);
                     FirebaseDatabase.getInstance().getReference()
                             .child("users").child(FirebaseAuth.getInstance().getUid())
@@ -259,6 +280,7 @@ import es.dmoral.toasty.Toasty;
 
                     startActivity(intent);
                     finish();
+                    dialog.dismiss();
                 }
             });
 

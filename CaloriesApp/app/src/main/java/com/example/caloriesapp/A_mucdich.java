@@ -91,6 +91,7 @@ public class A_mucdich extends AppCompatActivity {
         intent.putExtra(EXTRA_TEXT,mucdich);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        finish();
     }
 
     // save data
