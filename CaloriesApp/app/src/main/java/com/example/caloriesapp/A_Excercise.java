@@ -140,8 +140,8 @@ public class A_Excercise extends AppCompatActivity {
                             deletedExcercise,
                             date
                             );
-                    exerciseAdapter.notifyDataSetChanged();
-                    updateUI(date);
+                    exerciseList.clear();
+                    syncDataWithFirebase(date);
                     break;
                 default:
                     break;
@@ -165,6 +165,19 @@ public class A_Excercise extends AppCompatActivity {
         intent.putExtra(DATE_EXERCISE,date);
         startActivity(intent);
     }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(A_Excercise.this, MainActivity.class);
+        intent.putExtra("date",date);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+
+    }
+
     private void AnhXa() {
         tieude = findViewById(R.id.tieudeexcercise);
         text_explain_3 = findViewById(R.id.text_explain3);
@@ -179,16 +192,7 @@ public class A_Excercise extends AppCompatActivity {
         date = intent.getStringExtra("key");
 
     }
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
 
-        Intent intent = new Intent(A_Excercise.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-
-    }
 
     private void updateExercise(String date) {
         FirebaseDatabase.getInstance().getReference().child("users")
@@ -323,7 +327,6 @@ public class A_Excercise extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 exerciseList.clear();
                                 syncDataWithFirebase(date);
-                                exerciseAdapter.notifyDataSetChanged();
                             }
                             else{
                                 Toasty.error(A_Excercise.this, "something was fail", Toast.LENGTH_SHORT).show();
