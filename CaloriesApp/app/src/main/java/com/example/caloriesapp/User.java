@@ -6,6 +6,7 @@ public class User {
     String purposeWeight;    //lose maintain gain
     String gender;
     String timetogetGoalweight; // "dd/MM/yyyy"
+    String image;
     float goalWeight;
     float currentWeight;
     int age;
@@ -28,6 +29,7 @@ public class User {
         ExerciseIntensity = exerciseIntensity;
         this.dailyCaloriesTarget = dailyCaloriesTarget;
         this.userName = userName;
+        image = null;
     }
 
     public User(String purposeWeight, String gender, String timetogetGoalweight, float goalWeight,
@@ -42,6 +44,15 @@ public class User {
         ExerciseIntensity = exerciseIntensity;
         this.dailyCaloriesTarget = dailyCaloriesTarget;
         this.userName = "";
+        image = null;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getUserName() {
