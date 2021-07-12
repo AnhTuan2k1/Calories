@@ -231,7 +231,6 @@ public class FragmentAccount extends Fragment {
                 textView.setText("Weight");
                 editText.setText(String.valueOf((int) user.getCurrentWeight()));
                 editText.setHint("Kg");
-                editText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 break;
             case R.id.imageView_name:
                 textView.setText("Name");
