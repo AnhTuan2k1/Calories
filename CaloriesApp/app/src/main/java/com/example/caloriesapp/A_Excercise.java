@@ -164,6 +164,7 @@ public class A_Excercise extends AppCompatActivity {
         Intent intent = new Intent(this, SearchExerciseActivity.class);
         intent.putExtra(DATE_EXERCISE,date);
         startActivity(intent);
+        finish();
     }
 
 

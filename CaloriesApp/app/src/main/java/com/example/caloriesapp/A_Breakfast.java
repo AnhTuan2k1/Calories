@@ -200,6 +200,7 @@ public class A_Breakfast extends AppCompatActivity {
         intent.putExtra(SESSIONOFDAY_BREAKFAST,sessionofday);
         intent.putExtra(DATE_BREAKFAST,date);
         startActivity(intent);
+        finish();
     }
 
     @Override

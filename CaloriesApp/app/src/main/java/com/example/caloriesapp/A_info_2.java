@@ -83,6 +83,16 @@ public class A_info_2 extends AppCompatActivity {
         intent.putExtra(EXTRA_TEXTGIOITINH,gioitinh_2);
         intent.putExtra(EXTRA_TEXTTUOI,tuoi);
         startActivity(intent);
+        finish();
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this,A_info_1.class);
+        intent.putExtra(A_mucdich.EXTRA_TEXT, mucdich_2);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        finish();
     }
 
     private void syncUserWithFirebase() {

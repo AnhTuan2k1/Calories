@@ -60,7 +60,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
     private int daynextt,daybackk;
     private String string_datenow,string_breakfast,string_lunch,string_dinner,string_snacks,string_excercise;
     private List<Exercise> exerciseList;
-    private float caloDaily;
+    private float caloDaily = 0f;
     private float caloshow;
     private DatePickerDialog.OnDateSetListener setListener;
     private boolean isClicked;
@@ -116,28 +116,26 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
                 .child("calodaily").child(date).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    if(dataSnapshot.child("calories").equals("")){
-                        MaterialDialog mDialog = new MaterialDialog.Builder(getActivity())
-                                .setTitle("Notify")
-                                .setMessage("to use this app, please update your profile")
-                                .setCancelable(false)
-                                .setPositiveButton("         OK     ", R.drawable.ic_green_check_24, new MaterialDialog.OnClickListener() {
-                                    @Override
-                                    public void onClick(dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-                                        startActivity(new Intent(getApplicationContext(), A_mucdich.class));
-                                        getActivity().getFragmentManager().popBackStack();
-                                    }
-                                }).build();
-                        mDialog.show();
-                    }
+                try {
+
+
+                        if(snapshot.getValue(CaloDaily.class) == null)
+                        {
+                            FirebaseDatabase.getInstance().getReference().child("users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .child("calodaily").child(date).setValue(new CaloDaily(date, caloDaily));
+                            return;
+                        }
+                       
+
                     else
                     {
                         caloDaily = Math.round(snapshot.getValue(CaloDaily.class).getCalories()) ;
                         text_calodaily.setText("Daily Calories Target\n");
                         text_calodaily.append(String.valueOf(Math.round(caloDaily)));
                     }
-                }
+                }catch (Exception e){}
+
 
             }
 
@@ -182,7 +180,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
                 }
                 burnedcalo.setText(String.valueOf(Math.round(caloshow)));
 
-
+                caloshow = 0;
             }
 
             @Override
@@ -315,24 +313,28 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
                 breakfast.putExtra("key",string_datenow);
                 breakfast.putExtra("session",string_breakfast);
                 startActivity(breakfast);
+                getActivity().finish();
                 break;
             case R.id.cardlunch:
                 Intent lunch = new Intent(getActivity(), A_Breakfast.class);
                 lunch.putExtra("key",string_datenow);
                 lunch.putExtra("session",string_lunch);
                 startActivity(lunch);
+                getActivity().finish();
                 break;
             case R.id.carddinner:
                 Intent dinner = new Intent(getActivity(), A_Breakfast.class);
                 dinner.putExtra("key",string_datenow);
                 dinner.putExtra("session",string_dinner);
                 startActivity(dinner);
+                getActivity().finish();
                 break;
             case R.id.cardsnack:
                 Intent snacks = new Intent(getActivity(), A_Breakfast.class);
                 snacks.putExtra("key",string_datenow);
                 snacks.putExtra("session",string_snacks);
                 startActivity(snacks);
+                getActivity().finish();
                 break;
             case R.id.imageday_back:
                 syncDataWithFirebase(getyesterday(string_datenow));
@@ -362,6 +364,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
                 Intent excercise = new Intent(getActivity(), A_Excercise.class);
                 excercise.putExtra("key",string_datenow);
                 startActivity(excercise);
+                getActivity().finish();
                 break;
 
             case R.id.home_date:

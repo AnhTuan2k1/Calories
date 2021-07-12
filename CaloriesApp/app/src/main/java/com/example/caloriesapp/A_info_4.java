@@ -86,6 +86,18 @@ public class A_info_4 extends AppCompatActivity {
         intent.putExtra(EXTRA_TEXTCANNANG,cannang);
         intent.putExtra(EXTRA_TEXTCANNANGGOAL,cannanggoal);
         startActivity(intent);
+        finish();
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this,A_info_3.class);
+        intent.putExtra(EXTRA_TEXTMUCDICH,mucdich_4);
+        intent.putExtra(EXTRA_TEXTGIOITINH,gioitinh_4);
+        intent.putExtra(EXTRA_TEXTTUOI,tuoi_4);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        finish();
     }
 
     public void Checking(String mucdich){
@@ -200,8 +212,8 @@ public class A_info_4 extends AppCompatActivity {
                 try {
                     if(user.getCurrentWeight() != 0f)
                     {
-                        currentweight.setText(String.valueOf(user.getCurrentWeight()));
-                        goalweight.setText(String.valueOf(user.getGoalWeight()));
+                        currentweight.setText(String.valueOf((int)user.getCurrentWeight()));
+                        goalweight.setText(String.valueOf((int)user.getGoalWeight()));
                     }
 
                 }catch (Exception e){}

@@ -535,13 +535,14 @@ public class FragmentAccount extends Fragment {
 
     private void openDialog() {
         MaterialDialog mDialog = new MaterialDialog.Builder(getActivity())
-                .setTitle("Notify")
+                .setTitle("Notification")
                 .setMessage("Do you want to set your goal again ?")
                 .setPositiveButton("         Yes     ", R.drawable.ic_green_check_24, new MaterialDialog.OnClickListener() {
                     @Override
                     public void onClick(dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
                         startActivity(new Intent(getContext(), A_mucdich.class));
                         getActivity().finish();
+                        dialogInterface.dismiss();
                     }
                 }).setNegativeButton("No", R.drawable.ic_cancel_24, new MaterialDialog.OnClickListener() {
                     @Override

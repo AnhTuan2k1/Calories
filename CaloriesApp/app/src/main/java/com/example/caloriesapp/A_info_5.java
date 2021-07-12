@@ -25,8 +25,11 @@ import com.example.caloriesapp.activities.SearchFoodActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -49,13 +52,14 @@ import es.dmoral.toasty.Toasty;
     private Float Calo;
     private Float gap;
     private Float time;
+    private User user;
 
-//    public static final String EXTRA_TEXTMUCDICH = "com.example.application.example.EXTRA_TEXTMUCDICH";
-//    public static final String EXTRA_TEXTGIOITINH = "com.example.application.example.EXTRA_TEXTGIOITINH";
-//    public static final String EXTRA_TEXTTUOI = "com.example.application.example.EXTRA_TEXTTUOI";
-//    public static final String EXTRA_TEXTCHIEUCAO = "com.example.application.example.EXTRA_TEXTCHIEUCAO";
-//    public static final String EXTRA_TEXTCANNANG = "com.example.application.example.EXTRA_TEXTCANNANG";
-//    public static final String EXTRA_TEXTAM= "com.example.application.example.EXTRA_TEXTAM";
+    public static final String EXTRA_TEXTMUCDICH = "com.example.application.example.EXTRA_TEXTMUCDICH";
+    public static final String EXTRA_TEXTGIOITINH = "com.example.application.example.EXTRA_TEXTGIOITINH";
+    public static final String EXTRA_TEXTTUOI = "com.example.application.example.EXTRA_TEXTTUOI";
+    public static final String EXTRA_TEXTCHIEUCAO = "com.example.application.example.EXTRA_TEXTCHIEUCAO";
+    public static final String EXTRA_TEXTCANNANG = "com.example.application.example.EXTRA_TEXTCANNANG";
+    public static final String EXTRA_TEXTAM= "com.example.application.example.EXTRA_TEXTAM";
 
 
 
@@ -145,7 +149,21 @@ import es.dmoral.toasty.Toasty;
             }
         });
     }
-    public void OpenA_Main(){
+
+        @Override
+        public void onBackPressed() {
+            super.onBackPressed();
+            Intent intent = new Intent(this,A_info_4.class);
+            intent.putExtra(EXTRA_TEXTMUCDICH,mucdich_5);
+            intent.putExtra(EXTRA_TEXTGIOITINH,gioitinh_5);
+            intent.putExtra(EXTRA_TEXTTUOI,tuoi_5);
+            intent.putExtra(EXTRA_TEXTCHIEUCAO,chieucao_5);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            finish();
+        }
+
+        public void OpenA_Main(){
 
        openDialog(Gravity.CENTER, Calo, time.intValue());
 //        intent.putExtra(EXTRA_TEXTMUCDICH,mucdich_5);
@@ -228,8 +246,19 @@ import es.dmoral.toasty.Toasty;
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(A_info_5.this, MainActivity.class);
-                    String s = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-                    if(s == null || s.isEmpty()) s = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                    String s = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                    if(user != null)
+                    {
+                        if(user.getUserName() != null)
+                        {
+                            if(user.getUserName().isEmpty()) {
+                                s = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                                if (s == null || s.isEmpty())
+                                    s = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                            }
+                            else s = user.getUserName();
+                        }
+                    }
 
                     User user = new User(mucdich_5,gioitinh_5, String.valueOf(time),cannanggoal_5,cannang_5,Math.round(tuoi_5),chieucao_5,AM,Calo, s);
                     FirebaseDatabase.getInstance().getReference()
@@ -251,12 +280,36 @@ import es.dmoral.toasty.Toasty;
 
                     startActivity(intent);
                     finish();
+                    dialog.dismiss();
                 }
             });
 
 
             //dialog.setCancelable(false);
             dialog.show();
+        }
+
+        private void syncUserWithFirebase() {
+            if(FirebaseAuth.getInstance().getCurrentUser() == null)
+            {
+                return;
+            }
+
+            FirebaseDatabase.getInstance().getReference().child("users")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .child("userinfo").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    user = snapshot.getValue(User.class);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    if(getApplicationContext() != null)
+                        Toasty.info(getApplicationContext(), error.getMessage(),Toasty.LENGTH_SHORT).show();
+                }
+            });
         }
 
 }
