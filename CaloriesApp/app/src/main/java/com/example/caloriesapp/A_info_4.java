@@ -141,7 +141,7 @@ public class A_info_4 extends AppCompatActivity {
                         ||Float.parseFloat(goalweight.getText().toString()) <0
                         ||Float.parseFloat(currentweight.getText().toString()) >300
                         ||Float.parseFloat(goalweight.getText().toString()) >300
-                        ||Float.parseFloat(goalweight.getText().toString()) > Float.parseFloat(currentweight.getText().toString()))
+                        ||Float.parseFloat(goalweight.getText().toString()) >= Float.parseFloat(currentweight.getText().toString()))
                 {
                     Toasty.warning(A_info_4.this, "Invalid Weight!!").show();
                 }

@@ -116,7 +116,6 @@ public class A_Breakfast extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
@@ -175,8 +174,8 @@ public class A_Breakfast extends AppCompatActivity {
                             sessionofday,
                             date);
                     foodateList.clear();
-                    updateUI(date);
-                    foodateAdapter.notifyDataSetChanged();
+                    syncDataWithFirebase(date);
+
                     break;
                 default:
                     break;
@@ -372,7 +371,6 @@ public class A_Breakfast extends AppCompatActivity {
                                 Toasty.success(A_Breakfast.this, "Edit " + nameFood + " Successfully", Toast.LENGTH_SHORT).show();
                                 foodateList.clear();
                                 syncDataWithFirebase(date);
-                                foodateAdapter.notifyDataSetChanged();
                             }
                             else{
                                 Toasty.error(A_Breakfast.this, "something was fail", Toast.LENGTH_SHORT).show();

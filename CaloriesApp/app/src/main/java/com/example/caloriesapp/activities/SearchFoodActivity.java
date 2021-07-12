@@ -34,7 +34,10 @@ import com.example.caloriesapp.database.FoodStatic;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +48,15 @@ public class SearchFoodActivity extends AppCompatActivity  {
 
     private EditText editTextSearch;
     private RecyclerView listFood;
+    private RecyclerView recycleviewYourFood;
     private Button btnOkSearchFood;
     private String sessionofday_breakfast;
     private String date_breakfast;
     private FoodAdapter foodAdapter;
     private List<FoodStatic> mListFood;
+    private TextView addYourFood;
+    private ArrayList<FoodStatic> mListFoodCustom;
+    private FoodAdapter foodAdapterCustom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,12 @@ public class SearchFoodActivity extends AppCompatActivity  {
                 handleSearchFood();
             }
         });
+        addYourFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCustomFoodDialog(Gravity.CENTER);
+            }
+        });
         editTextSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -71,6 +84,13 @@ public class SearchFoodActivity extends AppCompatActivity  {
                 {
                     handleSearchFood();
                 }
+                return false;
+            }
+        });
+        editTextSearch.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                handleAutoSearchFood();
                 return false;
             }
         });
@@ -82,9 +102,98 @@ public class SearchFoodActivity extends AppCompatActivity  {
   //              Toasty.success(SearchFoodActivity.this, nameFood, Toast.LENGTH_LONG).show();
             }
         });
+        foodAdapterCustom.OnRecycleViewClickListener(new FoodAdapter.OnRecycleViewClickListener() {
+            @Override
+            public void OnItemClick(int position, String nameFood, String gram, String Calories) {
+                openDialog(Gravity.CENTER, nameFood, Float.parseFloat(Calories),
+                        Float.parseFloat(gram), sessionofday_breakfast, date_breakfast); // "dd/MM/yyyy"
+                //              Toasty.success(SearchFoodActivity.this, nameFood, Toast.LENGTH_LONG).show();
+            }
+        });
 
+        updatemyFoodateList();
     }
 
+    private void showCustomFoodDialog(int gravity) {
+        final Dialog dialogg = new Dialog(this);
+        dialogg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogg.setContentView(R.layout.dialog_customfood);
+
+        Window window = dialogg.getWindow();
+        if(window == null) return;
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+
+        EditText editText_gram = dialogg.findViewById(R.id.editText_gram_dialogCustomfood);
+        EditText  editText_calories = dialogg.findViewById(R.id.textView_calories_dialogCustomfood);
+        EditText editText_namefood = dialogg.findViewById(R.id.editText_namefood_dialogCustomfood);
+        Button button_add = dialogg.findViewById(R.id.button_Add_dialogCustomfood);
+        Button button_cancel = dialogg.findViewById(R.id.button_cancel_dialogCustomfood);
+        /////////////////////////////////////////////
+
+
+        button_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String grams = editText_gram.getText().toString();
+                if(!grams.equals("")  && Integer.parseInt(grams)!= 0)
+                {
+                    float calori = Float.parseFloat(editText_calories.getText().toString());
+                    String namef = editText_namefood.getText().toString();
+                    if(calori <= 0 || namef.isEmpty()) return;
+
+                    FoodStatic foodate = new FoodStatic(namef, calori/Integer.parseInt(grams), Integer.parseInt(grams));
+
+                    FirebaseDatabase.getInstance().getReference().child("users")
+                            .child(FirebaseAuth.getInstance().getUid())
+                            .child("myfood")
+                            .push().setValue(foodate)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toasty.success(SearchFoodActivity.this, "Add " + namef + " Successfully", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toasty.error(SearchFoodActivity.this, "something was fail", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    mListFoodCustom.add(foodate);
+                    foodAdapterCustom.setData(mListFoodCustom);
+                    recycleviewYourFood.setAdapter(foodAdapterCustom);
+
+
+                    // add food locally here
+                    dialogg.dismiss();
+                }
+                else
+                {
+                    Toasty.warning(SearchFoodActivity.this, "gram has errors", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogg.dismiss();
+            }
+        });
+        ///////////////////////////////////
+
+        //dialog.setCancelable(false);
+        dialogg.show();
+    }
 
 
     @Override
@@ -110,6 +219,12 @@ public class SearchFoodActivity extends AppCompatActivity  {
         hideSoftKeyboard();
     }
 
+    private void handleAutoSearchFood() {
+//        String keyword = editTextSearch.getText().toString().trim();
+//        mListFood = FoodDatabase.getInstance(this).foodDAO().searchFood(keyword);
+//        loadListFood();
+    }
+
     private void loadListFood(List<FoodStatic> list) {
        // Toasty.success(this, "add food successfully", Toast.LENGTH_SHORT, true).show();
         mListFood = list;
@@ -119,6 +234,31 @@ public class SearchFoodActivity extends AppCompatActivity  {
     private void loadListFood() {
         foodAdapter.setData(mListFood);
         listFood.setAdapter(foodAdapter);
+    }
+
+    private void updatemyFoodateList() {
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("myfood").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren())
+                {
+                    FoodStatic foodStatic = dataSnapshot.getValue(FoodStatic.class);
+                    mListFoodCustom.add(foodStatic);
+                }
+
+                foodAdapterCustom.setData(mListFoodCustom);
+                recycleviewYourFood.setAdapter(foodAdapterCustom);
+                // update ui here with foodateList
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                if(getApplicationContext() != null)
+                    Toasty.error(getApplicationContext(), error.getMessage(),Toasty.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void anhxa() {
@@ -132,6 +272,14 @@ public class SearchFoodActivity extends AppCompatActivity  {
         foodAdapter.setData(mListFood);
         listFood.setAdapter(foodAdapter);
         listFood.setLayoutManager(new LinearLayoutManager(this));
+        addYourFood = findViewById(R.id.addYourFood_searchfood);
+
+        recycleviewYourFood = findViewById(R.id.recycleviewYourFood);
+        mListFoodCustom = new ArrayList<>();
+        foodAdapterCustom = new FoodAdapter();
+        recycleviewYourFood.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+
 
         Intent intent = getIntent();
         sessionofday_breakfast = intent.getStringExtra(A_Breakfast.SESSIONOFDAY_BREAKFAST);

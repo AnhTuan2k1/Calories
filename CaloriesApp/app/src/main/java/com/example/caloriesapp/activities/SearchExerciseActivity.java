@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.caloriesapp.A_Breakfast;
 import com.example.caloriesapp.A_Excercise;
 import com.example.caloriesapp.Exercise;
 import com.example.caloriesapp.ExerciseAdapter;
@@ -91,7 +92,12 @@ public class SearchExerciseActivity extends AppCompatActivity  {
     }
 
 
-
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent = new Intent(this, A_Excercise.class);
+//        startActivity(intent);
+//        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+//    }
     @Override
     protected void onResume() {
         super.onResume();
