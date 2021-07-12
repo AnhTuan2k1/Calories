@@ -103,6 +103,16 @@ public class SearchExerciseActivity extends AppCompatActivity  {
         super.onResume();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent excercise = new Intent(getApplicationContext(), A_Excercise.class);
+        excercise.putExtra("key",date);
+        startActivity(excercise);
+        finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+    }
+
     private void handleSearchFood() {
         String keyword = editTextSearch.getText().toString().trim();
         List<Exercise> list = new ArrayList<>();

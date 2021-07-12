@@ -2,13 +2,17 @@ package com.example.caloriesapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -33,16 +37,23 @@ import com.example.caloriesapp.database.FoodDatabase;
 import com.example.caloriesapp.database.FoodStatic;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 import es.dmoral.toasty.Toasty;
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class SearchFoodActivity extends AppCompatActivity  {
 
@@ -57,6 +68,7 @@ public class SearchFoodActivity extends AppCompatActivity  {
     private TextView addYourFood;
     private ArrayList<FoodStatic> mListFoodCustom;
     private FoodAdapter foodAdapterCustom;
+    private FoodStatic deletedFood = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,89 +124,9 @@ public class SearchFoodActivity extends AppCompatActivity  {
         });
 
         updatemyFoodateList();
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recycleviewYourFood);
     }
-
-    private void showCustomFoodDialog(int gravity) {
-        final Dialog dialogg = new Dialog(this);
-        dialogg.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialogg.setContentView(R.layout.dialog_customfood);
-
-        Window window = dialogg.getWindow();
-        if(window == null) return;
-
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        WindowManager.LayoutParams windowAttributes = window.getAttributes();
-        windowAttributes.gravity = gravity;
-        window.setAttributes(windowAttributes);
-
-        EditText editText_gram = dialogg.findViewById(R.id.editText_gram_dialogCustomfood);
-        EditText  editText_calories = dialogg.findViewById(R.id.textView_calories_dialogCustomfood);
-        EditText editText_namefood = dialogg.findViewById(R.id.editText_namefood_dialogCustomfood);
-        Button button_add = dialogg.findViewById(R.id.button_Add_dialogCustomfood);
-        Button button_cancel = dialogg.findViewById(R.id.button_cancel_dialogCustomfood);
-        /////////////////////////////////////////////
-
-
-        button_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String grams = editText_gram.getText().toString();
-                if(!grams.equals("")  && Integer.parseInt(grams)!= 0)
-                {
-                    float calori = Float.parseFloat(editText_calories.getText().toString());
-                    String namef = editText_namefood.getText().toString();
-                    if(calori <= 0 || namef.isEmpty()) return;
-
-                    FoodStatic foodate = new FoodStatic(namef, calori/Integer.parseInt(grams), Integer.parseInt(grams));
-
-                    FirebaseDatabase.getInstance().getReference().child("users")
-                            .child(FirebaseAuth.getInstance().getUid())
-                            .child("myfood")
-                            .push().setValue(foodate)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toasty.success(SearchFoodActivity.this, "Add " + namef + " Successfully", Toast.LENGTH_SHORT).show();
-
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toasty.error(SearchFoodActivity.this, "something was fail", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    mListFoodCustom.add(foodate);
-                    foodAdapterCustom.setData(mListFoodCustom);
-                    recycleviewYourFood.setAdapter(foodAdapterCustom);
-
-
-                    // add food locally here
-                    dialogg.dismiss();
-                }
-                else
-                {
-                    Toasty.warning(SearchFoodActivity.this, "gram has errors", Toast.LENGTH_SHORT).show();
-                }
-
-
-            }
-        });
-
-        button_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogg.dismiss();
-            }
-        });
-        ///////////////////////////////////
-
-        //dialog.setCancelable(false);
-        dialogg.show();
-    }
-
 
     @Override
     protected void onResume() {
@@ -211,6 +143,68 @@ public class SearchFoodActivity extends AppCompatActivity  {
         finish();
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            int positon = viewHolder.getBindingAdapterPosition();
+
+            switch (direction) {
+                case ItemTouchHelper.LEFT:
+                    deletedFood = mListFoodCustom.get(positon);
+                    mListFoodCustom.remove(positon);
+                    FirebaseDatabase.getInstance().getReference().child("users")
+                            .child(FirebaseAuth.getInstance().getUid())
+                            .child("myfood")
+                            .setValue(mListFoodCustom);
+                    foodAdapterCustom.notifyItemRemoved(positon);
+                    foodAdapterCustom.setData(mListFoodCustom);
+                    recycleviewYourFood.setAdapter(foodAdapterCustom);
+
+
+                    Snackbar.make(recycleviewYourFood, deletedFood.getNameFood(), BaseTransientBottomBar.LENGTH_LONG)
+                            .setAction("Undo", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mListFoodCustom.add(positon, deletedFood);
+                                    foodAdapterCustom.notifyItemInserted(positon);
+                                    foodAdapterCustom.setData(mListFoodCustom);
+                                    recycleviewYourFood.setAdapter(foodAdapterCustom);
+
+                                    FirebaseDatabase.getInstance().getReference().child("users")
+                                            .child(FirebaseAuth.getInstance().getUid())
+                                            .child("myfood")
+                                            .setValue(mListFoodCustom);
+
+                                }
+                            }).show();
+                case ItemTouchHelper.RIGHT:
+                    showCustomFoodDialog(Gravity.CENTER, positon);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        public void onChildDraw (@NotNull Canvas c, @NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive){
+
+            new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(SearchFoodActivity.this, R.color.gray_item_nav))
+                    .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_sweep_24)
+                    .addSwipeRightBackgroundColor(ContextCompat.getColor(SearchFoodActivity.this, R.color.gray_item_nav))
+                    .addSwipeRightActionIcon(R.drawable.ic_baseline_edit_24)
+                    .create()
+                    .decorate();
+
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
+    };
 
     private void handleSearchFood() {
         String keyword = editTextSearch.getText().toString().trim();
@@ -237,6 +231,7 @@ public class SearchFoodActivity extends AppCompatActivity  {
     }
 
     private void updatemyFoodateList() {
+        mListFoodCustom.clear();
         FirebaseDatabase.getInstance().getReference().child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("myfood").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -390,6 +385,181 @@ public class SearchFoodActivity extends AppCompatActivity  {
         dialog.show();
     }
 
+    private void showCustomFoodDialog(int gravity) {
+        final Dialog dialogg = new Dialog(this);
+        dialogg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogg.setContentView(R.layout.dialog_customfood);
+
+        Window window = dialogg.getWindow();
+        if(window == null) return;
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+
+        EditText editText_gram = dialogg.findViewById(R.id.editText_gram_dialogCustomfood);
+        EditText  editText_calories = dialogg.findViewById(R.id.textView_calories_dialogCustomfood);
+        EditText editText_namefood = dialogg.findViewById(R.id.editText_namefood_dialogCustomfood);
+        Button button_add = dialogg.findViewById(R.id.button_Add_dialogCustomfood);
+        Button button_cancel = dialogg.findViewById(R.id.button_cancel_dialogCustomfood);
+        /////////////////////////////////////////////
+
+
+        button_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String grams = editText_gram.getText().toString();
+                if(!grams.equals("")  && Integer.parseInt(grams)!= 0)
+                {
+                    float calori = Float.parseFloat(editText_calories.getText().toString());
+                    String namef = editText_namefood.getText().toString();
+                    if(calori <= 0 || namef.isEmpty()) return;
+
+                    FoodStatic foodate = new FoodStatic(namef, calori/Integer.parseInt(grams), Integer.parseInt(grams));
+                    foodate.setId(new Random().nextInt());
+
+                    mListFoodCustom.add(foodate);
+                    foodAdapterCustom.setData(mListFoodCustom);
+                    recycleviewYourFood.setAdapter(foodAdapterCustom);
+
+                    FirebaseDatabase.getInstance().getReference().child("users")
+                            .child(FirebaseAuth.getInstance().getUid())
+                            .child("myfood")
+                            .setValue(mListFoodCustom)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toasty.success(SearchFoodActivity.this, "Add " + namef + " Successfully", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toasty.error(SearchFoodActivity.this, "something was fail", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+
+                    // add food locally here
+                    dialogg.dismiss();
+                }
+                else
+                {
+                    Toasty.warning(SearchFoodActivity.this, "gram has errors", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogg.dismiss();
+            }
+        });
+        ///////////////////////////////////
+
+        //dialog.setCancelable(false);
+        dialogg.show();
+    }
+
+    private void showCustomFoodDialog(int gravity, int position) {
+        final Dialog dialogg = new Dialog(this);
+        dialogg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogg.setContentView(R.layout.dialog_customfood);
+
+        Window window = dialogg.getWindow();
+        if(window == null) return;
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+
+        EditText editText_gram = dialogg.findViewById(R.id.editText_gram_dialogCustomfood);
+        EditText  editText_calories = dialogg.findViewById(R.id.textView_calories_dialogCustomfood);
+        EditText editText_namefood = dialogg.findViewById(R.id.editText_namefood_dialogCustomfood);
+        Button button_add = dialogg.findViewById(R.id.button_Add_dialogCustomfood);
+        Button button_cancel = dialogg.findViewById(R.id.button_cancel_dialogCustomfood);
+        /////////////////////////////////////////////
+
+        int g = mListFoodCustom.get(position).getGram();
+        float f = mListFoodCustom.get(position).getCalories();
+        editText_gram.setText(String.valueOf(g));
+        editText_calories.setText(String.valueOf((int) (f*g)));
+        editText_namefood.setText(mListFoodCustom.get(position).getNameFood());
+
+        String s = "SAVE";
+        button_add.setText(s);
+        button_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String grams = editText_gram.getText().toString();
+                if(!grams.equals("")  && Integer.parseInt(grams)!= 0)
+                {
+                    float calori = Float.parseFloat(editText_calories.getText().toString());
+                    String namef = editText_namefood.getText().toString();
+                    if(calori <= 0 || namef.isEmpty()) return;
+
+                    mListFoodCustom.get(position).setCalories(calori/Integer.parseInt(grams));
+                    mListFoodCustom.get(position).setGram(Integer.parseInt(grams));
+                    mListFoodCustom.get(position).setNameFood(namef);
+
+
+                    FirebaseDatabase.getInstance().getReference().child("users")
+                            .child(FirebaseAuth.getInstance().getUid())
+                            .child("myfood")
+                            .setValue(mListFoodCustom)
+                            .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toasty.error(SearchFoodActivity.this, "something was fail", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    foodAdapterCustom.setData(mListFoodCustom);
+                    recycleviewYourFood.setAdapter(foodAdapterCustom);
+
+
+                    // add food locally here
+                    dialogg.dismiss();
+                }
+                else
+                {
+                    Toasty.warning(SearchFoodActivity.this, "gram has errors", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogg.dismiss();
+                foodAdapterCustom.setData(mListFoodCustom);
+                recycleviewYourFood.setAdapter(foodAdapterCustom);
+            }
+        });
+        ///////////////////////////////////
+
+        dialogg.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                foodAdapterCustom.setData(mListFoodCustom);
+                recycleviewYourFood.setAdapter(foodAdapterCustom);
+            }
+        });
+        //dialog.setCancelable(false);
+        dialogg.show();
+    }
 
     public static void createFoodDatabase(@NonNull Context context)
     {

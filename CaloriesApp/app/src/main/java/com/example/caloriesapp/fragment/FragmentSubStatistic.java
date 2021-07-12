@@ -386,7 +386,7 @@ public class FragmentSubStatistic extends Fragment {
         percentDinner.setText(String.valueOf((int)(fcaloDinner*100/x)/100f));
         percentSnacks.setText(String.valueOf((int)(fcaloSnacks*100/x)/100f));
 
-        Goal.setText(String.valueOf(fgoal));
+        Goal.setText(String.valueOf((int)fgoal));
         float s = ((int)(ftotalCalories*10000/fgoal))/100f;
         averageCalories.setText(String.valueOf(s));
 

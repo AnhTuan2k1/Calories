@@ -200,8 +200,8 @@ public class A_info_4 extends AppCompatActivity {
                 try {
                     if(user.getCurrentWeight() != 0f)
                     {
-                        currentweight.setText(String.valueOf(user.getCurrentWeight()));
-                        goalweight.setText(String.valueOf(user.getGoalWeight()));
+                        currentweight.setText(String.valueOf((int)user.getCurrentWeight()));
+                        goalweight.setText(String.valueOf((int)user.getGoalWeight()));
                     }
 
                 }catch (Exception e){}

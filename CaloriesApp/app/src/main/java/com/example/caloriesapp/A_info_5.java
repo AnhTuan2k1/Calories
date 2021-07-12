@@ -25,8 +25,11 @@ import com.example.caloriesapp.activities.SearchFoodActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -49,6 +52,7 @@ import es.dmoral.toasty.Toasty;
     private Float Calo;
     private Float gap;
     private Float time;
+    private User user;
 
 //    public static final String EXTRA_TEXTMUCDICH = "com.example.application.example.EXTRA_TEXTMUCDICH";
 //    public static final String EXTRA_TEXTGIOITINH = "com.example.application.example.EXTRA_TEXTGIOITINH";
@@ -228,9 +232,13 @@ import es.dmoral.toasty.Toasty;
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(A_info_5.this, MainActivity.class);
-                    String s = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-                    if(s == null || s.isEmpty()) s = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
+                    String s = null;
+                    if(user.getUserName().isEmpty()) {
+                        s = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                        if (s == null || s.isEmpty())
+                            s = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                    }
+                    else s = user.getUserName();
                     User user = new User(mucdich_5,gioitinh_5, String.valueOf(time),cannanggoal_5,cannang_5,Math.round(tuoi_5),chieucao_5,AM,Calo, s);
                     FirebaseDatabase.getInstance().getReference()
                             .child("users").child(FirebaseAuth.getInstance().getUid())
@@ -257,6 +265,29 @@ import es.dmoral.toasty.Toasty;
 
             //dialog.setCancelable(false);
             dialog.show();
+        }
+
+        private void syncUserWithFirebase() {
+            if(FirebaseAuth.getInstance().getCurrentUser() == null)
+            {
+                return;
+            }
+
+            FirebaseDatabase.getInstance().getReference().child("users")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .child("userinfo").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    user = snapshot.getValue(User.class);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    if(getApplicationContext() != null)
+                        Toasty.info(getApplicationContext(), error.getMessage(),Toasty.LENGTH_SHORT).show();
+                }
+            });
         }
 
 }

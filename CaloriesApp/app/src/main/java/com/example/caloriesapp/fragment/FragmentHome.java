@@ -182,7 +182,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
                 }
                 burnedcalo.setText(String.valueOf(Math.round(caloshow)));
 
-
+                caloshow = 0;
             }
 
             @Override
@@ -315,24 +315,28 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
                 breakfast.putExtra("key",string_datenow);
                 breakfast.putExtra("session",string_breakfast);
                 startActivity(breakfast);
+                getActivity().finish();
                 break;
             case R.id.cardlunch:
                 Intent lunch = new Intent(getActivity(), A_Breakfast.class);
                 lunch.putExtra("key",string_datenow);
                 lunch.putExtra("session",string_lunch);
                 startActivity(lunch);
+                getActivity().finish();
                 break;
             case R.id.carddinner:
                 Intent dinner = new Intent(getActivity(), A_Breakfast.class);
                 dinner.putExtra("key",string_datenow);
                 dinner.putExtra("session",string_dinner);
                 startActivity(dinner);
+                getActivity().finish();
                 break;
             case R.id.cardsnack:
                 Intent snacks = new Intent(getActivity(), A_Breakfast.class);
                 snacks.putExtra("key",string_datenow);
                 snacks.putExtra("session",string_snacks);
                 startActivity(snacks);
+                getActivity().finish();
                 break;
             case R.id.imageday_back:
                 syncDataWithFirebase(getyesterday(string_datenow));
@@ -362,6 +366,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
                 Intent excercise = new Intent(getActivity(), A_Excercise.class);
                 excercise.putExtra("key",string_datenow);
                 startActivity(excercise);
+                getActivity().finish();
                 break;
 
             case R.id.home_date:
