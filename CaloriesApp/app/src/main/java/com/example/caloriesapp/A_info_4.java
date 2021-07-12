@@ -198,8 +198,12 @@ public class A_info_4 extends AppCompatActivity {
                 user = snapshot.getValue(User.class);
 
                 try {
-                    currentweight.setText(String.valueOf(user.getCurrentWeight()));
-                    goalweight.setText(String.valueOf(user.getGoalWeight()));
+                    if(user.getCurrentWeight() != 0f)
+                    {
+                        currentweight.setText(String.valueOf(user.getCurrentWeight()));
+                        goalweight.setText(String.valueOf(user.getGoalWeight()));
+                    }
+
                 }catch (Exception e){}
 
                 // update ui here with user

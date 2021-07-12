@@ -231,6 +231,7 @@ public class FragmentAccount extends Fragment {
                 textView.setText("Weight");
                 editText.setText(String.valueOf((int) user.getCurrentWeight()));
                 editText.setHint("Kg");
+                editText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 break;
             case R.id.imageView_name:
                 textView.setText("Name");
@@ -337,6 +338,7 @@ public class FragmentAccount extends Fragment {
                             public void onSuccess(Uri uri) {
                                 FirebaseDatabase.getInstance().getReference().child("users")
                                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .child("userinfo")
                                         .child("image").setValue(uri.toString());
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -483,6 +485,8 @@ public class FragmentAccount extends Fragment {
                 goalWeight.setText(String.valueOf(user.getGoalWeight()) + " KG");
                 purpose.setText(user.getPurposeWeight());
                 txtgoal.setText(user.getPurposeWeight());
+                if(user.getImage() != null)
+                    loadImage(user.getImage());
                 }
 
 
@@ -496,7 +500,7 @@ public class FragmentAccount extends Fragment {
                     Toasty.info(getContext(), error.getMessage(),Toasty.LENGTH_SHORT).show();
             }
         });
-
+/*
         FirebaseDatabase.getInstance().getReference().child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("image").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -539,6 +543,38 @@ public class FragmentAccount extends Fragment {
 
             }
         });
+
+ */
+    }
+
+    private void loadImage(String url)
+    {
+        if(url != null)
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    HttpURLConnection httpURLConnection = null;
+                    try {
+
+                        httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
+                        Bitmap bitmap = BitmapFactory.decodeStream(httpURLConnection.getInputStream());
+
+                        if(getActivity() != null)
+                        {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    profile.setImageBitmap(bitmap);
+                                }
+                            });
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }).start();
     }
 
     private void openDialog() {

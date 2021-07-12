@@ -92,6 +92,7 @@ public class A_info_3 extends AppCompatActivity {
                 user = snapshot.getValue(User.class);
 
                 try {
+                    if(user.getHeight() != 0f)
                     heighttxt.setText(String.valueOf(user.getHeight()));
                 }catch (Exception e){}
 

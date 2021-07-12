@@ -100,7 +100,9 @@ public class A_info_2 extends AppCompatActivity {
                 user = snapshot.getValue(User.class);
 
                 try {
-                    Age.setText(String.valueOf(user.getAge()));
+                    if(user.getAge() != 0){
+                        Age.setText(String.valueOf(user.getAge()));
+                    }
                 }catch (Exception e){}
 
                 // update ui here with user
