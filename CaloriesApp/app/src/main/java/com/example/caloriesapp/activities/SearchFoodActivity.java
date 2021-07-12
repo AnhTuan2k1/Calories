@@ -250,6 +250,19 @@ public class SearchFoodActivity extends AppCompatActivity  {
         FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Apple", (float)95/182, 182));
         FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Orange", (float)86/184, 184));
         FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Guava", (float)37/55, 55));
+        FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Avocado", (float)190/100, 100));
+        FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Tomato", (float)18/100, 100));
+        FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Mango", (float)85/120, 120));
+
+
+        FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Chicken", (float)273/100, 100));
+        FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Beef", (float)251/100, 100));
+        FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Rice", (float)282/80, 80));
+        FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Sandwich", (float)340/150, 150));
+        FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Noodle Soup", (float)340/250, 250));
+        FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Fish", (float)135/150, 150));
+        FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Milk", (float)200/220, 220));
+        FoodDatabase.getInstance(context).foodDAO().insertFood(new FoodStatic("Coffee", (float)94/220, 220));
 
 
 

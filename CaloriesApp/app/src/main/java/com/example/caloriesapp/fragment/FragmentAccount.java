@@ -94,7 +94,6 @@ public class FragmentAccount extends Fragment {
 
     private TextView userName, male, age, height, currentWeight,goalWeight, purpose;
     boolean Click;
-    ImageButton notification, editprofile;
     Button logout;
 
     private TextView goal, txtgoal;
@@ -135,26 +134,7 @@ public class FragmentAccount extends Fragment {
             }
         });
 
-        notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendNotification();
 
-                if(Click==false)
-                {
-                    notification.setImageResource(R.drawable.ic_baseline_notifications_off_24);
-                }
-                else
-                    notification.setImageResource(R.drawable.ic_baseline_notifications);
-            }
-        });
-        editprofile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), activity_editprofile.class);
-                startActivity(intent);
-            }
-        });
         goal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -402,30 +382,7 @@ public class FragmentAccount extends Fragment {
         }
     }
 
-    private void sendNotification() {
 
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(),0, intent,0);
-
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(getActivity(),CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_water_notification)
-                .setContentTitle("Calories App")
-                .setContentText("Đã đến lúc uống nước!")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Đã đến lúc uống nước!"))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
-
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
-// notificationId is a unique int for each notification that you must define
-        notificationManager.notify(getNotificationId(), notification.build());
-
-    }
-    private int getNotificationId(){
-        return (int) new Date().getTime();
-    }
 
 
     private void AnhXa()
@@ -438,10 +395,10 @@ public class FragmentAccount extends Fragment {
         height = view.findViewById(R.id.textheight);
         currentWeight = view.findViewById(R.id.textcurrentweight);
         goalWeight = view.findViewById(R.id.textgoalweight);
-        notification = view.findViewById(R.id.imb_notification);
+       // notification = view.findViewById(R.id.imb_notification);
         logout = view.findViewById(R.id.btnLogin);
         purpose = view.findViewById(R.id.txtpurpose);
-        editprofile =view.findViewById(R.id.imb_edit);
+        //editprofile =view.findViewById(R.id.imb_edit);
         goal = view.findViewById(R.id.txt_updategoal_Account);
         txtgoal = view.findViewById(R.id.txtgoal);
         imbSex = view.findViewById(R.id.imbSex_edit);
