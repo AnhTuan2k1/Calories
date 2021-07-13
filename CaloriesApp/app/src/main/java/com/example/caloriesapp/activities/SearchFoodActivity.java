@@ -184,6 +184,7 @@ public class SearchFoodActivity extends AppCompatActivity  {
 
                                 }
                             }).show();
+                    break;
                 case ItemTouchHelper.RIGHT:
                     showCustomFoodDialog(Gravity.CENTER, positon);
                     break;

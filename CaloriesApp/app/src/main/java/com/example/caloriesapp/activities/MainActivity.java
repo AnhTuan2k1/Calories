@@ -252,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
                                         public void onClick(dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
                                             startActivity(new Intent(getApplicationContext(), A_mucdich.class));
                                             finish();
+                                            dialogInterface.dismiss();
                                         }
                                     }).build();
                             mDialog.show();
