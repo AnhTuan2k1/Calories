@@ -184,6 +184,7 @@ public class SearchFoodActivity extends AppCompatActivity  {
 
                                 }
                             }).show();
+                    break;
                 case ItemTouchHelper.RIGHT:
                     showCustomFoodDialog(Gravity.CENTER, positon);
                     break;
@@ -432,7 +433,6 @@ public class SearchFoodActivity extends AppCompatActivity  {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toasty.success(SearchFoodActivity.this, "Add " + namef + " Successfully", Toast.LENGTH_SHORT).show();
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {

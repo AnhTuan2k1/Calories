@@ -30,7 +30,7 @@ public class MainActivityViewModel extends ViewModel {
         this.checkbox_showdetail = false;
         this.checkbox_showGoalline = true;
         this.checkbox_showGainline = true;
-        this.checkbox_showBurnline = false;
+        this.checkbox_showBurnline = true;
         this.checkbox_showGainBurnline = false;
         textView_date = "Today";
         currentdate = Calendar.getInstance();
